@@ -21,20 +21,28 @@ static func normalize(vector: Array) -> Array:
 	return result
 	
 
-static func convertVec4toArray(vector: Vector4) -> Array:
+static func convert_vec4_to_array(vector: Vector4) -> Array:
 	return [vector.x, vector.y, vector.z, vector.w]
 	
-static func convertArrayToVector4(vector: Array) -> Vector4:
+static func convert_array_to_vector4(vector: Array) -> Vector4:
 	return Vector4(vector[0], vector[1], vector[2], vector[3])	
 	
-static func convertVec3toArray(vector: Vector3) -> Array:
+static func convert_vec3_to_array(vector: Vector3) -> Array:
 	return [vector.x, vector.y, vector.z]
 	
-static func convertArrayToVector3(vector: Array) -> Vector3:
+static func convert_array_to_vector3(vector: Array) -> Vector3:
 	return Vector3(vector[0], vector[1], vector[2])
 
-static func convertVec2toArray(vector: Vector2) -> Array:
+static func convert_vec2_to_array(vector: Vector2) -> Array:
 	return [vector.x, vector.y]
 	
-static func convertArrayToVector2(vector: Array) -> Vector2:
+static func convert_array_to_vector2(vector: Array) -> Vector2:
 	return Vector2(vector[0], vector[1])
+	
+static func print_vector(vector: Array) -> void:
+	var result = ""
+	result += "["
+	for element in vector:
+		result += (str(element).pad_decimals(2) + ", ")
+	result += "]"
+	print(result)

@@ -1,6 +1,6 @@
 extends Node
 
-class_name MatrixOperator
+class_name MatrixHelper
 
 static func print_matrix(mat: Array) -> void:
 	var s := "[\n"
