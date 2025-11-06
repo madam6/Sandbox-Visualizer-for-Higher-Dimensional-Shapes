@@ -4,7 +4,9 @@ func _ready():
 	test_matrix_operations()
 	test_vector_operations()
 	test_3d_rotation()
-
+	test_4d_rotation()
+	
+	
 func test_matrix_operations():
 	print("=======Testing Matrix Operations=======")
 	print("Test1 ================================ Test1")
@@ -33,6 +35,24 @@ func test_3d_rotation():
 	print("Test2 ================================ Test2")
 	test_rotate_yz()
 	print("=======Testing 3D Rotations Was Succesfull =======")
+	
+	
+func test_4d_rotation():
+	print("=======Testing 4D Rotations =======")
+	print("Test1 ================================ Test1")
+	test_rotate_xy_4d()
+	print("Test2 ================================ Test2")
+	test_rotate_xz_4d()
+	print("Test2 ================================ Test2")
+	test_rotate_yz_4d()
+	print("Test3 ================================ Test3")
+	test_rotate_xw_4d()
+	print("Test4 ================================ Test4")
+	test_rotate_yw_4d()
+	print("Test5 ================================ Test5")
+	test_rotate_zw_4d()
+	print("=======Testing 4D Rotations Was Succesfull =======")
+	
 	
 func test_identity():
 	var matrix1 = [[1.00,2.00,3.00],[3.00,2.00,1.00]]
@@ -86,3 +106,47 @@ func test_rotate_yz():
 	var result = Rotator3D.rotate_yz(point, angle)
 	assert(result.is_equal_approx(Vector3(0, -1, 0)))
 	print("rotate_yz OK:", result)
+	
+func test_rotate_xy_4d():
+	var point = Vector4(0, 1, 0, 0)
+	var angle = deg_to_rad(90)
+	var result = Rotator4D.rotate_xy(point, angle)
+	assert(result.is_equal_approx(Vector4(-1, 0, 0, 0)))
+	print("rotate_xy OK:", result)
+
+func test_rotate_xz_4d():
+	var point = Vector4(0, 0, 1, 0)
+	var angle = deg_to_rad(90)
+	var result = Rotator4D.rotate_xz(point, angle)
+	assert(result.is_equal_approx(Vector4(-1, 0, 0, 0)))
+	print("rotate_xz OK:", result)
+
+func test_rotate_yz_4d():
+	var point = Vector4(0, 0, 1, 0)
+	var angle = deg_to_rad(90)
+	var result = Rotator4D.rotate_yz(point, angle)
+	assert(result.is_equal_approx(Vector4(0, -1, 0, 0)))
+	print("rotate_yz OK:", result)
+	
+func test_rotate_xw_4d():
+	var point = Vector4(0, 0, 0, 1)
+	var angle = deg_to_rad(90)
+	var result = Rotator4D.rotate_xw(point, angle)
+	assert(result.is_equal_approx(Vector4(-1, 0, 0, 0)))
+	print("rotate_xw OK:", result)
+
+
+func test_rotate_yw_4d():
+	var point = Vector4(0, 0, 0, 1)
+	var angle = deg_to_rad(90)
+	var result = Rotator4D.rotate_yw(point, angle)
+	assert(result.is_equal_approx(Vector4(0, -1, 0, 0)))
+	print("rotate_yw OK:", result)
+
+
+func test_rotate_zw_4d():
+	var point = Vector4(0, 0, 0, 1)
+	var angle = deg_to_rad(90)
+	var result = Rotator4D.rotate_zw(point, angle)
+	assert(result.is_equal_approx(Vector4(0, 0, -1, 0)))
+	print("rotate_zw OK:", result)
