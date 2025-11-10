@@ -8,5 +8,9 @@ enum PLANES {
 	YZ = 2,
 	XW = 3,
 	YW = 4,
-	ZW = 5
+	ZW = 5,
+	XV = 6,
+	YV = 7,
+	ZV = 8,
+	WV = 9
 }
