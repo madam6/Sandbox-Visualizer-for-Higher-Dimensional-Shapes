@@ -1,5 +1,4 @@
 extends RefCounted
-
 class_name ShapeStrategy
 
 var size : int
@@ -7,10 +6,9 @@ var size : int
 func _init() -> void:
 	size = 5 # First default size
 
-@warning_ignore("unused_parameter")
-func create_shape() -> Array:
+func create_shape() -> ShapeData:
 	push_error("ShapeStrategy.create_shape() is not implemented.")
-	return []
+	return ShapeData.new()
 	
 func set_size(new_size : int) -> void:
 	size = new_size
