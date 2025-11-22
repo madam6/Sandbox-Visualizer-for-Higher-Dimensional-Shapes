@@ -6,6 +6,7 @@ func _init() -> void:
 	# Looking at math we need heigh_proportion to be equal to 
 	# sqrt(5) to make sure 4D edges are equal in length to 3D ones
 	height_proportion = sqrt(5)
+	size = 15
 
 func create_shape() -> ShapeData:
 	var data = ShapeData.new()

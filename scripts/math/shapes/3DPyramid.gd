@@ -6,6 +6,7 @@ var height_proportion : float
 
 func _init():
 	height_proportion = 2.0 # Default height proportion
+	size = 5.0
 
 func set_height_proportion(new_value : float) -> void:
 	height_proportion = new_value

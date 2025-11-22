@@ -25,23 +25,21 @@ var shape_strategy: ShapeStrategy
 
 @export var rotation_speed: float = 1.0 # TODO: Needs to be clamped
 @export var is_rotating: bool = true
-@export var active_plane = planes_array_map[Enums.PLANES.XY]
+@export var active_plane = planes_array_map[Enums.PLANES.XZ]
 @export var shape_size = 1.0 # TODO: Needs to be clamped
 @export var height_proportion = 1.5 # TODO: Based on UI configuration we need to figure out if we want to display this settingg
 
 func _ready():
 	# TODO: We would need to have this controlled by UI
 	# Probably add them to a map and get based on passed parameters
-	shape_strategy = Cube4D.new()
-	projector = Orthographic4DProjection.new()
-	rotator = Rotator4D.new()
-	
+	shape_strategy = Cube3D.new()
+	projector = Dummy3DProjection.new()
+	rotator = Rotator3D.new()
+
 	_generate_new_shape()
 
 func _process(delta):
 	if current_vertices_copy.is_empty(): return
-
-	shape_strategy.set_size(shape_size)
 	
 	if shape_strategy.has_method("set_height_proportion"):
 		shape_strategy.set_height_proportion(height_proportion)

@@ -13,11 +13,13 @@ var faces_mesh_instance: MeshInstance3D
 var immediate_mesh: ImmediateMesh
 
 var show_faces: bool = true
+var show_edges: bool = true
 
 func _ready():
 	_setup_vertices()
 	_setup_lines()
 	_setup_faces()
+	set_display_mode(2)
 
 func _setup_vertices():
 	vertex_multimesh = MultiMeshInstance3D.new()
@@ -60,7 +62,12 @@ func _setup_faces():
 
 func update_visuals(projected_vertices: Array, edges: Array[Vector2i], faces: Array[Array]):
 	_draw_vertices(projected_vertices)
-	_draw_edges(projected_vertices, edges)
+	
+	if show_edges:
+		if not lines_mesh_instance.visible: lines_mesh_instance.show()
+		_draw_edges(projected_vertices, edges)
+	else:
+		lines_mesh_instance.hide()
 	
 	if show_faces:
 		if not faces_mesh_instance.visible: faces_mesh_instance.show()

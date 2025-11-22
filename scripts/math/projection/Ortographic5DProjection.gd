@@ -9,6 +9,6 @@ func project(shape : Array) -> Array:
 	var projected_shape = []
 	
 	for point in shape:
-		projected_shape.append(Vector3(point.x, point.y, point.z))
+		projected_shape.append(Vector3(point[0], point[1], point[2]))
 	
 	return projected_shape

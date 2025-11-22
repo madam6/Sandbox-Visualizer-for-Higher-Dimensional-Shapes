@@ -9,16 +9,21 @@
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.7071068, -0.5, 0.5, 0, 0.7071068, 0.70710677, -0.7071068, -0.5, 0.5, 0.81222034, 1.860152, 1.0176935)
+visible = false
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 25.601158)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 19.97559)
 
 [node name="Controller" type="Node3D" parent="."]
 script = ExtResource("1_nha0i")
-shape_size = 5.0
+rotation_speed = null
+is_rotating = null
+active_plane = [0, 1]
+shape_size = null
+height_proportion = null
 
-[node name="Renderer" type="Node3D" parent="Controller"]
+[node name="Renderer1" type="Node3D" parent="Controller"]
 script = ExtResource("2_q24mn")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
