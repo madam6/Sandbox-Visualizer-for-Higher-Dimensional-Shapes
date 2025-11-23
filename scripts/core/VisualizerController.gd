@@ -32,7 +32,7 @@ var shape_strategy: ShapeStrategy
 func _ready():
 	# TODO: We would need to have this controlled by UI
 	# Probably add them to a map and get based on passed parameters
-	shape_strategy = Cube3D.new()
+	shape_strategy = ShapeMap.shape_map["Cube"]["3D"]
 	projector = Dummy3DProjection.new()
 	rotator = Rotator3D.new()
 
@@ -54,6 +54,10 @@ func _process(delta):
 		current_shape_data.edges, 
 		current_shape_data.faces
 	)
+
+func set_shape_strategy(new_shape_strategy : ShapeStrategy) -> void:
+	shape_strategy = new_shape_strategy
+	_generate_new_shape()
 
 func _generate_new_shape():
 	current_shape_data = shape_strategy.create_shape()

@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bitma10rnug88"]
+[gd_scene load_steps=6 format=3 uid="uid://bitma10rnug88"]
 
 [ext_resource type="Script" uid="uid://dgnhcuako3yvu" path="res://scripts/core/VisualizerController.gd" id="1_nha0i"]
 [ext_resource type="Script" uid="uid://bh6sgkvv4fvt5" path="res://scripts/rendering/ShapeRenderer.gd" id="2_q24mn"]
+[ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="3_gyg6b"]
+[ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/ShapeSelector.gd" id="3_q24mn"]
 
 [sub_resource type="Environment" id="Environment_gyg6b"]
 
@@ -22,6 +24,20 @@ shape_size = 5.0
 script = ExtResource("2_q24mn")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ShapeSelector" type="OptionButton" parent="CanvasLayer"]
+offset_left = 48.0
+offset_top = 37.0
+offset_right = 332.0
+offset_bottom = 123.0
+theme = ExtResource("3_gyg6b")
+selected = 0
+item_count = 2
+popup/item_0/text = "Cube"
+popup/item_0/id = 0
+popup/item_1/text = "Pyramid"
+popup/item_1/id = 1
+script = ExtResource("3_q24mn")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gyg6b")
