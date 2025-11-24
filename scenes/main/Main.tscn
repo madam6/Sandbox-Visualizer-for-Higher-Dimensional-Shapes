@@ -10,6 +10,7 @@
 [sub_resource type="Environment" id="Environment_gyg6b"]
 
 [node name="Main" type="Node3D"]
+metadata/_edit_vertical_guides_ = [1833.0]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.7071068, -0.5, 0.5, 0, 0.7071068, 0.70710677, -0.7071068, -0.5, 0.5, 0.81222034, 1.860152, 1.0176935)
@@ -24,28 +25,34 @@ script = ExtResource("2_q24mn")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
-offset_right = 1920.0
-offset_bottom = 299.0
+[node name="UI" type="VBoxContainer" parent="CanvasLayer"]
+custom_minimum_size = Vector2(1920, 1080)
+offset_right = 1914.0
+offset_bottom = 1073.0
 
-[node name="PreSelectorsEmptySpacer" type="Control" parent="CanvasLayer/VBoxContainer"]
+[node name="TopElements" type="VBoxContainer" parent="CanvasLayer/UI"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.33
+size_flags_stretch_ratio = 0.2
 
-[node name="Selectors" type="HBoxContainer" parent="CanvasLayer/VBoxContainer"]
+[node name="PreSelectorsEmptySpacer" type="Control" parent="CanvasLayer/UI/TopElements"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.91
+
+[node name="Selectors" type="HBoxContainer" parent="CanvasLayer/UI/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 theme = ExtResource("3_gyg6b")
 alignment = 1
 
-[node name="LeftSelectorEmptySpacer" type="Control" parent="CanvasLayer/VBoxContainer/Selectors"]
+[node name="LeftSelectorEmptySpacer" type="Control" parent="CanvasLayer/UI/TopElements/Selectors"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="ShapeSelector" type="OptionButton" parent="CanvasLayer/VBoxContainer/Selectors" node_paths=PackedStringArray("DimensionSelector")]
+[node name="ShapeSelector" type="OptionButton" parent="CanvasLayer/UI/TopElements/Selectors" node_paths=PackedStringArray("DimensionSelector")]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("3_gyg6b")
@@ -58,26 +65,73 @@ popup/item_1/id = 1
 script = ExtResource("3_q24mn")
 DimensionSelector = NodePath("../DimensionSelector")
 
-[node name="MiddleSelectorEmptySpacer" type="Control" parent="CanvasLayer/VBoxContainer/Selectors"]
+[node name="MiddleSelectorEmptySpacer" type="Control" parent="CanvasLayer/UI/TopElements/Selectors"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 8.5
 
-[node name="DimensionSelector" type="OptionButton" parent="CanvasLayer/VBoxContainer/Selectors" node_paths=PackedStringArray("ShapeSelector")]
+[node name="DimensionSelector" type="OptionButton" parent="CanvasLayer/UI/TopElements/Selectors" node_paths=PackedStringArray("ShapeSelector")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.08
 script = ExtResource("5_dc040")
 ShapeSelector = NodePath("../ShapeSelector")
 
-[node name="RightSelectorEmptySpacer" type="Control" parent="CanvasLayer/VBoxContainer/Selectors"]
+[node name="RightSelectorEmptySpacer" type="Control" parent="CanvasLayer/UI/TopElements/Selectors"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="AfterSelectorEmptySpacer" type="Control" parent="CanvasLayer/VBoxContainer"]
+[node name="AfterSelectorEmptySpacer" type="Control" parent="CanvasLayer/UI/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.75
+
+[node name="MiddleSpacer" type="Control" parent="CanvasLayer/UI"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BottomElements" type="VBoxContainer" parent="CanvasLayer/UI"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.4
+
+[node name="SizeContainer" type="VBoxContainer" parent="CanvasLayer/UI/BottomElements"]
+layout_mode = 2
+
+[node name="SizeLabelSpacing" type="HBoxContainer" parent="CanvasLayer/UI/BottomElements/SizeContainer"]
+layout_mode = 2
+
+[node name="LeftSizeSpacer" type="Control" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeLabelSpacing"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Size" type="Label" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeLabelSpacing"]
+layout_mode = 2
+text = "Size:5"
+
+[node name="RightSizeSpacer" type="Control" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeLabelSpacing"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.05
+
+[node name="SizeControllerSpace" type="HBoxContainer" parent="CanvasLayer/UI/BottomElements/SizeContainer"]
+layout_mode = 2
+
+[node name="PlaceholderSpacer" type="Control" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeControllerSpace"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.33
+
+[node name="SizeSlider" type="HSlider" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeControllerSpace"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="RightSizeSliderSpacer" type="Control" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeControllerSpace"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.07
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gyg6b")

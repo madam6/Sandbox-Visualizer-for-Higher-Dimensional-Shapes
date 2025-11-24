@@ -10,6 +10,9 @@ var _dragging : bool = false
 @export var rotational_speed : float = 0.01
 @export var max_degree_top : float = 80
 @export var max_degree_bottom : float =-80
+@export var closest_camera_pos : float = 10
+@export var furthest_camera_post : float = 100
+@export var scroll_speed : float = 0.5
 
 
 func _ready() -> void:
@@ -50,9 +53,9 @@ func _input(event: InputEvent) -> void:
 func zoom(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			radius = max(1.0, radius-0.5)
+			radius = max(closest_camera_pos, radius-scroll_speed)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			radius = min(100.0, radius+0.5)
+			radius = min(furthest_camera_post, radius+scroll_speed)
 			
 		camera.position = Vector3(0, 0, radius)
 
