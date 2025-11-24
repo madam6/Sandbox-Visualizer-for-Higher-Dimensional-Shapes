@@ -4,7 +4,7 @@ class_name Perspective4DProjection
 
 # To avoid clipping we need to make sure this is bigger than the size
 # For cube it should be bigger than hypotenuse we would need to clamp this value for UI
-@export var w_distance := 30.0
+@export var w_distance := 7.0
 
 @export var fov_scale := 1.0 
 

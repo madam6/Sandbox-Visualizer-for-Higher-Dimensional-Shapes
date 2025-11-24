@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bitma10rnug88"]
+[gd_scene load_steps=8 format=3 uid="uid://bitma10rnug88"]
 
 [ext_resource type="Script" uid="uid://dgnhcuako3yvu" path="res://scripts/core/VisualizerController.gd" id="1_nha0i"]
 [ext_resource type="Script" uid="uid://bh6sgkvv4fvt5" path="res://scripts/rendering/ShapeRenderer.gd" id="2_q24mn"]
 [ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="3_gyg6b"]
 [ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/ShapeSelector.gd" id="3_q24mn"]
 [ext_resource type="Script" uid="uid://ci4ttksh4cdgu" path="res://scripts/ui/DimensionSelector.gd" id="5_dc040"]
+[ext_resource type="Script" uid="uid://u4ag2qwcs6l0" path="res://scripts/controls/CameraOrbit.gd" id="6_1rhdn"]
 
 [sub_resource type="Environment" id="Environment_gyg6b"]
 
@@ -13,9 +14,6 @@
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.7071068, -0.5, 0.5, 0, 0.7071068, 0.70710677, -0.7071068, -0.5, 0.5, 0.81222034, 1.860152, 1.0176935)
 shadow_enabled = true
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 25.601158)
 
 [node name="Controller" type="Node3D" parent="."]
 script = ExtResource("1_nha0i")
@@ -83,3 +81,9 @@ size_flags_vertical = 3
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gyg6b")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+script = ExtResource("6_1rhdn")
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 25.601158)

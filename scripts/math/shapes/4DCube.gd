@@ -2,6 +2,10 @@ extends ShapeStrategy
 
 class_name Cube4D
 
+func _init() -> void:
+	size = 3.0
+
+
 func create_shape() -> ShapeData:
 	var data = ShapeData.new()
 
