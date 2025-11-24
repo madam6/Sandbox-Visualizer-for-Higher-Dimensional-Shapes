@@ -21,6 +21,6 @@ func check_items() -> void:
 	for i in range(get_item_count()):
 		existing_items[get_item_text(i)] = true
 
-	for shape_name: String in shapes.keys():
+	for shape_name: String in shapes:
 		if not existing_items.has(shape_name):
 			push_error("Added option to ShapeSelector is not present in the config.")
