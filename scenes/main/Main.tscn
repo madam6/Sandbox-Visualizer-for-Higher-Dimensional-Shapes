@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bitma10rnug88"]
+[gd_scene load_steps=7 format=3 uid="uid://bitma10rnug88"]
 
 [ext_resource type="Script" uid="uid://dgnhcuako3yvu" path="res://scripts/core/VisualizerController.gd" id="1_nha0i"]
 [ext_resource type="Script" uid="uid://bh6sgkvv4fvt5" path="res://scripts/rendering/ShapeRenderer.gd" id="2_q24mn"]
 [ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="3_gyg6b"]
 [ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/ShapeSelector.gd" id="3_q24mn"]
+[ext_resource type="Script" uid="uid://ci4ttksh4cdgu" path="res://scripts/ui/DimensionSelector.gd" id="5_dc040"]
 
 [sub_resource type="Environment" id="Environment_gyg6b"]
 
@@ -46,7 +47,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="ShapeSelector" type="OptionButton" parent="CanvasLayer/VBoxContainer/Selectors"]
+[node name="ShapeSelector" type="OptionButton" parent="CanvasLayer/VBoxContainer/Selectors" node_paths=PackedStringArray("DimensionSelector")]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("3_gyg6b")
@@ -57,20 +58,19 @@ popup/item_0/id = 0
 popup/item_1/text = "Pyramid"
 popup/item_1/id = 1
 script = ExtResource("3_q24mn")
+DimensionSelector = NodePath("../DimensionSelector")
 
 [node name="MiddleSelectorEmptySpacer" type="Control" parent="CanvasLayer/VBoxContainer/Selectors"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 8.5
 
-[node name="DimensionSelector" type="OptionButton" parent="CanvasLayer/VBoxContainer/Selectors"]
+[node name="DimensionSelector" type="OptionButton" parent="CanvasLayer/VBoxContainer/Selectors" node_paths=PackedStringArray("ShapeSelector")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.08
-selected = 0
-item_count = 1
-popup/item_0/text = "3D"
-popup/item_0/id = 0
+script = ExtResource("5_dc040")
+ShapeSelector = NodePath("../ShapeSelector")
 
 [node name="RightSelectorEmptySpacer" type="Control" parent="CanvasLayer/VBoxContainer/Selectors"]
 layout_mode = 2

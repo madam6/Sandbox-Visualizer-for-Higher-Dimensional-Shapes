@@ -1,18 +1,28 @@
-extends OptionButton
+extends Selector
 
-var selected_item: int
-var controller : Node
+@export var DimensionSelector : Selector
 
 func _ready() -> void:
+	super._ready()
 	check_items()
-	selected_item = get_selected_id()
-	controller = get_node("/root/Main/Controller")
 
 func _process(_delta: float) -> void:
+	if DimensionSelector == null:
+		push_error("DimensionSelector on ShapeSelector is not set")
+		return
+	
 	if get_selected_id() != selected_item:
 		selected_item = get_selected_id()
-		controller.set_shape_strategy(ShapeMap.shape_map[get_item_text(selected_item)]["3D"])
-		
+		_set_new_shape()
+	
+
+func _set_new_shape() -> void:
+	controller.set_shape_strategy(ShapeMap.shape_map[get_selected_item_name()]["3D"])
+	controller.set_new_shape_dimension(ShapeMap.default_rotator3D, ShapeMap.default_projector3d)
+	DimensionSelector.update_dimension_selector()
+
+func get_selected_item_name() -> String:
+	return get_item_text(selected_item)
 
 func check_items() -> void:
 	var shapes = ShapeMap.shape_map.keys()

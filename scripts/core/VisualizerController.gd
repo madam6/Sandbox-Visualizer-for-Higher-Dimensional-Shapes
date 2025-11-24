@@ -58,6 +58,10 @@ func _process(delta):
 func set_shape_strategy(new_shape_strategy : ShapeStrategy) -> void:
 	shape_strategy = new_shape_strategy
 	_generate_new_shape()
+	
+func set_new_shape_dimension(new_rotator : BaseRotator, new_projector : ProjectionStrategy):
+	rotator = new_rotator
+	projector = new_projector
 
 func _generate_new_shape():
 	current_shape_data = shape_strategy.create_shape()
