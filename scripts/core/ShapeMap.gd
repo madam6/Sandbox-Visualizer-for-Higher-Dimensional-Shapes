@@ -8,6 +8,10 @@ var default_projector3d : ProjectionStrategy = Dummy3DProjection.new()
 var default_projector4d : ProjectionStrategy = Perspective4DProjection.new()
 var default_projector5d  : ProjectionStrategy = Perspective5DProjection.new()
 
+var perspective_projector4d : ProjectionStrategy = Perspective4DProjection.new()
+var perspective_projector5d : ProjectionStrategy = Perspective5DProjection.new()
+
+# TODO: maybe merge this into one
 
 var shape_map : Dictionary = {
 	"Cube" : {"3D" : Cube3D.new(), "4D" : Cube4D.new(), "5D" : Cube5D.new()},

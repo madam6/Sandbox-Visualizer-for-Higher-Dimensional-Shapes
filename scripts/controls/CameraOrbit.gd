@@ -59,6 +59,9 @@ func zoom(event: InputEvent) -> void:
 			
 		camera.position = Vector3(0, 0, radius)
 
+func disable_dragging() -> void:
+	_dragging = false
+
 func _process(_delta: float) -> void:
 	if camera and camera.position.z != radius:
 		camera.position = Vector3(0, 0, radius)

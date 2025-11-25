@@ -62,6 +62,16 @@ func set_shape_strategy(new_shape_strategy : ShapeStrategy) -> void:
 func set_new_shape_dimension(new_rotator : BaseRotator, new_projector : ProjectionStrategy):
 	rotator = new_rotator
 	projector = new_projector
+	
+func set_shape_size(new_shape_size : int) -> void:
+	shape_strategy.set_size(new_shape_size)
+	if projector == ShapeMap.perspective_projector4d:
+		projector.adjust_w_distance_to_new_size()
+	elif projector == ShapeMap.perspective_projector5d:
+		projector.adjust_w_distance_to_new_size()
+		projector.adjust_v_distance_to_new_size()
+		
+	_generate_new_shape()
 
 func _generate_new_shape():
 	current_shape_data = shape_strategy.create_shape()

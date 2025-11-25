@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bitma10rnug88"]
+[gd_scene load_steps=9 format=3 uid="uid://bitma10rnug88"]
 
 [ext_resource type="Script" uid="uid://dgnhcuako3yvu" path="res://scripts/core/VisualizerController.gd" id="1_nha0i"]
 [ext_resource type="Script" uid="uid://bh6sgkvv4fvt5" path="res://scripts/rendering/ShapeRenderer.gd" id="2_q24mn"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/ShapeSelector.gd" id="3_q24mn"]
 [ext_resource type="Script" uid="uid://ci4ttksh4cdgu" path="res://scripts/ui/DimensionSelector.gd" id="5_dc040"]
 [ext_resource type="Script" uid="uid://u4ag2qwcs6l0" path="res://scripts/controls/CameraOrbit.gd" id="6_1rhdn"]
+[ext_resource type="Script" uid="uid://shdrl1x14ffv" path="res://scripts/ui/SizeSlider.gd" id="6_sjxhf"]
 
 [sub_resource type="Environment" id="Environment_gyg6b"]
 
@@ -123,10 +124,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.33
 
-[node name="SizeSlider" type="HSlider" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeControllerSpace"]
+[node name="SizeSlider" type="HSlider" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeControllerSpace" node_paths=PackedStringArray("SizeLabel", "Controller", "CameraController")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
+min_value = 5.0
+max_value = 25.0
+value = 5.0
+script = ExtResource("6_sjxhf")
+SizeLabel = NodePath("../../SizeLabelSpacing/Size")
+Controller = NodePath("../../../../../../Controller")
+CameraController = NodePath("../../../../../../CameraPivot")
 
 [node name="RightSizeSliderSpacer" type="Control" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeControllerSpace"]
 layout_mode = 2

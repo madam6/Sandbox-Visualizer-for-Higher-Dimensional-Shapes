@@ -40,3 +40,10 @@ func project(shape: Array) -> Array:
 		))
 		
 	return projected
+
+
+func adjust_w_distance_to_new_size(new_size: int):
+	w_distance = new_size * sqrt(2)
+	
+func adjust_v_distance_to_new_size(new_size: int):
+	v_distance = new_size * sqrt(2)
