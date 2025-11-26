@@ -30,11 +30,10 @@ var shape_strategy: ShapeStrategy
 @export var height_proportion = 1.5 # TODO: Based on UI configuration we need to figure out if we want to display this settingg
 
 func _ready():
-	# TODO: We would need to have this controlled by UI
-	# Probably add them to a map and get based on passed parameters
-	shape_strategy = ShapeMap.shape_map["Cube"]["3D"]
-	projector = Dummy3DProjection.new()
-	rotator = Rotator3D.new()
+	shape_strategy = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ShapeStrategyIndex]
+	rotator =  ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.RotatorIndex]
+	projector = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ProjectorIndex]
+
 
 	_generate_new_shape()
 

@@ -14,3 +14,9 @@ enum PLANES {
 	ZV = 8,
 	WV = 9
 }
+
+enum ShapeDataRetriever {
+	ShapeStrategyIndex = 0,
+	RotatorIndex = 1,
+	ProjectorIndex = 2
+}

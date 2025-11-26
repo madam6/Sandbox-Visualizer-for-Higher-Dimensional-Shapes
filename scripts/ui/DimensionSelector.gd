@@ -23,10 +23,9 @@ func _process(_delta: float) -> void:
 	
 	if get_selected_id() != selected_item:
 		selected_item = get_selected_id()
-		var rotator_projector_pair = ShapeMap.shape_dimension_map[ShapeSelector.get_selected_item_name()][get_selected_item_name()]
-		assert(rotator_projector_pair.size() == 2, "Rotator-Projector pair in shape dimension part didnt return a 2-ple, perhaps request keys are incorrect?")
-		controller.set_shape_strategy(ShapeMap.shape_map[ShapeSelector.get_selected_item_name()][get_selected_item_name()])
-		controller.set_new_shape_dimension(rotator_projector_pair[0], rotator_projector_pair[1])
+		var shape_map_data = ShapeMap.shape_map[ShapeSelector.get_selected_item_name()][get_selected_item_name()]
+		controller.set_shape_strategy(ShapeMap.shape_map[ShapeSelector.get_selected_item_name()][get_selected_item_name()][Enums.ShapeDataRetriever.ShapeStrategyIndex])
+		controller.set_new_shape_dimension(shape_map_data[Enums.ShapeDataRetriever.RotatorIndex], shape_map_data[Enums.ShapeDataRetriever.ProjectorIndex])
 		
 
 func update_dimension_selector():
