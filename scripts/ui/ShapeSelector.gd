@@ -1,36 +1,31 @@
 extends Selector
 
-@export var DimensionSelector : Selector
+@export var dimension_selector: Selector
 
 func _ready() -> void:
-	super._ready()
-	check_items()
+	if selected == -1 and item_count > 0:
+		select(0)
 
-func _process(_delta: float) -> void:
-	if DimensionSelector == null:
+	if not dimension_selector:
 		push_error("DimensionSelector on ShapeSelector is not set")
 		return
-	
-	if get_selected_id() != selected_item:
-		selected_item = get_selected_id()
-		_set_new_shape()
-	
 
-func _set_new_shape() -> void:
-	controller.set_shape_strategy(ShapeMap.shape_map[get_selected_item_name()]["3D"][Enums.ShapeDataRetriever.ShapeStrategyIndex])
-	controller.set_new_shape_dimension(ShapeMap.default_rotator3D, ShapeMap.default_projector3d)
-	DimensionSelector.update_dimension_selector()
+	if item_count > 0:
+		_on_shape_selected(selected)
+		
+	check_items()
+	item_selected.connect(_on_shape_selected)
 
-func get_selected_item_name() -> String:
-	return get_item_text(selected_item)
+func _on_shape_selected(_index: int) -> void:
+	dimension_selector.update_dimension_selector()
 
 func check_items() -> void:
-	var shapes = ShapeMap.shape_map.keys()
+	var config_shapes = ShapeMap.shape_map.keys()
 
-	var existing_items := {}
-	for i in range(get_item_count()):
-		existing_items[get_item_text(i)] = true
+	var dropdown_items := {}
+	for i in range(item_count):
+		dropdown_items[get_item_text(i)] = true
 
-	for shape_name: String in shapes:
-		if not existing_items.has(shape_name):
-			push_error("Added option to ShapeSelector is not present in the config.")
+	for shape_name in config_shapes:
+		if not dropdown_items.has(shape_name):
+			push_warning("ShapeMap contains '%s', but it is missing from the Selector UI." % shape_name)

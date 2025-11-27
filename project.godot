@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 ShapeMap="*res://scripts/core/ShapeMap.gd"
+Controller="*res://scripts/core/VisualizerController.gd"
 
 [display]
 

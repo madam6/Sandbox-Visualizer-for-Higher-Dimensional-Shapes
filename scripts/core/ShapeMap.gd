@@ -16,8 +16,8 @@ var default_rotator4D : BaseRotator = Rotator4D.new()
 var default_rotator5D : BaseRotator = Rotator5D.new()
 
 var default_projector3d : ProjectionStrategy = Dummy3DProjection.new()
-var default_projector4d : ProjectionStrategy = Perspective4DProjection.new()
-var default_projector5d  : ProjectionStrategy = Perspective5DProjection.new()
+var default_projector4d : ProjectionStrategy = Orthographic4DProjection.new()
+var default_projector5d  : ProjectionStrategy = Orthographic4DProjection.new()
 
 var perspective_projector4d : ProjectionStrategy = Perspective4DProjection.new()
 var perspective_projector5d : ProjectionStrategy = Perspective5DProjection.new()

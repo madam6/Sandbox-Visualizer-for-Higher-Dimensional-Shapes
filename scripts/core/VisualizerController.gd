@@ -13,7 +13,7 @@ var planes_array_map = {
 	Enums.PLANES.WV: [3, 4],
 }
 
-@onready var renderer: ShapeRenderer = $Renderer
+var renderer: ShapeRenderer
 
 var current_shape_data: ShapeData
 var current_vertices_copy: Array = [] # Copy to rotate without destroying original
@@ -22,7 +22,6 @@ var rotator: BaseRotator
 var projector: ProjectionStrategy
 var shape_strategy: ShapeStrategy
 
-
 @export var rotation_speed: float = 1.0 # TODO: Needs to be clamped
 @export var is_rotating: bool = true
 @export var active_plane = planes_array_map[Enums.PLANES.XZ]
@@ -30,12 +29,19 @@ var shape_strategy: ShapeStrategy
 @export var height_proportion = 1.5 # TODO: Based on UI configuration we need to figure out if we want to display this settingg
 
 func _ready():
-	shape_strategy = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ShapeStrategyIndex]
-	rotator =  ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.RotatorIndex]
-	projector = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ProjectorIndex]
+	if not renderer:
+		renderer = get_node_or_null("/root/Main/Renderer")
+		if not renderer:
+			push_error("Renderer not found in Controller!")
+			set_process(false)
+			return
 
+	if not shape_strategy:
+		shape_strategy = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ShapeStrategyIndex]
+		rotator =  ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.RotatorIndex]
+		projector = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ProjectorIndex]
+		_generate_new_shape()
 
-	_generate_new_shape()
 
 func _process(delta):
 	if current_vertices_copy.is_empty(): return
@@ -54,23 +60,32 @@ func _process(delta):
 		current_shape_data.faces
 	)
 
-func set_shape_strategy(new_shape_strategy : ShapeStrategy) -> void:
-	shape_strategy = new_shape_strategy
-	_generate_new_shape()
-	
-func set_new_shape_dimension(new_rotator : BaseRotator, new_projector : ProjectionStrategy):
+
+func update_shape_settings(new_strategy: ShapeStrategy, new_rotator: BaseRotator, new_projector: ProjectionStrategy) -> void:
+	is_rotating = false
+
+	shape_strategy = new_strategy
 	rotator = new_rotator
 	projector = new_projector
+
+	_generate_new_shape()
+	is_rotating = true
 	
 func set_shape_size(new_shape_size : int) -> void:
 	shape_strategy.set_size(new_shape_size)
 	if projector == ShapeMap.perspective_projector4d:
-		projector.adjust_w_distance_to_new_size()
+		projector.adjust_w_distance_to_new_size(new_shape_size)
 	elif projector == ShapeMap.perspective_projector5d:
-		projector.adjust_w_distance_to_new_size()
-		projector.adjust_v_distance_to_new_size()
+		projector.adjust_w_distance_to_new_size(new_shape_size)
+		projector.adjust_v_distance_to_new_size(new_shape_size)
 		
 	_generate_new_shape()
+
+func get_current_projector() -> ProjectionStrategy:
+	return projector
+	
+func set_new_projector(new_projector : ProjectionStrategy) -> void:
+	projector = new_projector
 
 func _generate_new_shape():
 	current_shape_data = shape_strategy.create_shape()

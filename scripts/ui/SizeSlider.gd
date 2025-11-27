@@ -1,7 +1,6 @@
 extends HSlider
 
 @export var SizeLabel : Label
-@export var Controller : Node
 @export var CameraController : Node3D
 var current_size : float = 0
 

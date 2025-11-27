@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://bitma10rnug88"]
 
-[ext_resource type="Script" uid="uid://dgnhcuako3yvu" path="res://scripts/core/VisualizerController.gd" id="1_nha0i"]
 [ext_resource type="Script" uid="uid://bh6sgkvv4fvt5" path="res://scripts/rendering/ShapeRenderer.gd" id="2_q24mn"]
 [ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="3_gyg6b"]
 [ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/ShapeSelector.gd" id="3_q24mn"]
 [ext_resource type="Script" uid="uid://ci4ttksh4cdgu" path="res://scripts/ui/DimensionSelector.gd" id="5_dc040"]
 [ext_resource type="Script" uid="uid://u4ag2qwcs6l0" path="res://scripts/controls/CameraOrbit.gd" id="6_1rhdn"]
+[ext_resource type="Script" uid="uid://bcj28a8mkpm4n" path="res://scripts/ui/ProjectionModeToggle.gd" id="6_ko0rf"]
 [ext_resource type="Script" uid="uid://shdrl1x14ffv" path="res://scripts/ui/SizeSlider.gd" id="6_sjxhf"]
 
 [sub_resource type="Environment" id="Environment_gyg6b"]
@@ -13,16 +13,12 @@
 [node name="Main" type="Node3D"]
 metadata/_edit_vertical_guides_ = [1833.0]
 
+[node name="Renderer" type="Node3D" parent="."]
+script = ExtResource("2_q24mn")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.7071068, -0.5, 0.5, 0, 0.7071068, 0.70710677, -0.7071068, -0.5, 0.5, 0.81222034, 1.860152, 1.0176935)
 shadow_enabled = true
-
-[node name="Controller" type="Node3D" parent="."]
-script = ExtResource("1_nha0i")
-shape_size = 5.0
-
-[node name="Renderer" type="Node3D" parent="Controller"]
-script = ExtResource("2_q24mn")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -53,7 +49,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="ShapeSelector" type="OptionButton" parent="CanvasLayer/UI/TopElements/Selectors" node_paths=PackedStringArray("DimensionSelector")]
+[node name="ShapeSelector" type="OptionButton" parent="CanvasLayer/UI/TopElements/Selectors" node_paths=PackedStringArray("dimension_selector")]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("3_gyg6b")
@@ -64,7 +60,7 @@ popup/item_0/id = 0
 popup/item_1/text = "Pyramid"
 popup/item_1/id = 1
 script = ExtResource("3_q24mn")
-DimensionSelector = NodePath("../DimensionSelector")
+dimension_selector = NodePath("../DimensionSelector")
 
 [node name="MiddleSelectorEmptySpacer" type="Control" parent="CanvasLayer/UI/TopElements/Selectors"]
 layout_mode = 2
@@ -87,6 +83,28 @@ size_flags_stretch_ratio = 0.5
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
+
+[node name="ProjectionModeToggle" type="HBoxContainer" parent="CanvasLayer/UI/TopElements"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LeftSpacer" type="Control" parent="CanvasLayer/UI/TopElements/ProjectionModeToggle"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.05
+
+[node name="ProjectionModeToggle" type="CheckButton" parent="CanvasLayer/UI/TopElements/ProjectionModeToggle" node_paths=PackedStringArray("dimension_options", "shape_options")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.0
+text = "Perspective projection"
+script = ExtResource("6_ko0rf")
+dimension_options = NodePath("../../Selectors/DimensionSelector")
+shape_options = NodePath("../../Selectors/ShapeSelector")
+
+[node name="RightSpacer" type="Control" parent="CanvasLayer/UI/TopElements/ProjectionModeToggle"]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="MiddleSpacer" type="Control" parent="CanvasLayer/UI"]
 layout_mode = 2
@@ -124,7 +142,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.33
 
-[node name="SizeSlider" type="HSlider" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeControllerSpace" node_paths=PackedStringArray("SizeLabel", "Controller", "CameraController")]
+[node name="SizeSlider" type="HSlider" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeControllerSpace" node_paths=PackedStringArray("SizeLabel", "CameraController")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
@@ -133,7 +151,6 @@ max_value = 25.0
 value = 5.0
 script = ExtResource("6_sjxhf")
 SizeLabel = NodePath("../../SizeLabelSpacing/Size")
-Controller = NodePath("../../../../../../Controller")
 CameraController = NodePath("../../../../../../CameraPivot")
 
 [node name="RightSizeSliderSpacer" type="Control" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeControllerSpace"]
