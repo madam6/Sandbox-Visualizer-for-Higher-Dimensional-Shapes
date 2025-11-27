@@ -61,6 +61,9 @@ func zoom(event: InputEvent) -> void:
 
 func disable_dragging() -> void:
 	_dragging = false
+	
+func enable_dragging() -> void:
+	_dragging = true
 
 func _process(_delta: float) -> void:
 	if camera and camera.position.z != radius:

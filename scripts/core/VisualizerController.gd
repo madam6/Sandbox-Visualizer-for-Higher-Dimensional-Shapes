@@ -71,7 +71,7 @@ func update_shape_settings(new_strategy: ShapeStrategy, new_rotator: BaseRotator
 	_generate_new_shape()
 	is_rotating = true
 	
-func set_shape_size(new_shape_size : int) -> void:
+func set_shape_size(new_shape_size : float) -> void:
 	shape_strategy.set_size(new_shape_size)
 	if projector == ShapeMap.perspective_projector4d:
 		projector.adjust_w_distance_to_new_size(new_shape_size)
@@ -80,6 +80,9 @@ func set_shape_size(new_shape_size : int) -> void:
 		projector.adjust_v_distance_to_new_size(new_shape_size)
 		
 	_generate_new_shape()
+
+func set_rotation_speed(new_rotation_speed: float) -> void:
+	rotation_speed = new_rotation_speed
 
 func get_current_projector() -> ProjectionStrategy:
 	return projector
