@@ -1,6 +1,7 @@
 extends Selector
 
 @export var dimension_selector: Selector
+@export var CameraController : Node3D
 
 func _ready() -> void:
 	if selected == -1 and item_count > 0:
@@ -17,6 +18,7 @@ func _ready() -> void:
 	item_selected.connect(_on_shape_selected)
 
 func _on_shape_selected(_index: int) -> void:
+	CameraController.disable_dragging()
 	dimension_selector.update_dimension_selector()
 
 func check_items() -> void:

@@ -1,6 +1,7 @@
 extends Selector
 
 @export var ShapeSelector : Selector
+@export var CameraController : Node3D
 
 func _ready() -> void:
 	if not ShapeSelector:
@@ -13,6 +14,7 @@ func _ready() -> void:
 	_on_dimension_changed(selected)
 
 func _on_dimension_changed(_index: int) -> void:
+	CameraController.disable_dragging()
 	var shape_name := ShapeSelector.get_selected_item_name()
 	var dim_name := get_item_text(_index)
 
