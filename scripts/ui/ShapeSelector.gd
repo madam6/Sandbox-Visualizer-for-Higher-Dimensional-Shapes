@@ -17,7 +17,7 @@ func _process(_delta: float) -> void:
 	
 
 func _set_new_shape() -> void:
-	controller.set_shape_strategy(ShapeMap.shape_map[get_selected_item_name()]["3D"])
+	controller.set_shape_strategy(ShapeMap.shape_map[get_selected_item_name()]["3D"][Enums.ShapeDataRetriever.ShapeStrategyIndex])
 	controller.set_new_shape_dimension(ShapeMap.default_rotator3D, ShapeMap.default_projector3d)
 	DimensionSelector.update_dimension_selector()
 
