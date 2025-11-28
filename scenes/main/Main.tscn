@@ -1,9 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://bitma10rnug88"]
 
-[ext_resource type="Script" uid="uid://bh6sgkvv4fvt5" path="res://scripts/rendering/ShapeRenderer.gd" id="2_q24mn"]
 [ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="3_gyg6b"]
 [ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/ShapeSelector.gd" id="3_q24mn"]
 [ext_resource type="Script" uid="uid://ci4ttksh4cdgu" path="res://scripts/ui/DimensionSelector.gd" id="5_dc040"]
+[ext_resource type="Script" uid="uid://b35mcaml2ehpe" path="res://scripts/ui/DisplayModeSelector.gd" id="5_ko0rf"]
 [ext_resource type="Script" uid="uid://u4ag2qwcs6l0" path="res://scripts/controls/CameraOrbit.gd" id="6_1rhdn"]
 [ext_resource type="Script" uid="uid://bcj28a8mkpm4n" path="res://scripts/ui/ProjectionModeToggle.gd" id="6_ko0rf"]
 [ext_resource type="Script" uid="uid://d15t8wed678cq" path="res://scripts/ui/RotationSpeedSlider.gd" id="6_ostsq"]
@@ -13,9 +13,6 @@
 
 [node name="Main" type="Node3D"]
 metadata/_edit_vertical_guides_ = [1833.0]
-
-[node name="Renderer" type="Node3D" parent="."]
-script = ExtResource("2_q24mn")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.7071068, -0.5, 0.5, 0, 0.7071068, 0.70710677, -0.7071068, -0.5, 0.5, 0.81222034, 1.860152, 1.0176935)
@@ -111,7 +108,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.77
 
-[node name="DisplayModeSelector" type="OptionButton" parent="CanvasLayer/UI/TopElements/SecondLevelItems"]
+[node name="DisplayModeSelector" type="OptionButton" parent="CanvasLayer/UI/TopElements/SecondLevelItems" node_paths=PackedStringArray("CameraController")]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("3_gyg6b")
@@ -123,6 +120,8 @@ popup/item_1/text = "Wireframe"
 popup/item_1/id = 1
 popup/item_2/text = "Opaque"
 popup/item_2/id = 2
+script = ExtResource("5_ko0rf")
+CameraController = NodePath("../../../../../CameraPivot")
 
 [node name="RightSpacer2" type="Control" parent="CanvasLayer/UI/TopElements/SecondLevelItems"]
 layout_mode = 2

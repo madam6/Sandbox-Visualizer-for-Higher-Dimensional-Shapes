@@ -7,7 +7,11 @@ func _ready() -> void:
 	if not ShapeSelector:
 		push_error("ShapeSelector on DimensionSelector is not set")
 		return
-
+		
+	if not CameraController:
+		push_error("CameraController on DimensionSelector is not set")
+		return
+		
 	item_selected.connect(_on_dimension_changed)
 	
 	ShapeSelector.item_selected.connect(_on_shape_changed)

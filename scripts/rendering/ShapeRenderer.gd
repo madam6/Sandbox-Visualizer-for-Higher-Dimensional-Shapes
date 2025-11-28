@@ -15,11 +15,11 @@ var immediate_mesh: ImmediateMesh
 var show_faces: bool = true
 var show_edges: bool = true
 
-func _ready():
+func _init() -> void:
 	_setup_vertices()
 	_setup_lines()
 	_setup_faces()
-	set_display_mode(2)
+	set_display_mode(0)
 
 func _setup_vertices():
 	vertex_multimesh = MultiMeshInstance3D.new()
@@ -113,13 +113,13 @@ func _draw_faces(points: Array, faces_indices: Array[Array]):
 
 
 func set_display_mode(mode: int):
-	# 0 = Opaque, 1 = Transparent, 2 = Wireframe
+	# 0 = TransparentOpaque, 1 = Wireframe, 2 = Opaque
 	match mode:
 		0: 
 			show_faces = true
-			faces_mesh_instance.material_override.transparency = BaseMaterial3D.TRANSPARENCY_DISABLED
-		1:
-			show_faces = true
 			faces_mesh_instance.material_override.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		2:
+		1:
 			show_faces = false
+		2:
+			show_faces = true
+			faces_mesh_instance.material_override.transparency = BaseMaterial3D.TRANSPARENCY_DISABLED

@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 ShapeMap="*res://scripts/core/ShapeMap.gd"
 Controller="*res://scripts/core/VisualizerController.gd"
+Renderer="*res://scripts/rendering/ShapeRenderer.gd"
 
 [display]
 

@@ -13,8 +13,6 @@ var planes_array_map = {
 	Enums.PLANES.WV: [3, 4],
 }
 
-var renderer: ShapeRenderer
-
 var current_shape_data: ShapeData
 var current_vertices_copy: Array = [] # Copy to rotate without destroying original
 
@@ -29,13 +27,6 @@ var shape_strategy: ShapeStrategy
 @export var height_proportion = 1.5 # TODO: Based on UI configuration we need to figure out if we want to display this settingg
 
 func _ready():
-	if not renderer:
-		renderer = get_node_or_null("/root/Main/Renderer")
-		if not renderer:
-			push_error("Renderer not found in Controller!")
-			set_process(false)
-			return
-
 	if not shape_strategy:
 		shape_strategy = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ShapeStrategyIndex]
 		rotator =  ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.RotatorIndex]
@@ -54,7 +45,7 @@ func _process(delta):
 
 	var projected_3d_points = projector.project(current_vertices_copy)
 
-	renderer.update_visuals(
+	Renderer.update_visuals(
 		projected_3d_points, 
 		current_shape_data.edges, 
 		current_shape_data.faces

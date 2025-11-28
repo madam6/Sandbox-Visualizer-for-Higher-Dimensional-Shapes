@@ -10,6 +10,10 @@ func _ready() -> void:
 	if not dimension_selector:
 		push_error("DimensionSelector on ShapeSelector is not set")
 		return
+		
+	if not CameraController:
+		push_error("CameraController on ShapeSelector is not set")
+		return
 
 	if item_count > 0:
 		_on_shape_selected(selected)
