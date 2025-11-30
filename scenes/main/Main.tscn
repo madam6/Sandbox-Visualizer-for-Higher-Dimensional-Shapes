@@ -1,19 +1,20 @@
-[gd_scene load_steps=11 format=3 uid="uid://bitma10rnug88"]
+[gd_scene load_steps=12 format=3 uid="uid://bitma10rnug88"]
 
 [ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="3_gyg6b"]
-[ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/ShapeSelector.gd" id="3_q24mn"]
-[ext_resource type="Script" uid="uid://ci4ttksh4cdgu" path="res://scripts/ui/DimensionSelector.gd" id="5_dc040"]
-[ext_resource type="Script" uid="uid://b35mcaml2ehpe" path="res://scripts/ui/DisplayModeSelector.gd" id="5_ko0rf"]
+[ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/OptionButton/ShapeSelector.gd" id="3_q24mn"]
+[ext_resource type="Script" uid="uid://ci4ttksh4cdgu" path="res://scripts/ui/OptionButton/DimensionSelector.gd" id="5_dc040"]
+[ext_resource type="Script" uid="uid://b35mcaml2ehpe" path="res://scripts/ui/OptionButton/DisplayModeSelector.gd" id="5_ko0rf"]
 [ext_resource type="Script" uid="uid://u4ag2qwcs6l0" path="res://scripts/controls/CameraOrbit.gd" id="6_1rhdn"]
-[ext_resource type="Script" uid="uid://bcj28a8mkpm4n" path="res://scripts/ui/ProjectionModeToggle.gd" id="6_ko0rf"]
-[ext_resource type="Script" uid="uid://d15t8wed678cq" path="res://scripts/ui/RotationSpeedSlider.gd" id="6_ostsq"]
-[ext_resource type="Script" uid="uid://shdrl1x14ffv" path="res://scripts/ui/SizeSlider.gd" id="6_sjxhf"]
-[ext_resource type="Script" uid="uid://6s5h73gucv0c" path="res://scripts/ui/ColorPickerTree.gd" id="8_ostsq"]
+[ext_resource type="Script" uid="uid://bcj28a8mkpm4n" path="res://scripts/ui/Toggle/ProjectionModeToggle.gd" id="6_ko0rf"]
+[ext_resource type="Script" uid="uid://d15t8wed678cq" path="res://scripts/ui/Slider/RotationSpeedSlider.gd" id="6_ostsq"]
+[ext_resource type="Script" uid="uid://shdrl1x14ffv" path="res://scripts/ui/Slider/SizeSlider.gd" id="6_sjxhf"]
+[ext_resource type="Script" uid="uid://6s5h73gucv0c" path="res://scripts/ui/Tree/ColorPickerTree.gd" id="8_ostsq"]
+[ext_resource type="Script" uid="uid://betu00bx6uwvk" path="res://scripts/ui/Tree/RotationSlidersTree.gd" id="9_3km4f"]
 
 [sub_resource type="Environment" id="Environment_gyg6b"]
 
 [node name="Main" type="Node3D"]
-metadata/_edit_vertical_guides_ = [1833.0]
+metadata/_edit_vertical_guides_ = [1833.0, 86.0]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.7071068, -0.5, 0.5, 0, 0.7071068, 0.70710677, -0.7071068, -0.5, 0.5, 0.81222034, 1.860152, 1.0176935)
@@ -23,8 +24,8 @@ shadow_enabled = true
 
 [node name="UI" type="VBoxContainer" parent="CanvasLayer"]
 custom_minimum_size = Vector2(1920, 1080)
-offset_right = 1914.0
-offset_bottom = 1073.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 
 [node name="TopElements" type="VBoxContainer" parent="CanvasLayer/UI"]
 layout_mode = 2
@@ -67,13 +68,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 8.5
 
-[node name="DimensionSelector" type="OptionButton" parent="CanvasLayer/UI/TopElements/Selectors" node_paths=PackedStringArray("ShapeSelector", "CameraController")]
+[node name="DimensionSelector" type="OptionButton" parent="CanvasLayer/UI/TopElements/Selectors" node_paths=PackedStringArray("shape_selector", "camera_controller", "rotation_sliders")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.08
 script = ExtResource("5_dc040")
-ShapeSelector = NodePath("../ShapeSelector")
-CameraController = NodePath("../../../../../CameraPivot")
+shape_selector = NodePath("../ShapeSelector")
+camera_controller = NodePath("../../../../../CameraPivot")
+rotation_sliders = NodePath("../../../../RotationSlidersTree")
 
 [node name="RightSelectorEmptySpacer" type="Control" parent="CanvasLayer/UI/TopElements/Selectors"]
 layout_mode = 2
@@ -241,6 +243,13 @@ camera_controller = NodePath("../../../../../../CameraPivot")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.07
+
+[node name="RotationSlidersTree" type="Tree" parent="CanvasLayer"]
+offset_left = 91.0
+offset_top = 978.0
+offset_right = 433.0
+offset_bottom = 1008.0
+script = ExtResource("9_3km4f")
 
 [node name="ColorPickerTree" type="Tree" parent="CanvasLayer"]
 offset_left = 1651.0

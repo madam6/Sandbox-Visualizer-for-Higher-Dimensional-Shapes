@@ -21,8 +21,8 @@ var projector: ProjectionStrategy
 var shape_strategy: ShapeStrategy
 
 @export var rotation_speed: float = 1.0 # TODO: Needs to be clamped
-@export var is_rotating: bool = true
-@export var active_plane = planes_array_map[Enums.PLANES.XZ]
+@export var is_rotating: bool = false
+@export var active_plane = planes_array_map[Enums.PLANES.XY]
 @export var shape_size = 1.0 # TODO: Needs to be clamped
 @export var height_proportion = 1.5 # TODO: Based on UI configuration we need to figure out if we want to display this settingg
 
@@ -53,14 +53,11 @@ func _process(delta):
 
 
 func update_shape_settings(new_strategy: ShapeStrategy, new_rotator: BaseRotator, new_projector: ProjectionStrategy) -> void:
-	is_rotating = false
-
 	shape_strategy = new_strategy
 	rotator = new_rotator
 	projector = new_projector
 
 	_generate_new_shape()
-	is_rotating = true
 	
 func set_shape_size(new_shape_size : float) -> void:
 	shape_strategy.set_size(new_shape_size)
@@ -77,6 +74,9 @@ func set_rotation_speed(new_rotation_speed: float) -> void:
 
 func get_current_projector() -> ProjectionStrategy:
 	return projector
+
+func get_current_rotator() -> BaseRotator:
+	return rotator
 	
 func set_new_projector(new_projector : ProjectionStrategy) -> void:
 	projector = new_projector

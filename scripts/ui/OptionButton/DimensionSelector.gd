@@ -1,25 +1,30 @@
 extends Selector
 
-@export var ShapeSelector : Selector
-@export var CameraController : Node3D
+@export var shape_selector : Selector
+@export var camera_controller : Node3D
+@export var rotation_sliders : Tree
 
 func _ready() -> void:
-	if not ShapeSelector:
-		push_error("ShapeSelector on DimensionSelector is not set")
+	if not shape_selector:
+		push_error("shape_selector on DimensionSelector is not set")
 		return
 		
-	if not CameraController:
-		push_error("CameraController on DimensionSelector is not set")
+	if not camera_controller:
+		push_error("camera_controller on DimensionSelector is not set")
+		return
+		
+	if not rotation_sliders:
+		push_error("rotation_sliders on DimensionSelector is not set")
 		return
 		
 	item_selected.connect(_on_dimension_changed)
 	
-	ShapeSelector.item_selected.connect(_on_shape_changed)
+	shape_selector.item_selected.connect(_on_shape_changed)
 	_on_dimension_changed(selected)
 
 func _on_dimension_changed(_index: int) -> void:
-	CameraController.disable_dragging()
-	var shape_name := ShapeSelector.get_selected_item_name()
+	camera_controller.disable_dragging()
+	var shape_name := shape_selector.get_selected_item_name()
 	var dim_name := get_item_text(_index)
 
 	if not ShapeMap.shape_map.has(shape_name) or not ShapeMap.shape_map[shape_name].has(dim_name):
@@ -32,6 +37,7 @@ func _on_dimension_changed(_index: int) -> void:
 		shape_map_data[Enums.ShapeDataRetriever.RotatorIndex],
 		shape_map_data[Enums.ShapeDataRetriever.ProjectorIndex]
 	)
+	rotation_sliders.update_rotator()
 
 func _on_shape_changed(_index: int) -> void:
 	update_dimension_selector()
@@ -45,7 +51,7 @@ func update_dimension_selector():
 		_on_dimension_changed(0)
 
 func _populate_allowed_dimensions():
-	var shape_name = ShapeSelector.get_selected_item_name()
+	var shape_name = shape_selector.get_selected_item_name()
 	if ShapeMap.shape_map.has(shape_name):
 		var allowed_dimensions = ShapeMap.shape_map[shape_name].keys()
 		for dimension in allowed_dimensions:
