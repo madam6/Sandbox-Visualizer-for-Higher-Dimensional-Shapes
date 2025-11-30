@@ -3,9 +3,9 @@ class_name ShapeRenderer
 
 @export var vertex_radius: float = 0.1
 @export var line_width: float = 0.05
-@export var vertex_color: Color = Color.WHITE
-@export var edge_color: Color = Color.CYAN
-@export var face_color: Color = Color(0.0, 0.5, 1.0, 0.3)
+@export var _vertex_color: Color = Color.WHITE
+@export var _edge_color: Color = Color.CYAN
+@export var _face_color: Color = Color(0.0, 0.5, 1.0, 0.3)
 
 var vertex_multimesh: MultiMeshInstance3D
 var lines_mesh_instance: MeshInstance3D
@@ -28,7 +28,7 @@ func _setup_vertices():
 	mesh.height = vertex_radius * 2
 
 	var mat = StandardMaterial3D.new()
-	mat.albedo_color = vertex_color
+	mat.albedo_color = _vertex_color
 	mat.shading_mode = StandardMaterial3D.SHADING_MODE_UNSHADED
 	mesh.surface_set_material(0, mat)
 	
@@ -43,7 +43,7 @@ func _setup_lines():
 	lines_mesh_instance.mesh = immediate_mesh
 
 	var mat = StandardMaterial3D.new()
-	mat.albedo_color = edge_color
+	mat.albedo_color = _edge_color
 	mat.shading_mode = StandardMaterial3D.SHADING_MODE_UNSHADED
 	mat.vertex_color_use_as_albedo = true
 	lines_mesh_instance.material_override = mat
@@ -52,7 +52,7 @@ func _setup_lines():
 func _setup_faces():
 	faces_mesh_instance = MeshInstance3D.new()
 	var mat = StandardMaterial3D.new()
-	mat.albedo_color = face_color
+	mat.albedo_color = _face_color
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 	faces_mesh_instance.material_override = mat
@@ -123,3 +123,33 @@ func set_display_mode(mode: int):
 		2:
 			show_faces = true
 			faces_mesh_instance.material_override.transparency = BaseMaterial3D.TRANSPARENCY_DISABLED
+
+func set_vertex_color(new_color: Color):
+	_vertex_color = new_color
+	
+	if vertex_multimesh and vertex_multimesh.multimesh and vertex_multimesh.multimesh.mesh:
+		var mat = vertex_multimesh.multimesh.mesh.surface_get_material(0)
+		if mat:
+			mat.albedo_color = new_color
+
+func set_edge_color(new_color: Color):
+	_edge_color = new_color
+
+	if lines_mesh_instance and lines_mesh_instance.material_override:
+		lines_mesh_instance.material_override.albedo_color = new_color
+
+func set_face_color(new_color: Color):
+	_face_color = new_color
+	
+	if faces_mesh_instance and faces_mesh_instance.material_override:
+		faces_mesh_instance.material_override.albedo_color = new_color
+		
+		
+func get_face_color() -> Color:
+	return _face_color
+	
+func get_edge_color() -> Color:
+	return _edge_color
+	
+func get_vertex_color() -> Color:
+	return _vertex_color

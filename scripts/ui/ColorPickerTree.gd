@@ -1,6 +1,10 @@
 extends Tree
 
-const BTN_COLOR = 0
+const BTN_COLOR : int = 0
+@export var VERTEX_COLOR_LABEL : String = "Vertex color"
+@export var EDGE_COLOR_LABEL : String = "Edge color"
+@export var FACE_COLOR_LABEL : String = "Face color"
+@export var SELECTED_COLOR_LABEL : String = "Selected color"
 
 func _ready():
 	columns = 1
@@ -13,15 +17,14 @@ func _ready():
 	
 	custom_minimum_size.y = get_item_area_rect(root).size.y + 6
 
-	_add_color_item(root, "Vertex color", Color.RED)
-	_add_color_item(root, "Edge color", Color.GREEN)
-	_add_color_item(root, "Face color", Color.BLUE)
-	_add_color_item(root, "Selected color", Color.YELLOW)
+	_add_color_item(root, VERTEX_COLOR_LABEL, Renderer.get_vertex_color())
+	_add_color_item(root, EDGE_COLOR_LABEL, Renderer.get_edge_color())
+	_add_color_item(root, FACE_COLOR_LABEL, Renderer.get_face_color())
+	_add_color_item(root, SELECTED_COLOR_LABEL, Color.YELLOW)
 
 	button_clicked.connect(_on_button_clicked)
 	item_collapsed.connect(_on_item_collapsed)
-
-
+	
 
 func _add_color_item(parent: TreeItem, label: String, color: Color):
 	var item = create_item(parent)
@@ -58,6 +61,11 @@ func _on_button_clicked(item: TreeItem, _column: int, id: int, _mouse_button: in
 		item.set_metadata(0, new_color)
 		var tex = _make_color_texture(new_color)
 		item.set_button(0, id, tex)
+		match item.get_text(0):
+			VERTEX_COLOR_LABEL: Renderer.set_vertex_color(new_color)
+			EDGE_COLOR_LABEL: Renderer.set_edge_color(new_color)
+			FACE_COLOR_LABEL: Renderer.set_face_color(new_color)
+			_: pass
 		)
 
 	picker_btn.popup_closed.connect(func():
