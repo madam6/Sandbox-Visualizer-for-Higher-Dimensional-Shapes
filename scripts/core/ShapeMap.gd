@@ -35,6 +35,19 @@ var shape_map : Dictionary = {
 		}
 }
 
+var planes_array_map = {
+	Enums.PLANES.XY: [0, 1],
+	Enums.PLANES.XZ: [0, 2],
+	Enums.PLANES.YZ: [1, 2],
+	Enums.PLANES.XW: [0, 3],
+	Enums.PLANES.YW: [1, 3],
+	Enums.PLANES.ZW: [2, 3],
+	Enums.PLANES.XV: [0, 4],
+	Enums.PLANES.YV: [1, 4],
+	Enums.PLANES.ZV: [2, 4],
+	Enums.PLANES.WV: [3, 4],
+}
+
 func _init() -> void:
 	load_config()
 

@@ -5,7 +5,8 @@ func _rotate_shape(shape: Array, angle: float, plane: Array):
 	assert(shape.size() > 0)
 	
 	var point = shape[0]
-	var dim := _get_dimension(point)
+	var dim = _get_dimension(point)
+	var angle_rad = deg_to_rad(angle)
 	assert(dim >= 3 and dim <= 5, "Passed shape is not in 3, 4, or 5 dimensions.")
 	
 	var to_array_func = _get_to_array_func(dim)
@@ -13,7 +14,7 @@ func _rotate_shape(shape: Array, angle: float, plane: Array):
 	
 	for i in range(shape.size()):
 		var vec = to_array_func.call(shape[i])
-		var mat = _get_rotation_matrix(dim, plane[0], plane[1], angle)
+		var mat = _get_rotation_matrix(dim, plane[0], plane[1], angle_rad)
 		var rotated = _perform_rotation(vec, mat)
 		shape[i] = from_array_func.call(rotated)
 

@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://d15t8wed678cq" path="res://scripts/ui/Slider/RotationSpeedSlider.gd" id="6_ostsq"]
 [ext_resource type="Script" uid="uid://shdrl1x14ffv" path="res://scripts/ui/Slider/SizeSlider.gd" id="6_sjxhf"]
 [ext_resource type="Script" uid="uid://6s5h73gucv0c" path="res://scripts/ui/Tree/ColorPickerTree.gd" id="8_ostsq"]
-[ext_resource type="Script" uid="uid://betu00bx6uwvk" path="res://scripts/ui/Tree/RotationSlidersTree.gd" id="9_3km4f"]
+[ext_resource type="Script" uid="uid://betu00bx6uwvk" path="res://scripts/ui/Tree/RotationSliders.gd" id="9_3km4f"]
 
 [sub_resource type="Environment" id="Environment_gyg6b"]
 
@@ -75,7 +75,7 @@ size_flags_stretch_ratio = 1.08
 script = ExtResource("5_dc040")
 shape_selector = NodePath("../ShapeSelector")
 camera_controller = NodePath("../../../../../CameraPivot")
-rotation_sliders = NodePath("../../../../RotationSlidersTree")
+rotation_sliders = NodePath("../../../../RotationSliders")
 
 [node name="RightSelectorEmptySpacer" type="Control" parent="CanvasLayer/UI/TopElements/Selectors"]
 layout_mode = 2
@@ -244,13 +244,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.07
 
-[node name="RotationSlidersTree" type="Tree" parent="CanvasLayer"]
-offset_left = 91.0
-offset_top = 978.0
-offset_right = 433.0
-offset_bottom = 1008.0
-script = ExtResource("9_3km4f")
-
 [node name="ColorPickerTree" type="Tree" parent="CanvasLayer"]
 offset_left = 1651.0
 offset_top = 212.0
@@ -260,6 +253,14 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.16
 theme = ExtResource("3_gyg6b")
 script = ExtResource("8_ostsq")
+
+[node name="RotationSliders" type="VBoxContainer" parent="CanvasLayer" node_paths=PackedStringArray("camera_controller")]
+offset_left = 91.0
+offset_top = 888.0
+offset_right = 335.0
+offset_bottom = 981.0
+script = ExtResource("9_3km4f")
+camera_controller = NodePath("../../CameraPivot")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gyg6b")

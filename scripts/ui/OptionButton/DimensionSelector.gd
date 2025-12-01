@@ -2,7 +2,7 @@ extends Selector
 
 @export var shape_selector : Selector
 @export var camera_controller : Node3D
-@export var rotation_sliders : Tree
+@export var rotation_sliders : VBoxContainer
 
 func _ready() -> void:
 	if not shape_selector:
