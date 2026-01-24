@@ -17,6 +17,14 @@ var shape_strategy: ShapeStrategy
 @export var height_proportion = 1.5 # TODO: Based on UI configuration we need to figure out if we want to display this settingg
 
 var active_slider_values : Dictionary = {}
+var continuous_rotation : bool = false
+
+# The ones actively rotating
+var active_planes : Dictionary = {
+	Enums.PLANES.XY: 0,
+	Enums.PLANES.XZ: 0,
+	Enums.PLANES.YZ: 0
+}
 
 func _ready():
 	if not shape_strategy:
@@ -41,6 +49,22 @@ func _process(delta):
 		current_shape_data.edges, 
 		current_shape_data.faces
 	)
+	
+	for plane in active_planes:
+		var speed = active_planes[plane]
+		rotate_shape(speed, plane)
+	
+
+func sync_active_planes() -> void:
+	var target_planes = rotator.supported_planes.keys()
+	
+	for key in active_planes.keys():
+		if not key in target_planes:
+			active_planes.erase(key)
+			
+	for key in target_planes:
+		if not active_planes.has(key):
+			active_planes[key] = 0
 
 func rotate_shape_absolute(angle: float, plane: int):
 	active_slider_values[plane] = angle
@@ -59,6 +83,7 @@ func update_shape_settings(new_strategy: ShapeStrategy, new_rotator: BaseRotator
 	shape_strategy = new_strategy
 	rotator = new_rotator
 	projector = new_projector
+	sync_active_planes()
 	_generate_new_shape()
 	
 func set_shape_size(new_shape_size : float) -> void:
@@ -94,6 +119,15 @@ func _generate_new_shape():
 
 func rotate_shape(angle: float, plane: Enums.PLANES) -> void:
 	rotator._rotate_shape(current_vertices_copy, angle, ShapeMap.planes_array_map[plane])
+	
+	
+func set_speed_in_plane(plane : Enums.PLANES, speed : float) -> void:
+	active_planes[plane]=speed
+	
+func reset_speeds() -> void:
+	for plane in active_planes:
+		active_planes[plane] = 0
+		
 
 # --- Sub-Objective 6: Save Screenshot Futureproofing ---
 func save_visualization():

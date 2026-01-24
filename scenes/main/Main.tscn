@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bitma10rnug88"]
+[gd_scene load_steps=13 format=3 uid="uid://bitma10rnug88"]
 
 [ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="3_gyg6b"]
 [ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/OptionButton/ShapeSelector.gd" id="3_q24mn"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://shdrl1x14ffv" path="res://scripts/ui/Slider/SizeSlider.gd" id="6_sjxhf"]
 [ext_resource type="Script" uid="uid://6s5h73gucv0c" path="res://scripts/ui/Tree/ColorPickerTree.gd" id="8_ostsq"]
 [ext_resource type="Script" uid="uid://betu00bx6uwvk" path="res://scripts/ui/Tree/RotationSliders.gd" id="9_3km4f"]
+[ext_resource type="Script" uid="uid://ptrh252fm5vb" path="res://scripts/ui/Toggle/ContinuousRotation.gd" id="10_qkm1d"]
 
 [sub_resource type="Environment" id="Environment_gyg6b"]
 
@@ -22,34 +23,34 @@ shadow_enabled = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="UI" type="VBoxContainer" parent="CanvasLayer"]
+[node name="BottomLevel" type="VBoxContainer" parent="CanvasLayer"]
 custom_minimum_size = Vector2(1920, 1080)
 offset_right = 1920.0
 offset_bottom = 1080.0
 
-[node name="TopElements" type="VBoxContainer" parent="CanvasLayer/UI"]
+[node name="TopElements" type="VBoxContainer" parent="CanvasLayer/BottomLevel"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 
-[node name="PreSelectorsEmptySpacer" type="Control" parent="CanvasLayer/UI/TopElements"]
+[node name="PreSelectorsEmptySpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.27
 
-[node name="Selectors" type="HBoxContainer" parent="CanvasLayer/UI/TopElements"]
+[node name="Selectors" type="HBoxContainer" parent="CanvasLayer/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 theme = ExtResource("3_gyg6b")
 alignment = 1
 
-[node name="LeftSelectorEmptySpacer" type="Control" parent="CanvasLayer/UI/TopElements/Selectors"]
+[node name="LeftSelectorEmptySpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements/Selectors"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="ShapeSelector" type="OptionButton" parent="CanvasLayer/UI/TopElements/Selectors" node_paths=PackedStringArray("dimension_selector", "CameraController")]
+[node name="ShapeSelector" type="OptionButton" parent="CanvasLayer/BottomLevel/TopElements/Selectors" node_paths=PackedStringArray("dimension_selector", "CameraController")]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("3_gyg6b")
@@ -63,12 +64,12 @@ script = ExtResource("3_q24mn")
 dimension_selector = NodePath("../DimensionSelector")
 CameraController = NodePath("../../../../../CameraPivot")
 
-[node name="MiddleSelectorEmptySpacer" type="Control" parent="CanvasLayer/UI/TopElements/Selectors"]
+[node name="MiddleSelectorEmptySpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements/Selectors"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 8.5
 
-[node name="DimensionSelector" type="OptionButton" parent="CanvasLayer/UI/TopElements/Selectors" node_paths=PackedStringArray("shape_selector", "camera_controller", "rotation_sliders")]
+[node name="DimensionSelector" type="OptionButton" parent="CanvasLayer/BottomLevel/TopElements/Selectors" node_paths=PackedStringArray("shape_selector", "camera_controller", "rotation_sliders")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.08
@@ -77,27 +78,27 @@ shape_selector = NodePath("../ShapeSelector")
 camera_controller = NodePath("../../../../../CameraPivot")
 rotation_sliders = NodePath("../../../../RotationSliders")
 
-[node name="RightSelectorEmptySpacer" type="Control" parent="CanvasLayer/UI/TopElements/Selectors"]
+[node name="RightSelectorEmptySpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements/Selectors"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="AfterSelectorEmptySpacer" type="Control" parent="CanvasLayer/UI/TopElements"]
+[node name="AfterSelectorEmptySpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
 
-[node name="SecondLevelItems" type="HBoxContainer" parent="CanvasLayer/UI/TopElements"]
+[node name="SecondLevelItems" type="HBoxContainer" parent="CanvasLayer/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="LeftSpacer" type="Control" parent="CanvasLayer/UI/TopElements/SecondLevelItems"]
+[node name="LeftSpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements/SecondLevelItems"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
 
-[node name="ProjectionModeToggle" type="CheckButton" parent="CanvasLayer/UI/TopElements/SecondLevelItems" node_paths=PackedStringArray("dimension_options", "shape_options")]
+[node name="ProjectionModeToggle" type="CheckButton" parent="CanvasLayer/BottomLevel/TopElements/SecondLevelItems" node_paths=PackedStringArray("dimension_options", "shape_options")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
@@ -106,12 +107,12 @@ script = ExtResource("6_ko0rf")
 dimension_options = NodePath("../../Selectors/DimensionSelector")
 shape_options = NodePath("../../Selectors/ShapeSelector")
 
-[node name="MidlleSpacer" type="Control" parent="CanvasLayer/UI/TopElements/SecondLevelItems"]
+[node name="MidlleSpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements/SecondLevelItems"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.77
 
-[node name="DisplayModeSelector" type="OptionButton" parent="CanvasLayer/UI/TopElements/SecondLevelItems" node_paths=PackedStringArray("CameraController")]
+[node name="DisplayModeSelector" type="OptionButton" parent="CanvasLayer/BottomLevel/TopElements/SecondLevelItems" node_paths=PackedStringArray("CameraController")]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("3_gyg6b")
@@ -126,65 +127,65 @@ popup/item_2/id = 2
 script = ExtResource("5_ko0rf")
 CameraController = NodePath("../../../../../CameraPivot")
 
-[node name="RightSpacer2" type="Control" parent="CanvasLayer/UI/TopElements/SecondLevelItems"]
+[node name="RightSpacer2" type="Control" parent="CanvasLayer/BottomLevel/TopElements/SecondLevelItems"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.37
 
-[node name="ThirdEmptySpacer" type="Control" parent="CanvasLayer/UI/TopElements"]
+[node name="ThirdEmptySpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/TopElements"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="LeftSpacer" type="Control" parent="CanvasLayer/UI/TopElements/HBoxContainer"]
+[node name="LeftSpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RightSpacer" type="Control" parent="CanvasLayer/UI/TopElements/HBoxContainer"]
+[node name="RightSpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.05
 
-[node name="MiddleSpacer" type="Control" parent="CanvasLayer/UI"]
+[node name="MiddleSpacer" type="Control" parent="CanvasLayer/BottomLevel"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.41
 
-[node name="BottomElements" type="VBoxContainer" parent="CanvasLayer/UI"]
+[node name="BottomElements" type="VBoxContainer" parent="CanvasLayer/BottomLevel"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.4
 
-[node name="RotationSpeedContainer" type="VBoxContainer" parent="CanvasLayer/UI/BottomElements"]
+[node name="RotationSpeedContainer" type="VBoxContainer" parent="CanvasLayer/BottomLevel/BottomElements"]
 layout_mode = 2
 
-[node name="RotationSpeedLabelSpacing" type="HBoxContainer" parent="CanvasLayer/UI/BottomElements/RotationSpeedContainer"]
+[node name="RotationSpeedLabelSpacing" type="HBoxContainer" parent="CanvasLayer/BottomLevel/BottomElements/RotationSpeedContainer"]
 layout_mode = 2
 
-[node name="LeftSizeSpacer" type="Control" parent="CanvasLayer/UI/BottomElements/RotationSpeedContainer/RotationSpeedLabelSpacing"]
+[node name="LeftSizeSpacer" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/RotationSpeedContainer/RotationSpeedLabelSpacing"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RotationSpeed" type="Label" parent="CanvasLayer/UI/BottomElements/RotationSpeedContainer/RotationSpeedLabelSpacing"]
+[node name="RotationSpeed" type="Label" parent="CanvasLayer/BottomLevel/BottomElements/RotationSpeedContainer/RotationSpeedLabelSpacing"]
 layout_mode = 2
 text = "Rotation Speed:5"
 
-[node name="RightSizeSpacer" type="Control" parent="CanvasLayer/UI/BottomElements/RotationSpeedContainer/RotationSpeedLabelSpacing"]
+[node name="RightSizeSpacer" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/RotationSpeedContainer/RotationSpeedLabelSpacing"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.05
 
-[node name="RotationSpeedControllerSpace" type="HBoxContainer" parent="CanvasLayer/UI/BottomElements/RotationSpeedContainer"]
+[node name="RotationSpeedControllerSpace" type="HBoxContainer" parent="CanvasLayer/BottomLevel/BottomElements/RotationSpeedContainer"]
 layout_mode = 2
 
-[node name="PlaceholderSpacer" type="Control" parent="CanvasLayer/UI/BottomElements/RotationSpeedContainer/RotationSpeedControllerSpace"]
+[node name="PlaceholderSpacer" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/RotationSpeedContainer/RotationSpeedControllerSpace"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.33
 
-[node name="RotationSpeed" type="HSlider" parent="CanvasLayer/UI/BottomElements/RotationSpeedContainer/RotationSpeedControllerSpace" node_paths=PackedStringArray("rotation_label", "camera_controller")]
+[node name="RotationSpeed" type="HSlider" parent="CanvasLayer/BottomLevel/BottomElements/RotationSpeedContainer/RotationSpeedControllerSpace" node_paths=PackedStringArray("rotation_label", "camera_controller")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
@@ -196,39 +197,39 @@ script = ExtResource("6_ostsq")
 rotation_label = NodePath("../../RotationSpeedLabelSpacing/RotationSpeed")
 camera_controller = NodePath("../../../../../../CameraPivot")
 
-[node name="RightSizeSliderSpacer" type="Control" parent="CanvasLayer/UI/BottomElements/RotationSpeedContainer/RotationSpeedControllerSpace"]
+[node name="RightSizeSliderSpacer" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/RotationSpeedContainer/RotationSpeedControllerSpace"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.07
 
-[node name="SizeContainer" type="VBoxContainer" parent="CanvasLayer/UI/BottomElements"]
+[node name="SizeContainer" type="VBoxContainer" parent="CanvasLayer/BottomLevel/BottomElements"]
 layout_mode = 2
 
-[node name="SizeLabelSpacing" type="HBoxContainer" parent="CanvasLayer/UI/BottomElements/SizeContainer"]
+[node name="SizeLabelSpacing" type="HBoxContainer" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer"]
 layout_mode = 2
 
-[node name="LeftSizeSpacer" type="Control" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeLabelSpacing"]
+[node name="LeftSizeSpacer" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer/SizeLabelSpacing"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Size" type="Label" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeLabelSpacing"]
+[node name="Size" type="Label" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer/SizeLabelSpacing"]
 layout_mode = 2
 text = "Size:5"
 
-[node name="RightSizeSpacer" type="Control" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeLabelSpacing"]
+[node name="RightSizeSpacer" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer/SizeLabelSpacing"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.05
 
-[node name="SizeControllerSpace" type="HBoxContainer" parent="CanvasLayer/UI/BottomElements/SizeContainer"]
+[node name="SizeControllerSpace" type="HBoxContainer" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer"]
 layout_mode = 2
 
-[node name="PlaceholderSpacer" type="Control" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeControllerSpace"]
+[node name="PlaceholderSpacer" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.33
 
-[node name="SizeSlider" type="HSlider" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeControllerSpace" node_paths=PackedStringArray("size_label", "camera_controller")]
+[node name="SizeSlider" type="HSlider" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace" node_paths=PackedStringArray("size_label", "camera_controller")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
@@ -239,7 +240,7 @@ script = ExtResource("6_sjxhf")
 size_label = NodePath("../../SizeLabelSpacing/Size")
 camera_controller = NodePath("../../../../../../CameraPivot")
 
-[node name="RightSizeSliderSpacer" type="Control" parent="CanvasLayer/UI/BottomElements/SizeContainer/SizeControllerSpace"]
+[node name="RightSizeSliderSpacer" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.07
@@ -261,6 +262,32 @@ offset_right = 335.0
 offset_bottom = 981.0
 script = ExtResource("9_3km4f")
 camera_controller = NodePath("../../CameraPivot")
+
+[node name="ContiniousRotation" type="HBoxContainer" parent="CanvasLayer"]
+offset_left = 86.38
+offset_top = 117.38
+offset_right = 304.0
+offset_bottom = 141.38
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CanvasLayer/ContiniousRotation"]
+custom_minimum_size = Vector2(-3.81, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 14.95
+text = "Continious rotation"
+
+[node name="Control" type="Control" parent="CanvasLayer/ContiniousRotation"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.27
+
+[node name="CheckButton" type="CheckButton" parent="CanvasLayer/ContiniousRotation" node_paths=PackedStringArray("rotation_sliders")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.0
+script = ExtResource("10_qkm1d")
+rotation_sliders = NodePath("../../RotationSliders")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gyg6b")

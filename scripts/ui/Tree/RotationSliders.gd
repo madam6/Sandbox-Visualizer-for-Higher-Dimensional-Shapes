@@ -2,6 +2,13 @@ extends VBoxContainer
 
 @export var camera_controller : Node3D
 
+class RotationSlider:
+	var container: HBoxContainer
+	var title_label: Label
+	var slider: HSlider
+	var value_label: Label
+	var plane_enum: int
+
 
 const PLANE_NAMES: Dictionary = {
 	Enums.PLANES.XY: "XY",
@@ -17,6 +24,8 @@ const PLANE_NAMES: Dictionary = {
 }
 
 var current_rotator : BaseRotator
+var sliders : Array
+var static_rotation : bool = true
 
 func _ready() -> void:
 	if not camera_controller:
@@ -27,13 +36,12 @@ func _ready() -> void:
 	
 	set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
 	grow_vertical = Control.GROW_DIRECTION_BEGIN
-	
-	update_rotator()
-	
+
 	for plane_enum in PLANE_NAMES:
 		_create_slider_row(plane_enum)
 	
-	_sync_sliders(current_rotator.supported_planes.keys())
+	update_rotator()
+	
 
 func update_rotator() -> void:
 	current_rotator = Controller.get_current_rotator()
@@ -68,27 +76,40 @@ func _create_slider_row(plane_enum: int) -> void:
 	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	slider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	slider.min_value = 0
-	slider.max_value = 360
 	slider.step = 1.0
 	slider.value = 0 
 	row.add_child(slider)
 	
 	var label_val = Label.new()
 	label_val.name = "ValueLabel"
-	label_val.text = "0°"
 	label_val.custom_minimum_size.x = 40
 	label_val.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	row.add_child(label_val)
-
-	slider.value_changed.connect(_on_slider_value_changed.bind(plane_enum, label_val))
 	slider.drag_started.connect(_on_drag_started)
+	
+	slider.max_value = 360
+		
+	label_val.text = "0.0°"
+	slider.value_changed.connect(_on_slider_value_changed_regular.bind(plane_enum, label_val))
+		
+	var slider_struct = RotationSlider.new()
+	slider_struct.container = row
+	slider_struct.title_label = label_name
+	slider_struct.slider = slider
+	slider_struct.value_label = label_val
+	slider_struct.plane_enum = plane_enum
+	sliders.append(slider_struct)
 	
 	add_child(row)
 
-func _on_slider_value_changed(value: float, plane_enum: int, label_to_update: Label) -> void:
+func _on_slider_value_changed_regular(value: float, plane_enum: int, label_to_update: Label) -> void:
 	label_to_update.text = str(value) + "°"
 
 	Controller.rotate_shape_absolute(value, plane_enum)
+
+func _on_slider_value_changed_cont(value: float, plane_enum: int, label_to_update: Label) -> void:
+	label_to_update.text = str(value)
+	Controller.set_speed_in_plane(plane_enum, value)
 
 func _on_drag_started() -> void:
 	camera_controller.disable_dragging()
@@ -98,3 +119,33 @@ func _find_child_by_plane(plane_enum: int) -> Node:
 		if child.has_meta("plane_enum") and child.get_meta("plane_enum") == plane_enum:
 			return child
 	return null
+
+
+func switch_sliders() -> void:
+	static_rotation = !static_rotation
+	for slider in sliders:
+		var callable_regular = _on_slider_value_changed_regular.bind(slider.plane_enum, slider.value_label)
+		var callable_cont = _on_slider_value_changed_cont.bind(slider.plane_enum, slider.value_label)
+		
+		if static_rotation:
+			if slider.slider.value_changed.is_connected(callable_cont):
+				slider.slider.value_changed.disconnect(callable_cont)
+
+			if not slider.slider.value_changed.is_connected(callable_regular):
+				slider.slider.value_changed.connect(callable_regular)
+
+			slider.slider.max_value = 360
+			slider.slider.step = 1
+			slider.value_label.text = str(slider.slider.value) + "°"
+			Controller.reset_speeds()
+
+		else:
+			if slider.slider.value_changed.is_connected(callable_regular):
+				slider.slider.value_changed.disconnect(callable_regular)
+			
+			if not slider.slider.value_changed.is_connected(callable_cont):
+				slider.slider.value_changed.connect(callable_cont)
+
+			slider.slider.max_value = 7
+			slider.slider.step = 0.25
+			slider.value_label.text = str(slider.slider.value)
