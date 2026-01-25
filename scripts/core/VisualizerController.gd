@@ -10,11 +10,11 @@ var rotator: BaseRotator
 var projector: ProjectionStrategy
 var shape_strategy: ShapeStrategy
 
-@export var rotation_speed: float = 1.0 # TODO: Needs to be clamped
+@export var rotation_speed: float = 1.0
 @export var is_rotating: bool = false
 @export var active_plane = ShapeMap.planes_array_map[Enums.PLANES.XY]
-@export var shape_size = 1.0 # TODO: Needs to be clamped
-@export var height_proportion = 1.5 # TODO: Based on UI configuration we need to figure out if we want to display this settingg
+@export var shape_size = 5.0
+@export var height_proportion = 1.5
 
 var active_slider_values : Dictionary = {}
 var continuous_rotation : bool = false
@@ -87,15 +87,20 @@ func update_shape_settings(new_strategy: ShapeStrategy, new_rotator: BaseRotator
 	shape_strategy = new_strategy
 	rotator = new_rotator
 	projector = new_projector
+	
+	set_shape_size(shape_size)
+	
 	sync_active_planes()
 	_generate_new_shape()
 	
 func set_shape_size(new_shape_size : float) -> void:
+	shape_size = new_shape_size
 	shape_strategy.set_size(new_shape_size)
-	if projector == ShapeMap.perspective_projector4d:
+	
+	if projector.has_method("adjust_w_distance_to_new_size"):
 		projector.adjust_w_distance_to_new_size(new_shape_size)
-	elif projector == ShapeMap.perspective_projector5d:
-		projector.adjust_w_distance_to_new_size(new_shape_size)
+		
+	if projector.has_method("adjust_v_distance_to_new_size"):
 		projector.adjust_v_distance_to_new_size(new_shape_size)
 		
 	_generate_new_shape()

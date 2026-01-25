@@ -120,6 +120,9 @@ func _find_child_by_plane(plane_enum: int) -> Node:
 			return child
 	return null
 
+func reset_sliders() -> void:
+	for slider in sliders:
+		slider.slider.value = 0
 
 func switch_sliders() -> void:
 	static_rotation = !static_rotation

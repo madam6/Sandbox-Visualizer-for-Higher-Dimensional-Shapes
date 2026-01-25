@@ -224,12 +224,13 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Reset" type="Button" parent="CanvasLayer/BottomLevel/BottomElements/ResetContainer/HBoxContainer" node_paths=PackedStringArray("camera_node")]
+[node name="Reset" type="Button" parent="CanvasLayer/BottomLevel/BottomElements/ResetContainer/HBoxContainer" node_paths=PackedStringArray("camera_node", "rotation_sliders")]
 layout_mode = 2
 theme = ExtResource("3_gyg6b")
 text = "Reset"
 script = ExtResource("7_qkm1d")
 camera_node = NodePath("../../../../../../CameraPivot")
+rotation_sliders = NodePath("../../../../../RotationSliders")
 
 [node name="Control" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/ResetContainer/HBoxContainer"]
 layout_mode = 2
