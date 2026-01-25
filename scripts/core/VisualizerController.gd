@@ -66,6 +66,10 @@ func sync_active_planes() -> void:
 		if not active_planes.has(key):
 			active_planes[key] = 0
 
+func reset_rotation() -> void:
+	for plane in active_planes:
+		rotate_shape_absolute(0, plane)
+
 func rotate_shape_absolute(angle: float, plane: int):
 	active_slider_values[plane] = angle
 

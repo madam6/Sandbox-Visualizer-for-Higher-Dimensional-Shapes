@@ -4,6 +4,7 @@ var camera : Camera3D
 
 var _pitch : float
 var _yaw : float
+var _start_radius : float
 var _dragging : bool = false
 
 @export var radius : float = 25
@@ -31,6 +32,17 @@ func _ready() -> void:
 	
 	_pitch = rotation.x
 	_yaw = rotation.y
+	_start_radius = radius
+	
+	
+func reset_camera_pos() -> void:
+	_pitch = 0.0
+	_yaw = 0.0
+	rotation = Vector3.ZERO
+	radius = _start_radius
+	camera.position = Vector3(0, 0, radius)
+	camera.look_at(Vector3.ZERO, Vector3.UP)
+
 	
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
