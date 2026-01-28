@@ -27,6 +27,9 @@ func _ready() -> void:
 		set_process_input(false)
 		return
 	
+	if Controller:
+		Controller.camera = camera
+	
 	camera.position = Vector3(0, 0, radius)
 	camera.look_at(Vector3.ZERO, Vector3.UP)
 	

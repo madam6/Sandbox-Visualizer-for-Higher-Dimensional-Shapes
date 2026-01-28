@@ -15,9 +15,17 @@ var shape_strategy: ShapeStrategy
 @export var active_plane = ShapeMap.planes_array_map[Enums.PLANES.XY]
 @export var shape_size = 5.0
 @export var height_proportion = 1.5
+@export var selection_radius = 30 # In pixels
+@export var camera : Camera3D
 
 var active_slider_values : Dictionary = {}
 var continuous_rotation : bool = false
+
+var _selected_vertex_indices : Dictionary
+var _highlited_edge_indices : Dictionary
+
+var SELECTED_VERTICES : String = "vertex_indices"
+var SELECTED_EDGES : String = "edge_indices"
 
 # The ones actively rotating
 var active_planes : Dictionary = {
@@ -32,6 +40,8 @@ func _ready():
 		rotator =  ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.RotatorIndex]
 		projector = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ProjectorIndex]
 		_generate_new_shape()
+	
+	
 
 func _process(delta):
 	if current_vertices_copy.is_empty(): return
@@ -43,11 +53,15 @@ func _process(delta):
 		rotator._rotate_shape(current_vertices_copy, delta * rotation_speed, active_plane)
 
 	var projected_3d_points = projector.project(current_vertices_copy)
-
+	var selection_info : Dictionary
+	selection_info[SELECTED_VERTICES] = _selected_vertex_indices
+	selection_info[SELECTED_EDGES] = _highlited_edge_indices
+	
 	Renderer.update_visuals(
 		projected_3d_points, 
 		current_shape_data.edges, 
-		current_shape_data.faces
+		current_shape_data.faces,
+		selection_info
 	)
 	
 	for plane in active_planes:
@@ -119,12 +133,45 @@ func set_new_projector(new_projector : ProjectionStrategy) -> void:
 
 func _generate_new_shape():
 	current_shape_data = shape_strategy.create_shape()
-
+	
 	master_vertices = current_shape_data.vertices.duplicate(true)
-
+	
 	current_vertices_copy = master_vertices.duplicate(true)
 	
 	active_slider_values.clear()
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			var viewport_mouse_pos = get_viewport().get_mouse_position()
+			_handle_select(viewport_mouse_pos)
+		
+func _handle_select(mouse_pos : Vector2) -> void:
+	var current_points = projector.project(current_vertices_copy)
+	
+	for i in range(current_points.size()):
+		var point_3d = current_points[i]
+
+		if camera.is_position_behind(point_3d): 
+			continue
+			
+		var point_2d = camera.unproject_position(point_3d)
+		var distance_to_mouse = mouse_pos.distance_to(point_2d)
+
+		if distance_to_mouse <= selection_radius:
+			if _selected_vertex_indices.has(i):
+				_selected_vertex_indices.erase(i)
+			else:
+				_selected_vertex_indices[i] = true
+	_update_edges()
+
+
+func _update_edges():
+	_highlited_edge_indices.clear()
+	
+	for edge in current_shape_data.edges:
+		if _selected_vertex_indices.has(edge.x) or _selected_vertex_indices.has(edge.y):
+			_highlited_edge_indices[edge] = true
 
 func rotate_shape(angle: float, plane: Enums.PLANES) -> void:
 	rotator._rotate_shape(current_vertices_copy, angle, ShapeMap.planes_array_map[plane])

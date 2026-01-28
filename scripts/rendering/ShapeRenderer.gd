@@ -6,11 +6,14 @@ class_name ShapeRenderer
 @export var _vertex_color: Color = Color.WHITE
 @export var _edge_color: Color = Color.CYAN
 @export var _face_color: Color = Color(0.0, 0.5, 1.0, 0.3)
+@export var _select_vertex_color: Color = Color.RED
+@export var _select_edge_color: Color = Color.ANTIQUE_WHITE
 
 var vertex_multimesh: MultiMeshInstance3D
 var lines_mesh_instance: MeshInstance3D
 var faces_mesh_instance: MeshInstance3D
 var immediate_mesh: ImmediateMesh
+
 
 var show_faces: bool = true
 var show_edges: bool = true
@@ -30,11 +33,13 @@ func _setup_vertices():
 	var mat = StandardMaterial3D.new()
 	mat.albedo_color = _vertex_color
 	mat.shading_mode = StandardMaterial3D.SHADING_MODE_UNSHADED
+	mat.vertex_color_use_as_albedo = true
 	mesh.surface_set_material(0, mat)
 	
 	vertex_multimesh.multimesh = MultiMesh.new()
 	vertex_multimesh.multimesh.transform_format = MultiMesh.TRANSFORM_3D
 	vertex_multimesh.multimesh.mesh = mesh
+	vertex_multimesh.multimesh.use_colors = true
 	add_child(vertex_multimesh)
 
 func _setup_lines():
@@ -43,7 +48,7 @@ func _setup_lines():
 	lines_mesh_instance.mesh = immediate_mesh
 
 	var mat = StandardMaterial3D.new()
-	mat.albedo_color = _edge_color
+	mat.albedo_color = Color.WHITE
 	mat.shading_mode = StandardMaterial3D.SHADING_MODE_UNSHADED
 	mat.vertex_color_use_as_albedo = true
 	lines_mesh_instance.material_override = mat
@@ -58,14 +63,12 @@ func _setup_faces():
 	faces_mesh_instance.material_override = mat
 	add_child(faces_mesh_instance)
 
-
-
-func update_visuals(projected_vertices: Array, edges: Array[Vector2i], faces: Array[Array]):
-	_draw_vertices(projected_vertices)
+func update_visuals(projected_vertices: Array, edges: Array[Vector2i], faces: Array[Array], selection_info: Dictionary = {}):
+	_draw_vertices(projected_vertices, selection_info.get(Controller.SELECTED_VERTICES, {}))
 	
 	if show_edges:
 		if not lines_mesh_instance.visible: lines_mesh_instance.show()
-		_draw_edges(projected_vertices, edges)
+		_draw_edges(projected_vertices, edges, selection_info.get(Controller.SELECTED_EDGES, {}))
 	else:
 		lines_mesh_instance.hide()
 	
@@ -75,22 +78,33 @@ func update_visuals(projected_vertices: Array, edges: Array[Vector2i], faces: Ar
 	else:
 		faces_mesh_instance.hide()
 
-func _draw_vertices(points: Array):
+func _draw_vertices(points: Array, selection_info: Dictionary):
 	if vertex_multimesh.multimesh.instance_count != points.size():
 		vertex_multimesh.multimesh.instance_count = points.size()
 	
 	for i in range(points.size()):
 		var t = Transform3D()
+		var vertex_color = _vertex_color
 		t.origin = points[i]
 		vertex_multimesh.multimesh.set_instance_transform(i, t)
+		if selection_info.has(i):
+			vertex_color = _select_vertex_color
+		vertex_multimesh.multimesh.set_instance_color(i, vertex_color)
 
-func _draw_edges(points: Array, edges: Array[Vector2i]):
+func _draw_edges(points: Array, edges: Array[Vector2i], selection_info: Dictionary):
 	immediate_mesh.clear_surfaces()
 	immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES)
 	
 	for edge in edges:
+		var edge_color = _edge_color
+		if selection_info.has(edge):
+			edge_color = _select_edge_color
+		
+		immediate_mesh.surface_set_color(edge_color)
+
 		var p1 = points[edge.x]
 		var p2 = points[edge.y]
+		
 		immediate_mesh.surface_add_vertex(p1)
 		immediate_mesh.surface_add_vertex(p2)
 		
