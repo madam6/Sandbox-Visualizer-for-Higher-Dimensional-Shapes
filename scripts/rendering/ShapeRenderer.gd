@@ -7,7 +7,7 @@ class_name ShapeRenderer
 @export var _edge_color: Color = Color.CYAN
 @export var _face_color: Color = Color(0.0, 0.5, 1.0, 0.3)
 @export var _select_vertex_color: Color = Color.RED
-@export var _select_edge_color: Color = Color.ANTIQUE_WHITE
+@export var _select_edge_color: Color = Color.DEEP_PINK
 
 var vertex_multimesh: MultiMeshInstance3D
 var lines_mesh_instance: MeshInstance3D
@@ -158,6 +158,12 @@ func set_face_color(new_color: Color):
 	if faces_mesh_instance and faces_mesh_instance.material_override:
 		faces_mesh_instance.material_override.albedo_color = new_color
 		
+	
+func set_selected_vertex_color(new_color: Color):
+	_select_vertex_color = new_color
+	
+func set_selected_edge_color(new_color: Color):
+	_select_edge_color = new_color	
 		
 func get_face_color() -> Color:
 	return _face_color

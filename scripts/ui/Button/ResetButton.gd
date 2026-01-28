@@ -13,5 +13,6 @@ func _ready() -> void:
 
 func _on_pressed() -> void:
 	Controller.reset_rotation()
+	Controller.reset_selection_info()
 	camera_node.reset_camera_pos()
 	rotation_sliders.reset_sliders()

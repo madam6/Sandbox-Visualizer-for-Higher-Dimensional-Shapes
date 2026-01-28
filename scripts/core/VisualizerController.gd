@@ -23,6 +23,7 @@ var continuous_rotation : bool = false
 
 var _selected_vertex_indices : Dictionary
 var _highlited_edge_indices : Dictionary
+var _selection_info : Dictionary
 
 var SELECTED_VERTICES : String = "vertex_indices"
 var SELECTED_EDGES : String = "edge_indices"
@@ -53,15 +54,15 @@ func _process(delta):
 		rotator._rotate_shape(current_vertices_copy, delta * rotation_speed, active_plane)
 
 	var projected_3d_points = projector.project(current_vertices_copy)
-	var selection_info : Dictionary
-	selection_info[SELECTED_VERTICES] = _selected_vertex_indices
-	selection_info[SELECTED_EDGES] = _highlited_edge_indices
+	
+	_selection_info[SELECTED_VERTICES] = _selected_vertex_indices
+	_selection_info[SELECTED_EDGES] = _highlited_edge_indices
 	
 	Renderer.update_visuals(
 		projected_3d_points, 
 		current_shape_data.edges, 
 		current_shape_data.faces,
-		selection_info
+		_selection_info
 	)
 	
 	for plane in active_planes:
@@ -83,6 +84,11 @@ func sync_active_planes() -> void:
 func reset_rotation() -> void:
 	for plane in active_planes:
 		rotate_shape_absolute(0, plane)
+
+func reset_selection_info() -> void:
+	_selected_vertex_indices.clear()
+	_highlited_edge_indices.clear()
+	_selection_info.clear()
 
 func rotate_shape_absolute(angle: float, plane: int):
 	active_slider_values[plane] = angle

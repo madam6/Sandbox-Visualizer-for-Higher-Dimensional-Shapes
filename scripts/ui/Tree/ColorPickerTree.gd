@@ -4,7 +4,8 @@ const BTN_COLOR : int = 0
 @export var VERTEX_COLOR_LABEL : String = "Vertex color"
 @export var EDGE_COLOR_LABEL : String = "Edge color"
 @export var FACE_COLOR_LABEL : String = "Face color"
-@export var SELECTED_COLOR_LABEL : String = "Selected color"
+@export var SELECTED_COLOR_VERTEX : String = "Selected vertex color"
+@export var SELECTED_COLOR_EDGE : String = "Selected edge color"
 
 func _ready():
 	columns = 1
@@ -20,7 +21,8 @@ func _ready():
 	_add_color_item(root, VERTEX_COLOR_LABEL, Renderer.get_vertex_color())
 	_add_color_item(root, EDGE_COLOR_LABEL, Renderer.get_edge_color())
 	_add_color_item(root, FACE_COLOR_LABEL, Renderer.get_face_color())
-	_add_color_item(root, SELECTED_COLOR_LABEL, Color.YELLOW)
+	_add_color_item(root, SELECTED_COLOR_VERTEX, Color.RED)
+	_add_color_item(root, SELECTED_COLOR_EDGE, Color.DEEP_PINK)
 
 	button_clicked.connect(_on_button_clicked)
 	item_collapsed.connect(_on_item_collapsed)
@@ -65,6 +67,8 @@ func _on_button_clicked(item: TreeItem, _column: int, id: int, _mouse_button: in
 			VERTEX_COLOR_LABEL: Renderer.set_vertex_color(new_color)
 			EDGE_COLOR_LABEL: Renderer.set_edge_color(new_color)
 			FACE_COLOR_LABEL: Renderer.set_face_color(new_color)
+			SELECTED_COLOR_EDGE: Renderer.set_selected_edge_color(new_color)
+			SELECTED_COLOR_VERTEX: Renderer.set_selected_vertex_color(new_color)
 			_: pass
 		)
 
