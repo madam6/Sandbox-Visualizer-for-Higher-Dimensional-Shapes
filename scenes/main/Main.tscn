@@ -21,36 +21,128 @@ metadata/_edit_vertical_guides_ = [1833.0, 86.0]
 transform = Transform3D(0.7071068, -0.5, 0.5, 0, 0.7071068, 0.70710677, -0.7071068, -0.5, 0.5, 0.81222034, 1.860152, 1.0176935)
 shadow_enabled = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="EducationalUI" type="CanvasLayer" parent="."]
 
-[node name="BottomLevel" type="VBoxContainer" parent="CanvasLayer"]
+[node name="StartConfirmationPanel" type="PanelContainer" parent="EducationalUI"]
+offset_left = 605.0
+offset_top = 311.0
+offset_right = 1310.0
+offset_bottom = 747.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EducationalUI/StartConfirmationPanel"]
+layout_mode = 2
+
+[node name="EnterLabel" type="Label" parent="EducationalUI/StartConfirmationPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Enter educational mode?"
+horizontal_alignment = 1
+
+[node name="MiddleSpacer" type="Control" parent="EducationalUI/StartConfirmationPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="EnterBody" type="Label" parent="EducationalUI/StartConfirmationPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "This will reset your current shape and change controls slitly"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EducationalUI/StartConfirmationPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.35
+
+[node name="StartSpacer" type="Control" parent="EducationalUI/StartConfirmationPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Accept" type="Button" parent="EducationalUI/StartConfirmationPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Accept"
+
+[node name="MiddleSpacer" type="Control" parent="EducationalUI/StartConfirmationPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.92
+
+[node name="Cancel" type="Button" parent="EducationalUI/StartConfirmationPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reject
+"
+
+[node name="EndSpacer" type="Control" parent="EducationalUI/StartConfirmationPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EndSpacer" type="Control" parent="EducationalUI/StartConfirmationPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.33
+
+[node name="LessonPanel" type="PanelContainer" parent="EducationalUI"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Title" type="Label" parent="EducationalUI/LessonPanel"]
+layout_mode = 2
+
+[node name="Body" type="RichTextLabel" parent="EducationalUI/LessonPanel"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EducationalUI/LessonPanel"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="EducationalUI/LessonPanel/HBoxContainer"]
+layout_mode = 2
+
+[node name="NextButton" type="Button" parent="EducationalUI/LessonPanel/HBoxContainer"]
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="EducationalUI/LessonPanel/HBoxContainer"]
+layout_mode = 2
+
+[node name="MainUI" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="BottomLevel" type="VBoxContainer" parent="MainUI"]
 custom_minimum_size = Vector2(1920, 1080)
 offset_right = 1920.0
 offset_bottom = 1080.0
 
-[node name="TopElements" type="VBoxContainer" parent="CanvasLayer/BottomLevel"]
+[node name="TopElements" type="VBoxContainer" parent="MainUI/BottomLevel"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 
-[node name="PreSelectorsEmptySpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements"]
+[node name="PreSelectorsEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.27
 
-[node name="Selectors" type="HBoxContainer" parent="CanvasLayer/BottomLevel/TopElements"]
+[node name="Selectors" type="HBoxContainer" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 theme = ExtResource("3_gyg6b")
 alignment = 1
 
-[node name="LeftSelectorEmptySpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements/Selectors"]
+[node name="LeftSelectorEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements/Selectors"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="ShapeSelector" type="OptionButton" parent="CanvasLayer/BottomLevel/TopElements/Selectors" node_paths=PackedStringArray("dimension_selector", "CameraController")]
+[node name="ShapeSelector" type="OptionButton" parent="MainUI/BottomLevel/TopElements/Selectors" node_paths=PackedStringArray("dimension_selector", "CameraController")]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("3_gyg6b")
@@ -64,12 +156,12 @@ script = ExtResource("3_q24mn")
 dimension_selector = NodePath("../DimensionSelector")
 CameraController = NodePath("../../../../../CameraPivot")
 
-[node name="MiddleSelectorEmptySpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements/Selectors"]
+[node name="MiddleSelectorEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements/Selectors"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 8.5
 
-[node name="DimensionSelector" type="OptionButton" parent="CanvasLayer/BottomLevel/TopElements/Selectors" node_paths=PackedStringArray("shape_selector", "camera_controller", "rotation_sliders")]
+[node name="DimensionSelector" type="OptionButton" parent="MainUI/BottomLevel/TopElements/Selectors" node_paths=PackedStringArray("shape_selector", "camera_controller", "rotation_sliders")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.08
@@ -78,27 +170,27 @@ shape_selector = NodePath("../ShapeSelector")
 camera_controller = NodePath("../../../../../CameraPivot")
 rotation_sliders = NodePath("../../../../RotationSliders")
 
-[node name="RightSelectorEmptySpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements/Selectors"]
+[node name="RightSelectorEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements/Selectors"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="AfterSelectorEmptySpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements"]
+[node name="AfterSelectorEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
 
-[node name="SecondLevelItems" type="HBoxContainer" parent="CanvasLayer/BottomLevel/TopElements"]
+[node name="SecondLevelItems" type="HBoxContainer" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="LeftSpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements/SecondLevelItems"]
+[node name="LeftSpacer" type="Control" parent="MainUI/BottomLevel/TopElements/SecondLevelItems"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
 
-[node name="ProjectionModeToggle" type="CheckButton" parent="CanvasLayer/BottomLevel/TopElements/SecondLevelItems" node_paths=PackedStringArray("dimension_options", "shape_options")]
+[node name="ProjectionModeToggle" type="CheckButton" parent="MainUI/BottomLevel/TopElements/SecondLevelItems" node_paths=PackedStringArray("dimension_options", "shape_options")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
@@ -107,12 +199,12 @@ script = ExtResource("6_ko0rf")
 dimension_options = NodePath("../../Selectors/DimensionSelector")
 shape_options = NodePath("../../Selectors/ShapeSelector")
 
-[node name="MidlleSpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements/SecondLevelItems"]
+[node name="MidlleSpacer" type="Control" parent="MainUI/BottomLevel/TopElements/SecondLevelItems"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.77
 
-[node name="DisplayModeSelector" type="OptionButton" parent="CanvasLayer/BottomLevel/TopElements/SecondLevelItems" node_paths=PackedStringArray("CameraController")]
+[node name="DisplayModeSelector" type="OptionButton" parent="MainUI/BottomLevel/TopElements/SecondLevelItems" node_paths=PackedStringArray("CameraController")]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("3_gyg6b")
@@ -127,72 +219,72 @@ popup/item_2/id = 2
 script = ExtResource("5_ko0rf")
 CameraController = NodePath("../../../../../CameraPivot")
 
-[node name="RightSpacer2" type="Control" parent="CanvasLayer/BottomLevel/TopElements/SecondLevelItems"]
+[node name="RightSpacer2" type="Control" parent="MainUI/BottomLevel/TopElements/SecondLevelItems"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.37
 
-[node name="ThirdEmptySpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements"]
+[node name="ThirdEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/BottomLevel/TopElements"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="LeftSpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements/HBoxContainer"]
+[node name="LeftSpacer" type="Control" parent="MainUI/BottomLevel/TopElements/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RightSpacer" type="Control" parent="CanvasLayer/BottomLevel/TopElements/HBoxContainer"]
+[node name="RightSpacer" type="Control" parent="MainUI/BottomLevel/TopElements/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.05
 
-[node name="MiddleSpacer" type="Control" parent="CanvasLayer/BottomLevel"]
+[node name="MiddleSpacer" type="Control" parent="MainUI/BottomLevel"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.41
 
-[node name="BottomElements" type="VBoxContainer" parent="CanvasLayer/BottomLevel"]
+[node name="BottomElements" type="VBoxContainer" parent="MainUI/BottomLevel"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.4
 
-[node name="TopSpacer" type="Control" parent="CanvasLayer/BottomLevel/BottomElements"]
+[node name="TopSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.57
 
-[node name="SizeContainer" type="VBoxContainer" parent="CanvasLayer/BottomLevel/BottomElements"]
+[node name="SizeContainer" type="VBoxContainer" parent="MainUI/BottomLevel/BottomElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.19
 
-[node name="SizeLabelSpacing" type="HBoxContainer" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer"]
+[node name="SizeLabelSpacing" type="HBoxContainer" parent="MainUI/BottomLevel/BottomElements/SizeContainer"]
 layout_mode = 2
 
-[node name="LeftSizeSpacer" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer/SizeLabelSpacing"]
+[node name="LeftSizeSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeLabelSpacing"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Size" type="Label" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer/SizeLabelSpacing"]
+[node name="Size" type="Label" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeLabelSpacing"]
 layout_mode = 2
 text = "Size:5"
 
-[node name="RightSizeSpacer" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer/SizeLabelSpacing"]
+[node name="RightSizeSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeLabelSpacing"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.05
 
-[node name="SizeControllerSpace" type="HBoxContainer" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer"]
+[node name="SizeControllerSpace" type="HBoxContainer" parent="MainUI/BottomLevel/BottomElements/SizeContainer"]
 layout_mode = 2
 
-[node name="PlaceholderSpacer" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace"]
+[node name="PlaceholderSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.33
 
-[node name="SizeSlider" type="HSlider" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace" node_paths=PackedStringArray("size_label", "camera_controller")]
+[node name="SizeSlider" type="HSlider" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace" node_paths=PackedStringArray("size_label", "camera_controller")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
@@ -203,28 +295,28 @@ script = ExtResource("6_sjxhf")
 size_label = NodePath("../../SizeLabelSpacing/Size")
 camera_controller = NodePath("../../../../../../CameraPivot")
 
-[node name="RightSizeSliderSpacer" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace"]
+[node name="RightSizeSliderSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.07
 
-[node name="MidlleSpacer" type="Control" parent="CanvasLayer/BottomLevel/BottomElements"]
+[node name="MidlleSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.11
 
-[node name="ResetContainer" type="VBoxContainer" parent="CanvasLayer/BottomLevel/BottomElements"]
+[node name="ResetContainer" type="VBoxContainer" parent="MainUI/BottomLevel/BottomElements"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/BottomLevel/BottomElements/ResetContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainUI/BottomLevel/BottomElements/ResetContainer"]
 layout_mode = 2
 
-[node name="Control2" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/ResetContainer/HBoxContainer"]
+[node name="Control2" type="Control" parent="MainUI/BottomLevel/BottomElements/ResetContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Reset" type="Button" parent="CanvasLayer/BottomLevel/BottomElements/ResetContainer/HBoxContainer" node_paths=PackedStringArray("camera_node", "rotation_sliders")]
+[node name="Reset" type="Button" parent="MainUI/BottomLevel/BottomElements/ResetContainer/HBoxContainer" node_paths=PackedStringArray("camera_node", "rotation_sliders")]
 layout_mode = 2
 theme = ExtResource("3_gyg6b")
 text = "Reset"
@@ -232,12 +324,12 @@ script = ExtResource("7_qkm1d")
 camera_node = NodePath("../../../../../../CameraPivot")
 rotation_sliders = NodePath("../../../../../RotationSliders")
 
-[node name="Control" type="Control" parent="CanvasLayer/BottomLevel/BottomElements/ResetContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="MainUI/BottomLevel/BottomElements/ResetContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.05
 
-[node name="ColorPickerTree" type="Tree" parent="CanvasLayer"]
+[node name="ColorPickerTree" type="Tree" parent="MainUI"]
 offset_left = 1651.0
 offset_top = 212.0
 offset_right = 1830.0
@@ -247,7 +339,7 @@ size_flags_stretch_ratio = 0.16
 theme = ExtResource("3_gyg6b")
 script = ExtResource("8_ostsq")
 
-[node name="RotationSliders" type="VBoxContainer" parent="CanvasLayer" node_paths=PackedStringArray("camera_controller")]
+[node name="RotationSliders" type="VBoxContainer" parent="MainUI" node_paths=PackedStringArray("camera_controller")]
 offset_left = 91.0
 offset_top = 888.0
 offset_right = 335.0
@@ -255,26 +347,26 @@ offset_bottom = 981.0
 script = ExtResource("9_3km4f")
 camera_controller = NodePath("../../CameraPivot")
 
-[node name="ContiniousRotation" type="HBoxContainer" parent="CanvasLayer"]
+[node name="ContiniousRotation" type="HBoxContainer" parent="MainUI"]
 offset_left = 86.38
 offset_top = 117.38
 offset_right = 304.0
 offset_bottom = 141.38
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="CanvasLayer/ContiniousRotation"]
+[node name="Label" type="Label" parent="MainUI/ContiniousRotation"]
 custom_minimum_size = Vector2(-3.81, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 14.95
 text = "Continious rotation"
 
-[node name="Control" type="Control" parent="CanvasLayer/ContiniousRotation"]
+[node name="Control" type="Control" parent="MainUI/ContiniousRotation"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.27
 
-[node name="CheckButton" type="CheckButton" parent="CanvasLayer/ContiniousRotation" node_paths=PackedStringArray("rotation_sliders")]
+[node name="CheckButton" type="CheckButton" parent="MainUI/ContiniousRotation" node_paths=PackedStringArray("rotation_sliders")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
@@ -290,4 +382,4 @@ script = ExtResource("6_1rhdn")
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 25.601158)
 
-[connection signal="pressed" from="CanvasLayer/BottomLevel/BottomElements/ResetContainer/HBoxContainer/Reset" to="CanvasLayer/BottomLevel/BottomElements/ResetContainer/HBoxContainer/Reset" method="_on_pressed"]
+[connection signal="pressed" from="MainUI/BottomLevel/BottomElements/ResetContainer/HBoxContainer/Reset" to="MainUI/BottomLevel/BottomElements/ResetContainer/HBoxContainer/Reset" method="_on_pressed"]
