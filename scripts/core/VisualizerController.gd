@@ -28,6 +28,8 @@ var _selection_info : Dictionary
 var SELECTED_VERTICES : String = "vertex_indices"
 var SELECTED_EDGES : String = "edge_indices"
 
+var is_override_active : bool = false
+
 # The ones actively rotating
 var active_planes : Dictionary = {
 	Enums.PLANES.XY: 0,
@@ -90,6 +92,18 @@ func reset_selection_info() -> void:
 	_highlited_edge_indices.clear()
 	_selection_info.clear()
 
+func set_override_shape(new_data : ShapeData) -> void:
+	is_override_active = true
+	current_shape_data = new_data
+	master_vertices = current_shape_data.vertices.duplicate(true)
+	current_vertices_copy = master_vertices.duplicate(true)
+	active_slider_values.clear()
+	reset_rotation()
+	
+func clear_override_mode() -> void:
+	is_override_active = false
+	_generate_new_shape()
+
 func rotate_shape_absolute(angle: float, plane: int):
 	active_slider_values[plane] = angle
 
@@ -104,6 +118,9 @@ func rotate_shape_absolute(angle: float, plane: int):
 			rotator.rotate(current_vertices_copy, val, p)          
 
 func update_shape_settings(new_strategy: ShapeStrategy, new_rotator: BaseRotator, new_projector: ProjectionStrategy) -> void:
+	if is_override_active:
+		return
+	
 	shape_strategy = new_strategy
 	rotator = new_rotator
 	projector = new_projector
