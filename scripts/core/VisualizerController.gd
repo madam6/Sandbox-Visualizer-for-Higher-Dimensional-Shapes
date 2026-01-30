@@ -163,7 +163,7 @@ func _generate_new_shape():
 	
 	active_slider_values.clear()
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			var viewport_mouse_pos = get_viewport().get_mouse_position()

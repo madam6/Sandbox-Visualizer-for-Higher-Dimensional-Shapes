@@ -1,5 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://bitma10rnug88"]
+[gd_scene load_steps=14 format=3 uid="uid://bitma10rnug88"]
 
+[ext_resource type="Script" uid="uid://bvjc31tdw31c5" path="res://scripts/ui/EducationalOverlay.gd" id="1_p5fgu"]
 [ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="3_gyg6b"]
 [ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/OptionButton/ShapeSelector.gd" id="3_q24mn"]
 [ext_resource type="Script" uid="uid://ci4ttksh4cdgu" path="res://scripts/ui/OptionButton/DimensionSelector.gd" id="5_dc040"]
@@ -24,10 +25,10 @@ shadow_enabled = true
 [node name="EducationalUI" type="CanvasLayer" parent="."]
 
 [node name="StartConfirmationPanel" type="PanelContainer" parent="EducationalUI"]
-offset_left = 605.0
-offset_top = 311.0
-offset_right = 1310.0
-offset_bottom = 747.0
+offset_left = 486.0
+offset_top = 218.0
+offset_right = 1466.0
+offset_bottom = 843.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="EducationalUI/StartConfirmationPanel"]
 layout_mode = 2
@@ -88,52 +89,80 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
+offset_left = -566.0
+offset_top = -291.0
+offset_right = 540.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Title" type="Label" parent="EducationalUI/LessonPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="EducationalUI/LessonPanel"]
 layout_mode = 2
 
-[node name="Body" type="RichTextLabel" parent="EducationalUI/LessonPanel"]
+[node name="Title" type="Label" parent="EducationalUI/LessonPanel/VBoxContainer"]
+layout_mode = 2
+text = "Dimension 0"
+
+[node name="Body" type="RichTextLabel" parent="EducationalUI/LessonPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce blandit eget arcu at blandit. Etiam non egestas est, tempus vulputate est. Ut in purus eget urna sodales gravida. Sed ac pellentesque magna. Etiam condimentum, felis vitae pellentesque viverra, neque tellus dictum arcu, ut rhoncus eros dui tincidunt urna. "
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EducationalUI/LessonPanel/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="EducationalUI/LessonPanel"]
+[node name="BackButton" type="Button" parent="EducationalUI/LessonPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+text = "Back"
 
-[node name="BackButton" type="Button" parent="EducationalUI/LessonPanel/HBoxContainer"]
+[node name="NextButton" type="Button" parent="EducationalUI/LessonPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+text = "Next"
 
-[node name="NextButton" type="Button" parent="EducationalUI/LessonPanel/HBoxContainer"]
+[node name="CloseButton" type="Button" parent="EducationalUI/LessonPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+text = "Close"
 
-[node name="CloseButton" type="Button" parent="EducationalUI/LessonPanel/HBoxContainer"]
-layout_mode = 2
+[node name="EducationalOverlayScript" type="Control" parent="EducationalUI" node_paths=PackedStringArray("start_panel", "confirm_button", "cancel_button", "lesson_panel", "title_label", "body_label", "next_button", "back_button", "main_menu_edu_button")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_p5fgu")
+start_panel = NodePath("../StartConfirmationPanel")
+confirm_button = NodePath("../StartConfirmationPanel/VBoxContainer/HBoxContainer/Accept")
+cancel_button = NodePath("../StartConfirmationPanel/VBoxContainer/HBoxContainer/Cancel")
+lesson_panel = NodePath("../LessonPanel")
+title_label = NodePath("../LessonPanel/VBoxContainer/Title")
+body_label = NodePath("../LessonPanel/VBoxContainer/Body")
+next_button = NodePath("../LessonPanel/VBoxContainer/HBoxContainer/NextButton")
+back_button = NodePath("../LessonPanel/VBoxContainer/HBoxContainer/BackButton")
+main_menu_edu_button = NodePath("../../MainUI/EducationalMode/EducationalMode")
 
 [node name="MainUI" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="BottomLevel" type="VBoxContainer" parent="MainUI"]
 custom_minimum_size = Vector2(1920, 1080)
 offset_right = 1920.0
 offset_bottom = 1080.0
+mouse_filter = 2
 
 [node name="TopElements" type="VBoxContainer" parent="MainUI/BottomLevel"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
+mouse_filter = 2
 
 [node name="PreSelectorsEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.27
+mouse_filter = 2
 
 [node name="Selectors" type="HBoxContainer" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
+mouse_filter = 2
 theme = ExtResource("3_gyg6b")
 alignment = 1
 
@@ -141,6 +170,7 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
+mouse_filter = 2
 
 [node name="ShapeSelector" type="OptionButton" parent="MainUI/BottomLevel/TopElements/Selectors" node_paths=PackedStringArray("dimension_selector", "CameraController")]
 layout_mode = 2
@@ -160,6 +190,7 @@ CameraController = NodePath("../../../../../CameraPivot")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 8.5
+mouse_filter = 2
 
 [node name="DimensionSelector" type="OptionButton" parent="MainUI/BottomLevel/TopElements/Selectors" node_paths=PackedStringArray("shape_selector", "camera_controller", "rotation_sliders")]
 layout_mode = 2
@@ -174,21 +205,25 @@ rotation_sliders = NodePath("../../../../RotationSliders")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
+mouse_filter = 2
 
 [node name="AfterSelectorEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
+mouse_filter = 2
 
 [node name="SecondLevelItems" type="HBoxContainer" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="LeftSpacer" type="Control" parent="MainUI/BottomLevel/TopElements/SecondLevelItems"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
+mouse_filter = 2
 
 [node name="ProjectionModeToggle" type="CheckButton" parent="MainUI/BottomLevel/TopElements/SecondLevelItems" node_paths=PackedStringArray("dimension_options", "shape_options")]
 layout_mode = 2
@@ -203,6 +238,7 @@ shape_options = NodePath("../../Selectors/ShapeSelector")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.77
+mouse_filter = 2
 
 [node name="DisplayModeSelector" type="OptionButton" parent="MainUI/BottomLevel/TopElements/SecondLevelItems" node_paths=PackedStringArray("CameraController")]
 layout_mode = 2
@@ -223,49 +259,60 @@ CameraController = NodePath("../../../../../CameraPivot")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.37
+mouse_filter = 2
 
 [node name="ThirdEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="LeftSpacer" type="Control" parent="MainUI/BottomLevel/TopElements/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="RightSpacer" type="Control" parent="MainUI/BottomLevel/TopElements/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.05
+mouse_filter = 2
 
 [node name="MiddleSpacer" type="Control" parent="MainUI/BottomLevel"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.41
+mouse_filter = 2
 
 [node name="BottomElements" type="VBoxContainer" parent="MainUI/BottomLevel"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.4
+mouse_filter = 2
 
 [node name="TopSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.57
+mouse_filter = 2
 
 [node name="SizeContainer" type="VBoxContainer" parent="MainUI/BottomLevel/BottomElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.19
+mouse_filter = 2
 
 [node name="SizeLabelSpacing" type="HBoxContainer" parent="MainUI/BottomLevel/BottomElements/SizeContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="LeftSizeSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeLabelSpacing"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="Size" type="Label" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeLabelSpacing"]
 layout_mode = 2
@@ -275,14 +322,17 @@ text = "Size:5"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.05
+mouse_filter = 2
 
 [node name="SizeControllerSpace" type="HBoxContainer" parent="MainUI/BottomLevel/BottomElements/SizeContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="PlaceholderSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.33
+mouse_filter = 2
 
 [node name="SizeSlider" type="HSlider" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace" node_paths=PackedStringArray("size_label", "camera_controller")]
 layout_mode = 2
@@ -299,22 +349,27 @@ camera_controller = NodePath("../../../../../../CameraPivot")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.07
+mouse_filter = 2
 
 [node name="MidlleSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.11
+mouse_filter = 2
 
 [node name="ResetContainer" type="VBoxContainer" parent="MainUI/BottomLevel/BottomElements"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainUI/BottomLevel/BottomElements/ResetContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Control2" type="Control" parent="MainUI/BottomLevel/BottomElements/ResetContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="Reset" type="Button" parent="MainUI/BottomLevel/BottomElements/ResetContainer/HBoxContainer" node_paths=PackedStringArray("camera_node", "rotation_sliders")]
 layout_mode = 2
@@ -328,6 +383,7 @@ rotation_sliders = NodePath("../../../../../RotationSliders")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.05
+mouse_filter = 2
 
 [node name="ColorPickerTree" type="Tree" parent="MainUI"]
 offset_left = 1651.0
@@ -339,11 +395,24 @@ size_flags_stretch_ratio = 0.16
 theme = ExtResource("3_gyg6b")
 script = ExtResource("8_ostsq")
 
+[node name="EducationalMode" type="HBoxContainer" parent="MainUI"]
+offset_left = 1586.0
+offset_top = 1002.0
+offset_right = 1828.0
+offset_bottom = 1053.0
+mouse_filter = 2
+theme = ExtResource("3_gyg6b")
+
+[node name="EducationalMode" type="Button" parent="MainUI/EducationalMode"]
+layout_mode = 2
+text = "Educational Mode"
+
 [node name="RotationSliders" type="VBoxContainer" parent="MainUI" node_paths=PackedStringArray("camera_controller")]
 offset_left = 91.0
 offset_top = 888.0
 offset_right = 335.0
 offset_bottom = 981.0
+mouse_filter = 2
 script = ExtResource("9_3km4f")
 camera_controller = NodePath("../../CameraPivot")
 
@@ -353,6 +422,7 @@ offset_top = 117.38
 offset_right = 304.0
 offset_bottom = 141.38
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="MainUI/ContiniousRotation"]
 custom_minimum_size = Vector2(-3.81, 0)
@@ -365,6 +435,7 @@ text = "Continious rotation"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.27
+mouse_filter = 2
 
 [node name="CheckButton" type="CheckButton" parent="MainUI/ContiniousRotation" node_paths=PackedStringArray("rotation_sliders")]
 layout_mode = 2

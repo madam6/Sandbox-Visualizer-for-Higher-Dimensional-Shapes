@@ -4,6 +4,7 @@ signal lesson_started
 signal lesson_step_changed(title: String, description: String, button_text : String)
 signal lesson_ended
 
+const tesseract_lesson_index : int = 4
 
 class LessonStep:
 	var title: String
@@ -18,7 +19,10 @@ var _current_step_index : int = -1
 func _ready() -> void:
 	_build_schedule()
 	
-	
+
+func get_current_step_index() -> int:
+	return _current_step_index
+
 func start_lesson():
 	_current_step_index = 0
 	Controller.reset_selection_info()
@@ -45,6 +49,8 @@ func end_lesson():
 	lesson_ended.emit()
 
 func _load_step(step_index : int):
+	if step_index == tesseract_lesson_index:
+		Controller.set_new_projector(ShapeMap.perspective_projector4d)
 	var step = _steps[step_index]
 	Controller.set_override_shape(step.shape_data)
 	lesson_step_changed.emit(step.title, step.text, step.btn_text)	
@@ -58,31 +64,31 @@ func _build_schedule():
 	_steps.append(step0)
 	
 	var step1 = LessonStep.new()
-	step0.title = "PLACEHOLDER Line"
-	step0.text = "PLACEHOLDER Desciption."
-	step0.btn_text = "Extrude to 2D."
-	step0.shape_data = _create_line()
+	step1.title = "PLACEHOLDER Line"
+	step1.text = "PLACEHOLDER Desciption."
+	step1.btn_text = "Extrude to 2D."
+	step1.shape_data = _create_line()
 	_steps.append(step1)
 	
 	var step2 = LessonStep.new()
-	step0.title = "PLACEHOLDER Square"
-	step0.text = "PLACEHOLDER Desciption."
-	step0.btn_text = "Extrude to 3D."
-	step0.shape_data = _create_square()
+	step2.title = "PLACEHOLDER Square"
+	step2.text = "PLACEHOLDER Desciption."
+	step2.btn_text = "Extrude to 3D."
+	step2.shape_data = _create_square()
 	_steps.append(step2)
 	
 	var step3 = LessonStep.new()
-	step0.title = "PLACEHOLDER Cube"
-	step0.text = "PLACEHOLDER Desciption."
-	step0.btn_text = "Extrude to 4D."
-	step0.shape_data = _create_cube()
+	step3.title = "PLACEHOLDER Cube"
+	step3.text = "PLACEHOLDER Desciption."
+	step3.btn_text = "Extrude to 4D."
+	step3.shape_data = _create_cube()
 	_steps.append(step3)
 	
 	var step4 = LessonStep.new()
-	step0.title = "PLACEHOLDER Tesseract"
-	step0.text = "PLACEHOLDER Desciption."
-	step0.btn_text = "N/A"
-	step0.shape_data = _create_tesseract()
+	step4.title = "PLACEHOLDER Tesseract"
+	step4.text = "PLACEHOLDER Desciption."
+	step4.btn_text = "N/A"
+	step4.shape_data = _create_tesseract()
 	_steps.append(step4)
 	
 	

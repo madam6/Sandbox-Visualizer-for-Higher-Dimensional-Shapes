@@ -47,7 +47,7 @@ func reset_camera_pos() -> void:
 	camera.look_at(Vector3.ZERO, Vector3.UP)
 
 	
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			_dragging = event.pressed
