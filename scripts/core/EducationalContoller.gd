@@ -59,6 +59,9 @@ func _load_step(step_index : int):
 		Controller.set_shape_size(5.0)
 		
 		step.shape_data = _create_tesseract()
+	else:
+		Controller.set_3d_mode()
+		Controller.set_shape_size(shape_size)
 
 	Controller.set_override_shape(step.shape_data)
 	lesson_step_changed.emit(step.title, step.text, step.btn_text)

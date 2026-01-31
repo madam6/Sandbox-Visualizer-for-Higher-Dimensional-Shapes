@@ -23,6 +23,7 @@ func _ready() -> void:
 
 func _on_shape_selected(_index: int) -> void:
 	CameraController.disable_dragging()
+	Controller.reset_controller()
 	dimension_selector.update_dimension_selector()
 
 func check_items() -> void:
