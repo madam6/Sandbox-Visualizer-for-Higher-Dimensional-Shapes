@@ -91,11 +91,12 @@ func _draw_vertices(points: Array, selection_info: Dictionary):
 			vertex_color = _select_vertex_color
 		vertex_multimesh.multimesh.set_instance_color(i, vertex_color)
 
-func _draw_edges(points: Array, edges: Array[Vector2i], selection_info: Dictionary):
+func _draw_edges(points: Array, edges: Array[Vector2i], selection_info: Dictionary):	
+	immediate_mesh.clear_surfaces()
+	
 	if edges.is_empty():
 		return
 	
-	immediate_mesh.clear_surfaces()
 	immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES)
 	
 	for edge in edges:

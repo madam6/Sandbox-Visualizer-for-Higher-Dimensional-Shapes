@@ -5,7 +5,7 @@ signal lesson_step_changed(title: String, description: String, button_text : Str
 signal lesson_ended
 
 const tesseract_lesson_index : int = 4
-
+const shape_size : int = 5
 class LessonStep:
 	var title: String
 	var text: String
@@ -25,13 +25,14 @@ func get_current_step_index() -> int:
 
 func start_lesson():
 	_current_step_index = 0
-	Controller.reset_selection_info()
-	Controller.reset_rotation()
+	Controller.reset_controller()
+	Controller.set_3d_mode()
 	_load_step(_current_step_index)
 	lesson_started.emit()
 	
 func next_step():
 	_current_step_index += 1
+	
 	if _current_step_index >= _steps.size():
 		end_lesson()
 	else:
@@ -46,14 +47,21 @@ func previous_step():
 func end_lesson():
 	_current_step_index = -1
 	Controller.clear_override_mode()
+	Controller.set_initial_state()
 	lesson_ended.emit()
 
 func _load_step(step_index : int):
-	if step_index == tesseract_lesson_index:
-		Controller.set_new_projector(ShapeMap.perspective_projector4d)
 	var step = _steps[step_index]
+	
+	if step_index == tesseract_lesson_index:
+		Controller.set_lesson_tesseract()
+		
+		Controller.set_shape_size(5.0)
+		
+		step.shape_data = _create_tesseract()
+
 	Controller.set_override_shape(step.shape_data)
-	lesson_step_changed.emit(step.title, step.text, step.btn_text)	
+	lesson_step_changed.emit(step.title, step.text, step.btn_text)
 
 func _build_schedule():
 	var step0 = LessonStep.new()
@@ -95,23 +103,22 @@ func _build_schedule():
 func _create_point():
 	var point = ShapeData.new()
 	point.vertices = [Vector3.ZERO]
+	point.edges = [] as Array[Vector2i]
 	return point
 	
 	
 func _create_line():
-	var line_length : int = 5
 	var line = ShapeData.new()
-	line.vertices = [Vector3.ZERO, Vector3(0, line_length, 0)]
+	line.vertices = [Vector3(-shape_size, 0, 0), Vector3(shape_size, 0, 0)]
 	line.edges = [Vector2i(0, 1)] as Array[Vector2i]
 	return line
 	
 func _create_square():
-	var side_length : int = 5
 	var square = ShapeData.new()
-	square.vertices = [Vector3(-side_length, -side_length, 0),
-		Vector3( side_length, -side_length, 0),
-		Vector3( side_length,  side_length, 0),
-		Vector3(-side_length,  side_length, 0)]
+	square.vertices = [Vector3(-shape_size, -shape_size, 0),
+		Vector3( shape_size, -shape_size, 0),
+		Vector3( shape_size,  shape_size, 0),
+		Vector3(-shape_size,  shape_size, 0)]
 	square.edges = [Vector2i(0, 1), Vector2i(1, 2), Vector2i(2, 3), Vector2i(3, 0)] as Array[Vector2i]
 	square.faces = [[0, 3, 2, 1]] as Array[Array]
 	return square

@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://bitma10rnug88"]
 
-[ext_resource type="Script" uid="uid://bvjc31tdw31c5" path="res://scripts/ui/EducationalOverlay.gd" id="1_p5fgu"]
+[ext_resource type="Script" uid="uid://bvjc31tdw31c5" path="res://scripts/ui/LessonOverlay.gd" id="1_p5fgu"]
 [ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="3_gyg6b"]
 [ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/OptionButton/ShapeSelector.gd" id="3_q24mn"]
 [ext_resource type="Script" uid="uid://ci4ttksh4cdgu" path="res://scripts/ui/OptionButton/DimensionSelector.gd" id="5_dc040"]
@@ -17,6 +17,7 @@
 
 [node name="Main" type="Node3D"]
 metadata/_edit_vertical_guides_ = [1833.0, 86.0]
+metadata/_edit_horizontal_guides_ = [1054.0]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.7071068, -0.5, 0.5, 0, 0.7071068, 0.70710677, -0.7071068, -0.5, 0.5, 0.81222034, 1.860152, 1.0176935)
@@ -89,40 +90,80 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -566.0
-offset_top = -291.0
-offset_right = 540.0
+offset_left = -414.0
+offset_top = -250.0
+offset_right = 400.0
+offset_bottom = -31.0
 grow_horizontal = 2
 grow_vertical = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="EducationalUI/LessonPanel"]
 layout_mode = 2
 
+[node name="StartSpacer" type="Control" parent="EducationalUI/LessonPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.27
+
 [node name="Title" type="Label" parent="EducationalUI/LessonPanel/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.41
 text = "Dimension 0"
+horizontal_alignment = 1
 
 [node name="Body" type="RichTextLabel" parent="EducationalUI/LessonPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce blandit eget arcu at blandit. Etiam non egestas est, tempus vulputate est. Ut in purus eget urna sodales gravida. Sed ac pellentesque magna. Etiam condimentum, felis vitae pellentesque viverra, neque tellus dictum arcu, ut rhoncus eros dui tincidunt urna. "
+
+[node name="DescButtonsSpacer" type="Control" parent="EducationalUI/LessonPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.51
 
 [node name="HBoxContainer" type="HBoxContainer" parent="EducationalUI/LessonPanel/VBoxContainer"]
 layout_mode = 2
 
-[node name="BackButton" type="Button" parent="EducationalUI/LessonPanel/VBoxContainer/HBoxContainer"]
+[node name="Spacer1" type="Control" parent="EducationalUI/LessonPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Back"
+size_flags_horizontal = 3
 
 [node name="NextButton" type="Button" parent="EducationalUI/LessonPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Next"
+
+[node name="Spacer2" type="Control" parent="EducationalUI/LessonPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BackButton" type="Button" parent="EducationalUI/LessonPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Back"
+
+[node name="Spacer3" type="Control" parent="EducationalUI/LessonPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="CloseButton" type="Button" parent="EducationalUI/LessonPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Close"
 
-[node name="EducationalOverlayScript" type="Control" parent="EducationalUI" node_paths=PackedStringArray("start_panel", "confirm_button", "cancel_button", "lesson_panel", "title_label", "body_label", "next_button", "back_button", "main_menu_edu_button")]
+[node name="Spacer4" type="Control" parent="EducationalUI/LessonPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BottomSpacer" type="Control" parent="EducationalUI/LessonPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.43
+
+[node name="LessonOverlay" type="Control" parent="EducationalUI" node_paths=PackedStringArray("start_panel", "confirm_button", "cancel_button", "lesson_panel", "title_label", "body_label", "next_button", "back_button", "skip_button", "main_menu_edu_button", "mainUI")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -136,7 +177,9 @@ title_label = NodePath("../LessonPanel/VBoxContainer/Title")
 body_label = NodePath("../LessonPanel/VBoxContainer/Body")
 next_button = NodePath("../LessonPanel/VBoxContainer/HBoxContainer/NextButton")
 back_button = NodePath("../LessonPanel/VBoxContainer/HBoxContainer/BackButton")
+skip_button = NodePath("../LessonPanel/VBoxContainer/HBoxContainer/CloseButton")
 main_menu_edu_button = NodePath("../../MainUI/EducationalMode/EducationalMode")
+mainUI = NodePath("../../MainUI")
 
 [node name="MainUI" type="CanvasLayer" parent="."]
 
@@ -408,10 +451,10 @@ layout_mode = 2
 text = "Educational Mode"
 
 [node name="RotationSliders" type="VBoxContainer" parent="MainUI" node_paths=PackedStringArray("camera_controller")]
-offset_left = 91.0
-offset_top = 888.0
-offset_right = 335.0
-offset_bottom = 981.0
+offset_left = 93.0
+offset_top = 958.0
+offset_right = 337.0
+offset_bottom = 1051.0
 mouse_filter = 2
 script = ExtResource("9_3km4f")
 camera_controller = NodePath("../../CameraPivot")

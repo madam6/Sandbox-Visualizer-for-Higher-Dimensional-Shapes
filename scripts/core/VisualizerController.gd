@@ -39,12 +39,7 @@ var active_planes : Dictionary = {
 
 func _ready():
 	if not shape_strategy:
-		shape_strategy = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ShapeStrategyIndex]
-		rotator =  ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.RotatorIndex]
-		projector = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ProjectorIndex]
-		_generate_new_shape()
-	
-	
+		set_initial_state()
 
 func _process(delta):
 	if current_vertices_copy.is_empty(): return
@@ -72,6 +67,18 @@ func _process(delta):
 		rotate_shape(speed, plane)
 	
 
+func set_initial_state() -> void:
+	shape_strategy = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ShapeStrategyIndex]
+	rotator =  ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.RotatorIndex]
+	projector = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ProjectorIndex]
+	_generate_new_shape()
+
+func set_lesson_tesseract() -> void:
+	shape_strategy = ShapeMap.shape_map["Cube"]["4D"][Enums.ShapeDataRetriever.ShapeStrategyIndex]
+	rotator =  ShapeMap.shape_map["Cube"]["4D"][Enums.ShapeDataRetriever.RotatorIndex]
+	projector = ShapeMap.perspective_projector4d
+	_generate_new_shape()
+
 func sync_active_planes() -> void:
 	var target_planes = rotator.supported_planes.keys()
 	
@@ -91,6 +98,15 @@ func reset_selection_info() -> void:
 	_selected_vertex_indices.clear()
 	_highlited_edge_indices.clear()
 	_selection_info.clear()
+	
+func reset_controller() -> void:
+	reset_rotation()
+	reset_speeds()
+	reset_selection_info()
+
+func set_3d_mode() -> void:
+	rotator =  ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.RotatorIndex]
+	projector = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ProjectorIndex]
 
 func set_override_shape(new_data : ShapeData) -> void:
 	is_override_active = true
@@ -153,6 +169,9 @@ func get_current_rotator() -> BaseRotator:
 	
 func set_new_projector(new_projector : ProjectionStrategy) -> void:
 	projector = new_projector
+
+func set_new_rotator(new_rotator : BaseRotator) -> void:
+	rotator = new_rotator
 
 func _generate_new_shape():
 	current_shape_data = shape_strategy.create_shape()
