@@ -20,7 +20,15 @@ func _ready() -> void:
 	item_selected.connect(_on_dimension_changed)
 	
 	shape_selector.item_selected.connect(_on_shape_changed)
+	EduController.labarotry_mode_toggled.connect(_on_lab_toggled)
 	_on_dimension_changed(selected)
+
+func _on_lab_toggled(toggle : bool) -> void:
+	# TODO: Ideally we would need to sync UI state out of which shape is being rendered
+	if toggle:
+		select(1)
+	else:
+		select(0)
 
 func _on_dimension_changed(_index: int) -> void:
 	camera_controller.disable_dragging()

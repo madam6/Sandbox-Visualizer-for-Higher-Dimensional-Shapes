@@ -2,12 +2,20 @@ extends Node
 
 signal lesson_started
 signal lesson_step_changed(title: String, description: String, button_text : String)
+signal labarotry_mode_toggled(is_active : bool)
 signal lesson_ended
 signal request_reset_ui
 
 const tesseract_lesson_index : int = 4
 const shape_size : int = 5
 const inner_cube_size : int = shape_size - 2
+
+var _steps : Array[LessonStep] = []
+var _current_step_index : int = -1
+var _tween : Tween
+var interpolation_time : float = 1.5
+var is_labarotory_active : bool = false
+var _has_completed_lesson : bool = false
 
 class LessonStep:
 	var title: String
@@ -16,19 +24,35 @@ class LessonStep:
 	var start_shape_data: ShapeData
 	var end_shape_data: ShapeData
 	
-var _steps : Array[LessonStep] = []
-var _current_step_index : int = -1
-var _tween : Tween
-var interpolation_time : int = 1.5
 
 func _ready() -> void:
 	_build_schedule()
 	
 
+func enter_educational_flow() -> void:
+	if _has_completed_lesson:
+		enter_laboratory()
+	else:
+		start_lesson()
+
+func complete_lesson_go_to_lab() -> void:
+	_has_completed_lesson = true
+	stop_current_lesson_logic()
+	enter_laboratory()
+
+func stop_current_lesson_logic() -> void:
+	if _tween: _tween.kill()
+	_current_step_index = -1
+	Controller.clear_override_mode()
+	lesson_ended.emit()
+
 func get_current_step_index() -> int:
 	return _current_step_index
 
 func start_lesson():
+	is_labarotory_active = false
+	labarotry_mode_toggled.emit(false)
+
 	_current_step_index = 0
 	request_reset_ui.emit()
 	_override_controller()
@@ -45,7 +69,7 @@ func next_step() -> void:
 	_current_step_index += 1
 	
 	if _current_step_index >= _steps.size():
-		end_lesson()
+		complete_lesson_go_to_lab()
 	else:
 		_load_step(_current_step_index)
 		
@@ -93,6 +117,20 @@ func _process_extrusion_frame(t : float, start_vertices : Array, end_vertices : 
 	
 	Controller.update_animated_vertices(current_vertices)
 
+
+func enter_laboratory():
+	is_labarotory_active = true
+	labarotry_mode_toggled.emit(true)
+	_override_controller()
+	Controller.set_init_lab_state()
+	Controller.set_shape_size(shape_size)
+
+func exit_laboratory():
+	is_labarotory_active = false
+	labarotry_mode_toggled.emit(false)
+	Controller.clear_override_mode()
+	Controller.set_initial_state()
+	lesson_ended.emit()
 
 func _build_schedule() -> void:
 	var step0 = LessonStep.new()

@@ -78,6 +78,12 @@ func set_initial_state() -> void:
 	projector = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ProjectorIndex]
 	_generate_new_shape()
 
+func set_init_lab_state() -> void:
+	shape_strategy = ShapeMap.shape_map["Cube"]["4D"][Enums.ShapeDataRetriever.ShapeStrategyIndex]
+	rotator =  ShapeMap.shape_map["Cube"]["4D"][Enums.ShapeDataRetriever.RotatorIndex]
+	projector = ShapeMap.perspective_projector4d
+	_generate_new_shape()
+
 func set_lesson_tesseract() -> void:
 	shape_strategy = ShapeMap.shape_map["Cube"]["4D"][Enums.ShapeDataRetriever.ShapeStrategyIndex]
 	rotator =  ShapeMap.shape_map["Cube"]["4D"][Enums.ShapeDataRetriever.RotatorIndex]

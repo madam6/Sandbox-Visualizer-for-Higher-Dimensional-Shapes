@@ -16,6 +16,9 @@ extends Control
 const lesson_tween_time : float = 0.5
 const popup_tween_time : float = 0.5
 
+@export var START_LAB : String
+@export var START_VISUALISER : String
+
 func _ready():
 	start_panel.visible = false
 	lesson_panel.visible = false
@@ -31,6 +34,7 @@ func _ready():
 	
 	EduController.lesson_step_changed.connect(_on_lesson_step_changed)
 	EduController.lesson_ended.connect(_on_lesson_ended)
+	EduController.labarotry_mode_toggled.connect(_on_laboratory_toggled)
 	
 	title_label.modulate.a = 0.0
 	body_label.modulate.a = 0.0
@@ -43,16 +47,22 @@ func _ready():
 	
 
 func _on_skip_button_pressed():
-	EduController.end_lesson()
-	main_menu_edu_button.disabled = false
+	lesson_panel.visible = false
+	EduController.complete_lesson_go_to_lab()
 
 func _on_back_pressed():
 	EduController.previous_step()
 
 func _on_main_menu_edu_pressed():
-	_fade_in(start_panel)
-	start_panel.visible = true
-	main_menu_edu_button.disabled = true
+	if EduController._has_completed_lesson:
+		if EduController.is_labarotory_active:
+			EduController.exit_laboratory()
+		else:
+			EduController.enter_educational_flow()
+	else:
+		_fade_in(start_panel)
+		start_panel.visible = true
+		main_menu_edu_button.disabled = true
 
 func _on_cancel_start():
 	_fade_out(start_panel)
@@ -62,7 +72,7 @@ func _on_confirm_start():
 	mainUI.visible = false
 	_fade_out(start_panel, func():
 		_fade_in(lesson_panel)
-		EduController.start_lesson()
+		EduController.enter_educational_flow()
 		)
 
 func _on_next_pressed():
@@ -145,3 +155,12 @@ func _fade_out(target_node: CanvasItem, on_complete: Callable = Callable(), dura
 		if on_complete.is_valid():
 			on_complete.call()
 			)
+
+
+func _on_laboratory_toggled(active: bool):
+	if active:
+		lesson_panel.visible = false
+		start_panel.visible = false
+		main_menu_edu_button.text = START_VISUALISER
+	else:
+		main_menu_edu_button.text = START_LAB

@@ -12,8 +12,13 @@ func _ready() -> void:
 
 	dimension_options.item_selected.connect(_on_dimension_changed)
 	shape_options.item_selected.connect(_on_shape_changed)
-	
+	EduController.labarotry_mode_toggled.connect(_on_lab_toggled)
 	_update_projection_logic()
+
+func _on_lab_toggled(toggle : bool) -> void:
+	# TODO: Ideally we would need to sync UI state out of which shape is being rendered
+	visible = toggle
+	button_pressed = toggle
 
 
 func _on_shape_changed(_index: int) -> void:

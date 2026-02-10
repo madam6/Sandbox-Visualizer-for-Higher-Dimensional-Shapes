@@ -36,21 +36,25 @@ func _ready() -> void:
 	
 	set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
 	grow_vertical = Control.GROW_DIRECTION_BEGIN
-
+	EduController.labarotry_mode_toggled.connect(_on_lab_toggled)
 	for plane_enum in PLANE_NAMES:
 		_create_slider_row(plane_enum)
 	
 	update_rotator()
-	
+
+func _sync() -> void:
+	var active_planes: Array = current_rotator.supported_planes.keys()
+	_sync_sliders(active_planes)
+
+func _on_lab_toggled(_toggled : bool) -> void:
+	_sync()
 
 func update_rotator() -> void:
 	current_rotator = Controller.get_current_rotator()
 	if not current_rotator:
 		return
 
-	var active_planes: Array = current_rotator.supported_planes.keys()
-	
-	_sync_sliders(active_planes)
+	_sync()
 
 func _sync_sliders(active_planes: Array) -> void:
 	for child in get_children():

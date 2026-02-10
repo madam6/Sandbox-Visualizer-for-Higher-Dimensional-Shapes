@@ -180,6 +180,8 @@ back_button = NodePath("../LessonPanel/VBoxContainer/HBoxContainer/BackButton")
 skip_button = NodePath("../LessonPanel/VBoxContainer/HBoxContainer/CloseButton")
 main_menu_edu_button = NodePath("../../MainUI/EducationalMode/EducationalMode")
 mainUI = NodePath("../../MainUI")
+START_LAB = "Enter Laboratory"
+START_VISUALISER = "Enter Visualiser"
 
 [node name="MainUI" type="CanvasLayer" parent="."]
 
@@ -439,16 +441,18 @@ theme = ExtResource("3_gyg6b")
 script = ExtResource("8_ostsq")
 
 [node name="EducationalMode" type="HBoxContainer" parent="MainUI"]
-offset_left = 1586.0
+clip_contents = true
+offset_left = 1599.0
 offset_top = 1002.0
-offset_right = 1828.0
+offset_right = 1831.0
 offset_bottom = 1053.0
 mouse_filter = 2
 theme = ExtResource("3_gyg6b")
+alignment = 2
 
 [node name="EducationalMode" type="Button" parent="MainUI/EducationalMode"]
 layout_mode = 2
-text = "Educational Mode"
+text = "Enter Laboratory"
 
 [node name="RotationSliders" type="VBoxContainer" parent="MainUI" node_paths=PackedStringArray("camera_controller")]
 offset_left = 93.0
