@@ -9,7 +9,8 @@ func _ready() -> void:
 		
 	if not rotation_sliders:
 		push_error("Rotation node is not setup on reset button.")
-
+	
+	EduController.request_reset_ui.connect(_on_pressed)
 
 func _on_pressed() -> void:
 	Controller.reset_controller()

@@ -65,7 +65,12 @@ func _process(delta):
 	for plane in active_planes:
 		var speed = active_planes[plane]
 		rotate_shape(speed, plane)
-	
+
+
+
+func update_animated_vertices(new_verticies : Array) -> void:
+	master_vertices = new_verticies.duplicate(true)
+	current_vertices_copy = master_vertices.duplicate(true)
 
 func set_initial_state() -> void:
 	shape_strategy = ShapeMap.shape_map["Cube"]["3D"][Enums.ShapeDataRetriever.ShapeStrategyIndex]
