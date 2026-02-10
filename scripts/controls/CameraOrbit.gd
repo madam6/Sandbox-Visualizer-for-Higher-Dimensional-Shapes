@@ -6,6 +6,8 @@ var _pitch : float
 var _yaw : float
 var _start_radius : float
 var _dragging : bool = false
+var _turned_on : bool = true
+
 
 @export var radius : float = 25
 @export var rotational_speed : float = 0.01
@@ -29,7 +31,10 @@ func _ready() -> void:
 	
 	if Controller:
 		Controller.camera = camera
-	
+		
+	EduController.lesson_started.connect(turn_off)
+	EduController.lesson_ended.connect(turn_on)
+
 	camera.position = Vector3(0, 0, radius)
 	camera.look_at(Vector3.ZERO, Vector3.UP)
 	
@@ -48,6 +53,9 @@ func reset_camera_pos() -> void:
 
 	
 func _unhandled_input(event: InputEvent) -> void:
+	if not _turned_on:
+		return
+	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			_dragging = event.pressed
@@ -79,6 +87,12 @@ func disable_dragging() -> void:
 	
 func enable_dragging() -> void:
 	_dragging = true
+
+func turn_on() -> void:
+	_turned_on = true
+
+func turn_off() -> void:
+	_turned_on = false
 
 func _process(_delta: float) -> void:
 	if camera and camera.position.z != radius:
