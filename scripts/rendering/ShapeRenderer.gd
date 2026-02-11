@@ -14,6 +14,19 @@ var lines_mesh_instance: MeshInstance3D
 var faces_mesh_instance: MeshInstance3D
 var immediate_mesh: ImmediateMesh
 
+var axes_mesh : ImmediateMesh
+var axes_instance : MeshInstance3D
+
+# TODO: Allow them to be set via color picker?
+var axis_colors = {
+	1: Color.RED,
+	2: Color.GREEN,
+	3: Color.BLUE,
+	4: Color.YELLOW,
+	5: Color.CYAN
+}
+
+var selected_plane_color : Color = Color(1,1,1,0.2)
 
 var show_faces: bool = true
 var show_edges: bool = true
@@ -22,9 +35,25 @@ func _init() -> void:
 	_setup_vertices()
 	_setup_lines()
 	_setup_faces()
+	_setup_axes()
 	set_display_mode(0)
 
-func _setup_vertices():
+func _setup_axes() -> void:
+	axes_instance = MeshInstance3D.new()
+	axes_mesh = ImmediateMesh.new()
+	axes_instance.mesh = axes_mesh
+
+	var mat = StandardMaterial3D.new()
+	mat.shading_mode = StandardMaterial3D.SHADING_MODE_UNSHADED
+	mat.vertex_color_use_as_albedo = true
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
+	axes_instance.material_override = mat
+
+	add_child(axes_instance)
+
+
+func _setup_vertices() -> void:
 	vertex_multimesh = MultiMeshInstance3D.new()
 	var mesh = SphereMesh.new()
 	mesh.radius = vertex_radius
@@ -42,7 +71,7 @@ func _setup_vertices():
 	vertex_multimesh.multimesh.use_colors = true
 	add_child(vertex_multimesh)
 
-func _setup_lines():
+func _setup_lines() -> void:
 	lines_mesh_instance = MeshInstance3D.new()
 	immediate_mesh = ImmediateMesh.new()
 	lines_mesh_instance.mesh = immediate_mesh
@@ -54,7 +83,7 @@ func _setup_lines():
 	lines_mesh_instance.material_override = mat
 	add_child(lines_mesh_instance)
 
-func _setup_faces():
+func _setup_faces() -> void:
 	faces_mesh_instance = MeshInstance3D.new()
 	var mat = StandardMaterial3D.new()
 	mat.albedo_color = _face_color
@@ -63,7 +92,7 @@ func _setup_faces():
 	faces_mesh_instance.material_override = mat
 	add_child(faces_mesh_instance)
 
-func update_visuals(projected_vertices: Array, edges: Array[Vector2i], faces: Array[Array], selection_info: Dictionary = {}):
+func update_visuals(projected_vertices: Array, edges: Array[Vector2i], faces: Array[Array], selection_info: Dictionary = {}) -> void:
 	_draw_vertices(projected_vertices, selection_info.get(Controller.SELECTED_VERTICES, {}))
 	
 	if show_edges:
@@ -78,7 +107,48 @@ func update_visuals(projected_vertices: Array, edges: Array[Vector2i], faces: Ar
 	else:
 		faces_mesh_instance.hide()
 
-func _draw_vertices(points: Array, selection_info: Dictionary):
+func draw_axes(projected_points : Array, active_planes : Array) -> void:
+	axes_mesh.clear_surfaces()
+	if projected_points.is_empty(): return
+
+	axes_mesh.surface_begin(Mesh.PRIMITIVE_LINES)
+	var origin = projected_points[0]
+
+	for i in range(1, projected_points.size()):
+		var tip = projected_points[i]
+		var color = axis_colors.get(i, Color.WHITE)
+
+		axes_mesh.surface_set_color(color)
+		axes_mesh.surface_add_vertex(origin)
+		axes_mesh.surface_add_vertex(tip)
+	axes_mesh.surface_end()
+
+	if active_planes.size():
+		axes_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
+		for plane_enum in active_planes:
+			var axis_indices = ShapeMap.planes_array_map.get(plane_enum)
+			if axis_indices.size() == 2:
+				var i_a = axis_indices[0] + 1
+				var i_b = axis_indices[1] + 1
+
+				if i_a < projected_points.size() and i_b < projected_points.size():
+					var p_a = projected_points[i_a]
+					var p_b = projected_points[i_b]
+
+					axes_mesh.surface_set_color(selected_plane_color)
+					axes_mesh.surface_add_vertex(origin)
+					axes_mesh.surface_add_vertex(p_a)
+					axes_mesh.surface_add_vertex(p_b)
+
+					axes_mesh.surface_add_vertex(origin)
+					axes_mesh.surface_add_vertex(p_a)
+					axes_mesh.surface_add_vertex(p_b)
+		axes_mesh.surface_end()
+	
+
+
+
+func _draw_vertices(points: Array, selection_info: Dictionary) -> void:
 	if vertex_multimesh.multimesh.instance_count != points.size():
 		vertex_multimesh.multimesh.instance_count = points.size()
 	
@@ -91,7 +161,7 @@ func _draw_vertices(points: Array, selection_info: Dictionary):
 			vertex_color = _select_vertex_color
 		vertex_multimesh.multimesh.set_instance_color(i, vertex_color)
 
-func _draw_edges(points: Array, edges: Array[Vector2i], selection_info: Dictionary):	
+func _draw_edges(points: Array, edges: Array[Vector2i], selection_info: Dictionary) -> void:	
 	immediate_mesh.clear_surfaces()
 	
 	if edges.is_empty():
@@ -114,7 +184,7 @@ func _draw_edges(points: Array, edges: Array[Vector2i], selection_info: Dictiona
 		
 	immediate_mesh.surface_end()
 
-func _draw_faces(points: Array, faces_indices: Array[Array]):
+func _draw_faces(points: Array, faces_indices: Array[Array]) -> void:
 	var surface_tool = SurfaceTool.new()
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
@@ -130,7 +200,7 @@ func _draw_faces(points: Array, faces_indices: Array[Array]):
 	faces_mesh_instance.mesh = surface_tool.commit()
 
 
-func set_display_mode(mode: int):
+func set_display_mode(mode: int) -> void:
 	# 0 = TransparentOpaque, 1 = Wireframe, 2 = Opaque
 	match mode:
 		0: 
@@ -142,7 +212,7 @@ func set_display_mode(mode: int):
 			show_faces = true
 			faces_mesh_instance.material_override.transparency = BaseMaterial3D.TRANSPARENCY_DISABLED
 
-func set_vertex_color(new_color: Color):
+func set_vertex_color(new_color: Color) -> void:
 	_vertex_color = new_color
 	
 	if vertex_multimesh and vertex_multimesh.multimesh and vertex_multimesh.multimesh.mesh:
@@ -150,23 +220,23 @@ func set_vertex_color(new_color: Color):
 		if mat:
 			mat.albedo_color = new_color
 
-func set_edge_color(new_color: Color):
+func set_edge_color(new_color: Color) -> void:
 	_edge_color = new_color
 
 	if lines_mesh_instance and lines_mesh_instance.material_override:
 		lines_mesh_instance.material_override.albedo_color = new_color
 
-func set_face_color(new_color: Color):
+func set_face_color(new_color: Color) -> void:
 	_face_color = new_color
 	
 	if faces_mesh_instance and faces_mesh_instance.material_override:
 		faces_mesh_instance.material_override.albedo_color = new_color
 		
 	
-func set_selected_vertex_color(new_color: Color):
+func set_selected_vertex_color(new_color: Color) -> void:
 	_select_vertex_color = new_color
 	
-func set_selected_edge_color(new_color: Color):
+func set_selected_edge_color(new_color: Color) -> void:
 	_select_edge_color = new_color	
 		
 func get_face_color() -> Color:

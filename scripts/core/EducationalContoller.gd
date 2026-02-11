@@ -120,17 +120,25 @@ func _process_extrusion_frame(t : float, start_vertices : Array, end_vertices : 
 
 func enter_laboratory():
 	is_labarotory_active = true
-	labarotry_mode_toggled.emit(true)
 	_override_controller()
 	Controller.set_init_lab_state()
 	Controller.set_shape_size(shape_size)
+	turn_on_lab_overlays()
+	labarotry_mode_toggled.emit(true)
 
 func exit_laboratory():
 	is_labarotory_active = false
-	labarotry_mode_toggled.emit(false)
 	Controller.clear_override_mode()
 	Controller.set_initial_state()
+	labarotry_mode_toggled.emit(false)
+	turn_off_lab_overlays()
 	lesson_ended.emit()
+
+func turn_off_lab_overlays() -> void:
+	Controller.toggle_axes(false)
+
+func turn_on_lab_overlays() -> void:
+	Controller.toggle_axes(true)
 
 func _build_schedule() -> void:
 	var step0 = LessonStep.new()

@@ -47,7 +47,7 @@ func _sync() -> void:
 	_sync_sliders(active_planes)
 
 func _on_lab_toggled(_toggled : bool) -> void:
-	_sync()
+	update_rotator()
 
 func update_rotator() -> void:
 	current_rotator = Controller.get_current_rotator()

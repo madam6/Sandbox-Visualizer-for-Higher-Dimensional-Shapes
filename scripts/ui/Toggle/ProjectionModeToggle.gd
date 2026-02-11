@@ -17,8 +17,14 @@ func _ready() -> void:
 
 func _on_lab_toggled(toggle : bool) -> void:
 	# TODO: Ideally we would need to sync UI state out of which shape is being rendered
-	visible = toggle
 	button_pressed = toggle
+
+	if toggle:
+		_update_projection_logic()
+	else:
+		_set_layout_visibility(false)
+	
+	visible = true
 
 
 func _on_shape_changed(_index: int) -> void:

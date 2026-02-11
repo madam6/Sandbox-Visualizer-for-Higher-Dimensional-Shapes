@@ -54,6 +54,7 @@ func _on_back_pressed():
 	EduController.previous_step()
 
 func _on_main_menu_edu_pressed():
+	Controller.turn_processing_off()
 	if EduController._has_completed_lesson:
 		if EduController.is_labarotory_active:
 			EduController.exit_laboratory()
@@ -63,6 +64,7 @@ func _on_main_menu_edu_pressed():
 		_fade_in(start_panel)
 		start_panel.visible = true
 		main_menu_edu_button.disabled = true
+	Controller.turn_processing_on()
 
 func _on_cancel_start():
 	_fade_out(start_panel)
