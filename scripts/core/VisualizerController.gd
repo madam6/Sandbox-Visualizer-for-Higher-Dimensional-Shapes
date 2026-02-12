@@ -35,6 +35,9 @@ var is_override_active : bool = false
 
 var processing_mutex : bool = true
 
+
+const axes_size : float = 15
+
 # The ones actively rotating
 var active_planes : Dictionary = {
 	Enums.PLANES.XY: 0,
@@ -236,7 +239,7 @@ func _generate_axes() -> void:
 
 	var dim = get_current_dimension()
 
-	var axes_data = BasisAxes.create(dim, shape_size * 1.5)
+	var axes_data = BasisAxes.create(dim, axes_size)
 	axes_master = axes_data.vertices
 	axes_copy = axes_master.duplicate(true)
 	_apply_static_rotations_to_axes()

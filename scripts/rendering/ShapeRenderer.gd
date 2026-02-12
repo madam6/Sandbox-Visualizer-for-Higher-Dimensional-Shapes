@@ -16,6 +16,15 @@ var immediate_mesh: ImmediateMesh
 
 var axes_mesh : ImmediateMesh
 var axes_instance : MeshInstance3D
+var axis_labels: Array[Label3D] = []
+var axis_names = {
+	1: "X",
+	2: "Y",
+	3: "Z",
+	4: "W", 
+	5: "V"
+}
+const label_pixel_size : float = 0.015
 
 # TODO: Allow them to be set via color picker?
 var axis_colors = {
@@ -36,6 +45,7 @@ func _init() -> void:
 	_setup_lines()
 	_setup_faces()
 	_setup_axes()
+	_setup_axis_labels()
 	set_display_mode(0)
 
 func _setup_axes() -> void:
@@ -50,8 +60,24 @@ func _setup_axes() -> void:
 	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 	axes_instance.material_override = mat
 
+	mat.no_depth_test = true
+	mat.render_priority = label_pixel_size
+
 	add_child(axes_instance)
 
+func _setup_axis_labels() -> void:
+	for i in range(1, 6):
+		var lbl = Label3D.new()
+		lbl.text = axis_names[i]
+		lbl.pixel_size = 0.05
+		lbl.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		lbl.no_depth_test = true
+		lbl.render_priority = 2
+		lbl.modulate = axis_colors[i]
+		lbl.visible = false
+
+		add_child(lbl)
+		axis_labels.append(lbl)
 
 func _setup_vertices() -> void:
 	vertex_multimesh = MultiMeshInstance3D.new()
@@ -111,6 +137,9 @@ func draw_axes(projected_points : Array, active_planes : Array) -> void:
 	axes_mesh.clear_surfaces()
 	if projected_points.is_empty(): return
 
+	for lbl in axis_labels:
+		lbl.visible = false
+
 	axes_mesh.surface_begin(Mesh.PRIMITIVE_LINES)
 	var origin = projected_points[0]
 
@@ -121,6 +150,19 @@ func draw_axes(projected_points : Array, active_planes : Array) -> void:
 		axes_mesh.surface_set_color(color)
 		axes_mesh.surface_add_vertex(origin)
 		axes_mesh.surface_add_vertex(tip)
+
+		var label_idx = i - 1 
+		if label_idx < axis_labels.size():
+			var lbl = axis_labels[label_idx]
+			lbl.position = tip + Vector3(0, 0.5, 0)
+			if not tip.is_zero_approx():
+				lbl.visible = true
+
+			if i <= 3:
+				lbl.pixel_size = label_pixel_size 
+			else:
+				lbl.pixel_size = label_pixel_size + 0.002
+
 	axes_mesh.surface_end()
 
 	if active_planes.size():
