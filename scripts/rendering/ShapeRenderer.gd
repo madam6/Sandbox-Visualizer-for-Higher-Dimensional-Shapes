@@ -133,6 +133,10 @@ func update_visuals(projected_vertices: Array, edges: Array[Vector2i], faces: Ar
 	else:
 		faces_mesh_instance.hide()
 
+func hide_labels() -> void:
+	for lbl in axis_labels:
+		lbl.visible = false
+
 func draw_axes(projected_points : Array, active_planes : Array) -> void:
 	axes_mesh.clear_surfaces()
 	if projected_points.is_empty(): return

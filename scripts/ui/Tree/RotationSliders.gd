@@ -1,6 +1,7 @@
 extends VBoxContainer
 
 @export var camera_controller : Node3D
+@export var matrix_display : MatrixDisplay
 
 class RotationSlider:
 	var container: HBoxContainer
@@ -110,6 +111,15 @@ func _on_slider_value_changed_regular(value: float, plane_enum: int, label_to_up
 	label_to_update.text = str(value) + "°"
 
 	Controller.rotate_shape_absolute(value, plane_enum)
+
+	if matrix_display and matrix_display.visible:
+		var mat = Controller.get_rotation_matrix_for_plane(plane_enum, value)
+
+		var indices = ShapeMap.planes_array_map.get(plane_enum, [])
+
+		var plane_name = PLANE_NAMES.get(plane_enum, "Unknown")
+
+		matrix_display.update_matrix(mat, indices, plane_name)
 
 func _on_slider_value_changed_cont(value: float, plane_enum: int, label_to_update: Label) -> void:
 	label_to_update.text = str(value)

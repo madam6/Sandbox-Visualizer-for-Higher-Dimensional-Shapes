@@ -1,5 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://bitma10rnug88"]
+[gd_scene load_steps=15 format=3 uid="uid://bitma10rnug88"]
 
+[ext_resource type="Script" uid="uid://bhymp4nk1tghx" path="res://scripts/ui/MatixDisplay.gd" id="1_2tpxt"]
 [ext_resource type="Script" uid="uid://bvjc31tdw31c5" path="res://scripts/ui/LessonOverlay.gd" id="1_p5fgu"]
 [ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="3_gyg6b"]
 [ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/OptionButton/ShapeSelector.gd" id="3_q24mn"]
@@ -182,6 +183,13 @@ main_menu_edu_button = NodePath("../../MainUI/EducationalMode/EducationalMode")
 mainUI = NodePath("../../MainUI")
 START_LAB = "Enter Laboratory"
 START_VISUALISER = "Enter Visualiser"
+
+[node name="MatrixDisplay" type="PanelContainer" parent="EducationalUI"]
+offset_left = 361.0
+offset_top = 963.0
+offset_right = 467.0
+offset_bottom = 1051.0
+script = ExtResource("1_2tpxt")
 
 [node name="MainUI" type="CanvasLayer" parent="."]
 
@@ -454,7 +462,7 @@ alignment = 2
 layout_mode = 2
 text = "Enter Laboratory"
 
-[node name="RotationSliders" type="VBoxContainer" parent="MainUI" node_paths=PackedStringArray("camera_controller")]
+[node name="RotationSliders" type="VBoxContainer" parent="MainUI" node_paths=PackedStringArray("camera_controller", "matrix_display")]
 offset_left = 93.0
 offset_top = 958.0
 offset_right = 337.0
@@ -462,6 +470,7 @@ offset_bottom = 1051.0
 mouse_filter = 2
 script = ExtResource("9_3km4f")
 camera_controller = NodePath("../../CameraPivot")
+matrix_display = NodePath("../../EducationalUI/MatrixDisplay")
 
 [node name="ContiniousRotation" type="HBoxContainer" parent="MainUI"]
 offset_left = 86.38

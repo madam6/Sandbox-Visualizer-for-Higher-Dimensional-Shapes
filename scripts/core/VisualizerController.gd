@@ -318,12 +318,25 @@ func toggle_axes(visible : bool) -> void:
 		_generate_axes()
 	else:
 		Renderer.draw_axes([], [])
+		Renderer.hide_labels()
+		
 
 # --- Sub-Objective 6: Save Screenshot Futureproofing ---
 func save_visualization():
 	var img = get_viewport().get_texture().get_image()
 	var time = Time.get_datetime_string_from_system().replace(":", "-")
 	img.save_png("user://shape_" + time + ".png")
+
+func get_rotation_matrix_for_plane(plane_enum : int, angle_degrees : float) -> Array:
+	if not rotator: return []
+
+	var dim = get_current_dimension()
+
+	var axes = ShapeMap.planes_array_map.get(plane_enum)
+	if not axes: return []
+
+	var angle_rad = deg_to_rad(angle_degrees)
+	return rotator.get_rotation_matrix(dim, axes[0], axes[1], angle_rad)
 
 func turn_processing_on() -> void:
 	processing_mutex = true

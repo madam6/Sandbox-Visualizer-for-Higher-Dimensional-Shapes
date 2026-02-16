@@ -5,6 +5,7 @@ signal lesson_step_changed(title: String, description: String, button_text : Str
 signal labarotry_mode_toggled(is_active : bool)
 signal lesson_ended
 signal request_reset_ui
+signal switch_overlay_visibility(visible : bool)
 
 const tesseract_lesson_index : int = 4
 const shape_size : int = 5
@@ -16,6 +17,8 @@ var _tween : Tween
 var interpolation_time : float = 1.5
 var is_labarotory_active : bool = false
 var _has_completed_lesson : bool = false
+
+@export var _matrix_display : MatrixDisplay
 
 class LessonStep:
 	var title: String
@@ -136,9 +139,11 @@ func exit_laboratory():
 
 func turn_off_lab_overlays() -> void:
 	Controller.toggle_axes(false)
+	switch_overlay_visibility.emit(false)
 
 func turn_on_lab_overlays() -> void:
 	Controller.toggle_axes(true)
+	switch_overlay_visibility.emit(true)
 
 func _build_schedule() -> void:
 	var step0 = LessonStep.new()

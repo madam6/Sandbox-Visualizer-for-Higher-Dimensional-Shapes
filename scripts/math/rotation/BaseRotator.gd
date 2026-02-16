@@ -14,7 +14,7 @@ func _rotate_shape(shape: Array, angle: float, plane: Array):
 	
 	for i in range(shape.size()):
 		var vec = to_array_func.call(shape[i])
-		var mat = _get_rotation_matrix(dim, plane[0], plane[1], angle_rad)
+		var mat = get_rotation_matrix(dim, plane[0], plane[1], angle_rad)
 		var rotated = _perform_rotation(vec, mat)
 		shape[i] = from_array_func.call(rotated)
 
@@ -51,7 +51,7 @@ func _perform_rotation(point: Array, rotation_matrix: Array) -> Array:
 	return MatrixHelper.multiply_matrix_vector(rotation_matrix, point)
 
 
-func _get_rotation_matrix(dim: int, i: int, j: int, angle: float) -> Array:
+func get_rotation_matrix(dim: int, i: int, j: int, angle: float) -> Array:
 	var mat = MatrixHelper.identity(dim)
 	mat[i][i] = cos(angle)
 	mat[j][j] = cos(angle)
