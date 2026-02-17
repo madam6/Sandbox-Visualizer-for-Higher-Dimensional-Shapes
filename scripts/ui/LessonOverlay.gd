@@ -15,6 +15,9 @@ extends Control
 
 const lesson_tween_time : float = 0.5
 const popup_tween_time : float = 0.5
+const INFO_POPUP_SCENE = preload("res://scenes/main/InfoPopup.tscn")
+
+var active_popup : Node = null
 
 @export var START_LAB : String
 @export var START_VISUALISER : String
@@ -35,7 +38,8 @@ func _ready():
 	EduController.lesson_step_changed.connect(_on_lesson_step_changed)
 	EduController.lesson_ended.connect(_on_lesson_ended)
 	EduController.labarotry_mode_toggled.connect(_on_laboratory_toggled)
-	
+	EduController.explanation_requested.connect(_on_explanation_requested)
+
 	title_label.modulate.a = 0.0
 	body_label.modulate.a = 0.0
 	next_button.modulate.a = 0.0
@@ -45,15 +49,28 @@ func _ready():
 	next_button.text = ""
 	
 	
+func _on_explanation_requested(title : String, text : String) -> void:
+	if active_popup != null:
+		active_popup.queue_free()
+	
+	var popup_instance = INFO_POPUP_SCENE.instantiate()
+	active_popup = popup_instance
 
-func _on_skip_button_pressed():
+	add_child(popup_instance)
+
+	_fade_in(popup_instance)
+
+	if popup_instance.has_method("setup_data"):
+		popup_instance.setup_data(title, text)
+
+func _on_skip_button_pressed() -> void:
 	lesson_panel.visible = false
 	EduController.complete_lesson_go_to_lab()
 
-func _on_back_pressed():
+func _on_back_pressed() -> void:
 	EduController.previous_step()
 
-func _on_main_menu_edu_pressed():
+func _on_main_menu_edu_pressed() -> void:
 	Controller.turn_processing_off()
 	if EduController._has_completed_lesson:
 		if EduController.is_labarotory_active:
@@ -66,21 +83,21 @@ func _on_main_menu_edu_pressed():
 		main_menu_edu_button.disabled = true
 	Controller.turn_processing_on()
 
-func _on_cancel_start():
+func _on_cancel_start() -> void:
 	_fade_out(start_panel)
 	main_menu_edu_button.disabled = false
 
-func _on_confirm_start():
+func _on_confirm_start() -> void:
 	mainUI.visible = false
 	_fade_out(start_panel, func():
 		_fade_in(lesson_panel)
 		EduController.enter_educational_flow()
 		)
 
-func _on_next_pressed():
+func _on_next_pressed() -> void:
 	EduController.next_step()
 
-func _on_lesson_step_changed(title: String, text: String, btn_text: String):
+func _on_lesson_step_changed(title: String, text: String, btn_text: String) -> void:
 	var next_step_index = EduController.get_current_step_index()
 	var will_show_back = next_step_index > 0
 	
@@ -114,7 +131,7 @@ func _on_lesson_step_changed(title: String, text: String, btn_text: String):
 		)
 
 
-func _animate_step_in(show_back : bool):
+func _animate_step_in(show_back : bool) -> void:
 	var tween = create_tween()
 	tween.set_parallel(true)
 	tween.set_trans(Tween.TRANS_CUBIC)
@@ -129,14 +146,14 @@ func _animate_step_in(show_back : bool):
 			tween.tween_property(back_button, "modulate:a", 1.0, lesson_tween_time)
 
 
-func _on_lesson_ended():
+func _on_lesson_ended() -> void:
 	mainUI.visible = true
 	lesson_panel.visible = false
 	start_panel.visible = false
 	main_menu_edu_button.visible = true
 	main_menu_edu_button.disabled = false
 	
-func _fade_in(target_node: CanvasItem, duration: float = popup_tween_time):
+func _fade_in(target_node: CanvasItem, duration: float = popup_tween_time) -> void:
 	target_node.modulate.a = 0.0
 	target_node.visible = true
 	
@@ -146,7 +163,7 @@ func _fade_in(target_node: CanvasItem, duration: float = popup_tween_time):
 	tween.tween_property(target_node, "modulate:a", 1.0, duration)
 	
 	
-func _fade_out(target_node: CanvasItem, on_complete: Callable = Callable(), duration : float = popup_tween_time):
+func _fade_out(target_node: CanvasItem, on_complete: Callable = Callable(), duration : float = popup_tween_time) -> void:
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.set_ease(Tween.EASE_IN)
@@ -159,7 +176,7 @@ func _fade_out(target_node: CanvasItem, on_complete: Callable = Callable(), dura
 			)
 
 
-func _on_laboratory_toggled(active: bool):
+func _on_laboratory_toggled(active: bool) -> void:
 	if active:
 		lesson_panel.visible = false
 		start_panel.visible = false

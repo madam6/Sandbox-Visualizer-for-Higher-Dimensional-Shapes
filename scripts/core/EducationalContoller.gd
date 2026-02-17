@@ -6,6 +6,7 @@ signal labarotry_mode_toggled(is_active : bool)
 signal lesson_ended
 signal request_reset_ui
 signal switch_overlay_visibility(visible : bool)
+signal explanation_requested(title : String, text : String)
 
 const tesseract_lesson_index : int = 4
 const shape_size : int = 5
@@ -17,6 +18,52 @@ var _tween : Tween
 var interpolation_time : float = 1.5
 var is_labarotory_active : bool = false
 var _has_completed_lesson : bool = false
+
+var encyclopedia = {
+	"matrix" : {
+		"title" : "The Rotation Matrix",
+		"text" : "Explanation1"
+	},
+
+	"projection" : {
+		"title" : "Projection perspective",
+		"text" : "Explanation2"
+	},
+
+	"rotation_planes" : {
+		"title" : "Rotation planes",
+		"text" : "Explanation4"
+	},
+
+	"Cube4D" : {
+		"title" : "Cube4D",
+		"text" : "Cube4D"
+	},
+	
+	"Cube3D" : {
+		"title" : "Cube3D",
+		"text" : "Cube3D"
+	},
+
+	"Cube5D" : {
+		"title" : "Cube5D",
+		"text" : "Cube5D"
+	},
+
+	"Pyramid3D" : {
+		"title" : "Pyramid3D",
+		"text" : "Pyramid3D"
+	},
+	
+	"Pyramid4D" : {
+		"title" : "Pyramid4D",
+		"text" : "Pyramid4D"
+	},
+}
+
+var shape_facts = {
+
+}
 
 @export var _matrix_display : MatrixDisplay
 
@@ -268,3 +315,19 @@ func _create_fake_tesseract() -> ShapeData:
 		Vector3( shape_size,  shape_size,  shape_size), Vector3(-shape_size,  shape_size,  shape_size)
 	]	
 	return tesseract
+
+
+func request_explanation(topic : String) -> void:
+	if topic == "current_shape":
+		_show_current_shape_fact()
+	elif encyclopedia.has(topic):
+		var data = encyclopedia[topic]
+		explanation_requested.emit(data.title, data.text)
+
+
+
+func _show_current_shape_fact() -> void:
+	var shape = "Cube3D"
+
+	if shape_facts.has(shape):
+		explanation_requested.emit(encyclopedia[shape]["title"], encyclopedia[shape]["text"])
