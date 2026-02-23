@@ -61,9 +61,7 @@ var encyclopedia = {
 	},
 }
 
-var shape_facts = {
-
-}
+var current_shape : String
 
 @export var _matrix_display : MatrixDisplay
 
@@ -327,7 +325,14 @@ func request_explanation(topic : String) -> void:
 
 
 func _show_current_shape_fact() -> void:
-	var shape = "Cube3D"
+	var shape = ""
 
-	if shape_facts.has(shape):
+	var current_dimenstion = Controller.get_current_dimension()
+	
+	shape = shape + current_shape + str(current_dimenstion) + "D"
+	
+	if encyclopedia.has(shape):
 		explanation_requested.emit(encyclopedia[shape]["title"], encyclopedia[shape]["text"])
+
+func set_current_shape(new_shape : String) -> void:
+	current_shape = new_shape

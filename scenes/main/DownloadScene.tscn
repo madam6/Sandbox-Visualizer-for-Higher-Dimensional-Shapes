@@ -1,0 +1,69 @@
+[gd_scene load_steps=2 format=3 uid="uid://duonxug51mjog"]
+
+[ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="1_77c0a"]
+
+[node name="PanelContainer" type="PanelContainer"]
+offset_left = 400.0
+offset_top = 200.0
+offset_right = 1600.0
+offset_bottom = 860.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Download Visualization?"
+
+[node name="UIContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/UIContainer"]
+layout_mode = 2
+text = "Include UI?"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/UIContainer"]
+layout_mode = 2
+
+[node name="RotationMatrixContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/RotationMatrixContainer"]
+layout_mode = 2
+text = "Include Rotation Matrix?"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/RotationMatrixContainer"]
+layout_mode = 2
+
+[node name="RotationAxesContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/RotationAxesContainer"]
+layout_mode = 2
+text = "Include Rotation Axes?"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/RotationAxesContainer"]
+layout_mode = 2
+
+[node name="AxesVisualisations" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/AxesVisualisations"]
+layout_mode = 2
+text = "Include Axes Visualisations?"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/AxesVisualisations"]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Download" type="Button" parent="VBoxContainer/Buttons"]
+layout_mode = 2
+theme = ExtResource("1_77c0a")
+text = "Download"
+
+[node name="Close" type="Button" parent="VBoxContainer/Buttons"]
+layout_mode = 2
+theme = ExtResource("1_77c0a")
+text = "Close"

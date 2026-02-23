@@ -24,7 +24,11 @@ func _ready() -> void:
 func _on_shape_selected(_index: int) -> void:
 	CameraController.disable_dragging()
 	Controller.reset_controller()
+	EduController.set_current_shape(get_selected_shape_name())
 	dimension_selector.update_dimension_selector()
+
+func get_selected_shape_name() -> String:
+	return get_item_text(selected)
 
 func check_items() -> void:
 	var config_shapes = ShapeMap.shape_map.keys()

@@ -325,7 +325,15 @@ func toggle_axes(visible : bool) -> void:
 func save_visualization():
 	var img = get_viewport().get_texture().get_image()
 	var time = Time.get_datetime_string_from_system().replace(":", "-")
-	img.save_png("user://shape_" + time + ".png")
+	var file_name = "shape_" + time + ".png"
+
+	if OS.has_feature("web"):
+		var buffer = img.save_png_to_buffer()
+		JavaScriptBridge.download_buffer(buffer, file_name, "image/png")
+	else:
+		var path = "user://" + file_name
+		img.save_png(path)
+		print("Screenshot saved to: ", ProjectSettings.globalize_path(path))
 
 func get_rotation_matrix_for_plane(plane_enum : int, angle_degrees : float) -> Array:
 	if not rotator: return []

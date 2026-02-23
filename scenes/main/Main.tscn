@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bitma10rnug88"]
+[gd_scene load_steps=17 format=3 uid="uid://bitma10rnug88"]
 
 [ext_resource type="Script" uid="uid://bhymp4nk1tghx" path="res://scripts/ui/MatixDisplay.gd" id="1_2tpxt"]
 [ext_resource type="Script" uid="uid://bvjc31tdw31c5" path="res://scripts/ui/LessonOverlay.gd" id="1_p5fgu"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://6s5h73gucv0c" path="res://scripts/ui/Tree/ColorPickerTree.gd" id="8_ostsq"]
 [ext_resource type="Script" uid="uid://betu00bx6uwvk" path="res://scripts/ui/Tree/RotationSliders.gd" id="9_3km4f"]
 [ext_resource type="Script" uid="uid://ptrh252fm5vb" path="res://scripts/ui/Toggle/ContinuousRotation.gd" id="10_qkm1d"]
+[ext_resource type="Script" uid="uid://bmkl6uto8gciy" path="res://scripts/ui/Button/DownloadButton.gd" id="12_tck0d"]
 
 [sub_resource type="Environment" id="Environment_gyg6b"]
 
@@ -390,7 +391,7 @@ mouse_filter = 2
 [node name="TopSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 1.57
+size_flags_stretch_ratio = 0.6
 mouse_filter = 2
 
 [node name="SizeContainer" type="VBoxContainer" parent="MainUI/BottomLevel/BottomElements"]
@@ -488,6 +489,18 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.16
 theme = ExtResource("3_gyg6b")
 script = ExtResource("8_ostsq")
+
+[node name="Download" type="HBoxContainer" parent="MainUI"]
+offset_left = 1590.0
+offset_top = 929.335
+offset_right = 1832.0
+offset_bottom = 974.335
+theme = ExtResource("3_gyg6b")
+
+[node name="DownloadButton" type="Button" parent="MainUI/Download"]
+layout_mode = 2
+text = "Save Visualisation"
+script = ExtResource("12_tck0d")
 
 [node name="EducationalMode" type="HBoxContainer" parent="MainUI"]
 clip_contents = true
