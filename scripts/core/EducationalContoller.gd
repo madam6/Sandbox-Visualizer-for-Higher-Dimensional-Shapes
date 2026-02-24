@@ -322,15 +322,14 @@ func request_explanation(topic : String) -> void:
 		var data = encyclopedia[topic]
 		explanation_requested.emit(data.title, data.text)
 
-
-
-func _show_current_shape_fact() -> void:
-	var shape = ""
-
+func get_current_shape_name_display() -> String:
 	var current_dimenstion = Controller.get_current_dimension()
 	
-	shape = shape + current_shape + str(current_dimenstion) + "D"
-	
+	return current_shape + str(current_dimenstion) + "D"
+
+func _show_current_shape_fact() -> void:
+	var shape = get_current_shape_name_display() 
+
 	if encyclopedia.has(shape):
 		explanation_requested.emit(encyclopedia[shape]["title"], encyclopedia[shape]["text"])
 

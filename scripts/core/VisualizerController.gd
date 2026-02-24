@@ -204,7 +204,7 @@ func set_shape_size(new_shape_size : float) -> void:
 	shape_size = new_shape_size
 	shape_strategy.set_size(new_shape_size)
 	update_axes_size()
-	
+
 	if projector.has_method("adjust_w_distance_to_new_size"):
 		projector.adjust_w_distance_to_new_size(new_shape_size)
 		
@@ -328,7 +328,8 @@ func toggle_axes(visible : bool) -> void:
 func save_visualization():
 	var img = get_viewport().get_texture().get_image()
 	var time = Time.get_datetime_string_from_system().replace(":", "-")
-	var file_name = "shape_" + time + ".png"
+	
+	var file_name = EduController.get_current_shape_name_display()+ "_" + time + ".png"
 
 	if OS.has_feature("web"):
 		var buffer = img.save_png_to_buffer()

@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://b03l36vh0jr2a"]
 
 [ext_resource type="Theme" uid="uid://c866n2q0xvf4h" path="res://themes/Title.tres" id="1_c3viy"]
-[ext_resource type="Script" uid="uid://bm6ibk1e86ink" path="res://scripts/ui/InfoPopup.gd" id="1_fug0f"]
+[ext_resource type="Script" uid="uid://bm6ibk1e86ink" path="res://scripts/ui/Popups/InfoPopup.gd" id="1_fug0f"]
 
 [node name="PanelContainer" type="PanelContainer" node_paths=PackedStringArray("title_label", "body_label", "close_button")]
-offset_left = 400.0
+offset_left = 500.0
 offset_top = 200.0
-offset_right = 1600.0
+offset_right = 1500.0
 offset_bottom = 860.0
 script = ExtResource("1_fug0f")
 title_label = NodePath("VBoxContainer/Title")

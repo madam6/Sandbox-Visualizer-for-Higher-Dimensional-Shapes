@@ -5,9 +5,9 @@
 [ext_resource type="Theme" uid="uid://c866n2q0xvf4h" path="res://themes/Title.tres" id="1_i0ss7"]
 
 [node name="PanelContainer" type="PanelContainer" node_paths=PackedStringArray("ui_checkbox", "matrix_checkbox", "axes_ui_checkbox", "axes_3d_checkbox", "download_button", "close_button")]
-offset_left = 400.0
+offset_left = 500.0
 offset_top = 200.0
-offset_right = 1600.0
+offset_right = 1500.0
 offset_bottom = 860.0
 script = ExtResource("1_eaiwb")
 ui_checkbox = NodePath("VBoxContainer/UIContainer/UICheckBox")

@@ -22,7 +22,7 @@ func _ready() -> void:
 			main_edu_button.disabled = false
 			queue_free())
 
-	ui_checkbox.button_pressed = true
+	ui_checkbox.button_pressed = false
 	matrix_checkbox.button_pressed = true
 	axes_ui_checkbox.button_pressed = true
 	axes_3d_checkbox.button_pressed = true
