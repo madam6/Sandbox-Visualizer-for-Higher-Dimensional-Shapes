@@ -36,8 +36,8 @@ var is_override_active : bool = false
 var processing_mutex : bool = true
 
 
-const axes_size : float = 15
-
+var axes_size : float = 15
+const axes_size_factor : float = 3
 # The ones actively rotating
 var active_planes : Dictionary = {
 	Enums.PLANES.XY: 0,
@@ -68,6 +68,7 @@ func _process(delta):
 		rotate_shape(speed, plane)
 
 	if show_axes and not axes_copy.is_empty():
+		update_axes_size()
 		var projected_axes = projector.project(axes_copy)
 
 		var rotating_planes = []
@@ -102,6 +103,8 @@ func _process(delta):
 	)
 
 
+func update_axes_size() -> void:
+	axes_size = shape_size * axes_size_factor
 
 func update_animated_vertices(new_verticies : Array) -> void:
 	master_vertices = new_verticies.duplicate(true)
@@ -193,13 +196,14 @@ func update_shape_settings(new_strategy: ShapeStrategy, new_rotator: BaseRotator
 	projector = new_projector
 	
 	set_shape_size(shape_size)
-	
+
 	sync_active_planes()
 	_generate_new_shape()
 	
 func set_shape_size(new_shape_size : float) -> void:
 	shape_size = new_shape_size
 	shape_strategy.set_size(new_shape_size)
+	update_axes_size()
 	
 	if projector.has_method("adjust_w_distance_to_new_size"):
 		projector.adjust_w_distance_to_new_size(new_shape_size)
@@ -321,7 +325,6 @@ func toggle_axes(visible : bool) -> void:
 		Renderer.hide_labels()
 		
 
-# --- Sub-Objective 6: Save Screenshot Futureproofing ---
 func save_visualization():
 	var img = get_viewport().get_texture().get_image()
 	var time = Time.get_datetime_string_from_system().replace(":", "-")

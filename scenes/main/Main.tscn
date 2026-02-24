@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://bitma10rnug88"]
 
-[ext_resource type="Script" uid="uid://bhymp4nk1tghx" path="res://scripts/ui/MatixDisplay.gd" id="1_2tpxt"]
-[ext_resource type="Script" uid="uid://bvjc31tdw31c5" path="res://scripts/ui/LessonOverlay.gd" id="1_p5fgu"]
+[ext_resource type="Script" uid="uid://bvjc31tdw31c5" path="res://scripts/ui/Overlays/LessonOverlay.gd" id="1_tck0d"]
+[ext_resource type="Script" uid="uid://bhymp4nk1tghx" path="res://scripts/ui/Overlays/MatixDisplay.gd" id="2_u8lgh"]
 [ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="3_gyg6b"]
 [ext_resource type="Script" uid="uid://mhvqwcv2kmwl" path="res://scripts/ui/Button/InfoButton.gd" id="3_jsdfw"]
 [ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/OptionButton/ShapeSelector.gd" id="3_q24mn"]
@@ -166,12 +166,12 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.43
 
-[node name="LessonOverlay" type="Control" parent="EducationalUI" node_paths=PackedStringArray("start_panel", "confirm_button", "cancel_button", "lesson_panel", "title_label", "body_label", "next_button", "back_button", "skip_button", "main_menu_edu_button", "mainUI")]
+[node name="LessonOverlay" type="Control" parent="EducationalUI" node_paths=PackedStringArray("start_panel", "confirm_button", "cancel_button", "lesson_panel", "title_label", "body_label", "next_button", "back_button", "skip_button", "main_menu_edu_button", "mainUI", "download_button")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_p5fgu")
+script = ExtResource("1_tck0d")
 start_panel = NodePath("../StartConfirmationPanel")
 confirm_button = NodePath("../StartConfirmationPanel/VBoxContainer/HBoxContainer/Accept")
 cancel_button = NodePath("../StartConfirmationPanel/VBoxContainer/HBoxContainer/Cancel")
@@ -183,6 +183,7 @@ back_button = NodePath("../LessonPanel/VBoxContainer/HBoxContainer/BackButton")
 skip_button = NodePath("../LessonPanel/VBoxContainer/HBoxContainer/CloseButton")
 main_menu_edu_button = NodePath("../../MainUI/EducationalMode/EducationalMode")
 mainUI = NodePath("../../MainUI")
+download_button = NodePath("../../MainUI/Download/DownloadButton")
 START_LAB = "Enter Laboratory"
 START_VISUALISER = "Enter Visualiser"
 
@@ -191,7 +192,7 @@ offset_left = 397.0
 offset_top = 963.0
 offset_right = 503.0
 offset_bottom = 1051.0
-script = ExtResource("1_2tpxt")
+script = ExtResource("2_u8lgh")
 
 [node name="ProjectionInfoButton" type="Button" parent="EducationalUI"]
 offset_left = 304.0

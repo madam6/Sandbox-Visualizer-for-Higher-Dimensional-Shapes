@@ -12,10 +12,12 @@ extends Control
 @export var skip_button: Button
 @export var main_menu_edu_button: Button
 @export var mainUI : Node
+@export var download_button : Button
 
 const lesson_tween_time : float = 0.5
 const popup_tween_time : float = 0.5
 const INFO_POPUP_SCENE = preload("res://scenes/main/InfoPopup.tscn")
+const DOWNLOAD_POPUP_SCENE = preload("res://scenes/main/DownloadPopup.tscn")
 
 var active_popup : Node = null
 
@@ -34,6 +36,8 @@ func _ready():
 	skip_button.pressed.connect(_on_skip_button_pressed)
 
 	next_button.pressed.connect(_on_next_pressed)
+
+	download_button.pressed.connect(_on_download_pressed)
 	
 	EduController.lesson_step_changed.connect(_on_lesson_step_changed)
 	EduController.lesson_ended.connect(_on_lesson_ended)
@@ -48,7 +52,26 @@ func _ready():
 	body_label.text = ""
 	next_button.text = ""
 	
+
+func _on_download_pressed() -> void:
+	if active_popup != null:
+		active_popup.queue_free()
 	
+	var popup_instance = DOWNLOAD_POPUP_SCENE.instantiate()
+	active_popup = popup_instance
+	active_popup.z_index = 100
+
+	popup_instance.main_ui_layer = mainUI
+	popup_instance.edu_ui_layer = get_parent()
+	popup_instance.matrix_display = get_node("../MatrixDisplay")
+	popup_instance.rotation_sliders = mainUI.get_node("RotationSliders")
+	popup_instance.main_edu_button = main_menu_edu_button
+	
+	add_child(popup_instance)
+	main_menu_edu_button.disabled = true
+
+	_fade_in(popup_instance)
+
 func _on_explanation_requested(title : String, text : String) -> void:
 	if active_popup != null:
 		active_popup.queue_free()
@@ -81,14 +104,17 @@ func _on_main_menu_edu_pressed() -> void:
 		_fade_in(start_panel)
 		start_panel.visible = true
 		main_menu_edu_button.disabled = true
+		download_button.disabled = true
 	Controller.turn_processing_on()
 
 func _on_cancel_start() -> void:
 	_fade_out(start_panel)
 	main_menu_edu_button.disabled = false
+	download_button.disabled = false
 
 func _on_confirm_start() -> void:
 	mainUI.visible = false
+	download_button.disabled = false
 	_fade_out(start_panel, func():
 		_fade_in(lesson_panel)
 		EduController.enter_educational_flow()

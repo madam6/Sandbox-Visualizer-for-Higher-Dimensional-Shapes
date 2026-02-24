@@ -1,15 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://cl565vu4s7uu7"]
+[gd_scene load_steps=4 format=3 uid="uid://duonxug51mjog"]
 
-[ext_resource type="Script" uid="uid://cndc51p8ibfdm" path="res://scripts/ui/Popups/DownloadPopup.gd" id="1_6uobe"]
 [ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="1_77c0a"]
+[ext_resource type="Script" uid="uid://cndc51p8ibfdm" path="res://scripts/ui/Popups/DownloadPopup.gd" id="1_eaiwb"]
 [ext_resource type="Theme" uid="uid://c866n2q0xvf4h" path="res://themes/Title.tres" id="1_i0ss7"]
 
-[node name="PanelContainer" type="PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" node_paths=PackedStringArray("ui_checkbox", "matrix_checkbox", "axes_ui_checkbox", "axes_3d_checkbox", "download_button", "close_button")]
 offset_left = 400.0
 offset_top = 200.0
 offset_right = 1600.0
 offset_bottom = 860.0
-script = ExtResource("1_6uobe")
+script = ExtResource("1_eaiwb")
+ui_checkbox = NodePath("VBoxContainer/UIContainer/UICheckBox")
+matrix_checkbox = NodePath("VBoxContainer/RotationMatrixContainer/RotationMatrixCheckBox")
+axes_ui_checkbox = NodePath("VBoxContainer/RotationAxesContainer/RotationAxesCheckBox")
+axes_3d_checkbox = NodePath("VBoxContainer/AxesVisualisations/AxesCheckBox")
+download_button = NodePath("VBoxContainer/Buttons/Download")
+close_button = NodePath("VBoxContainer/Buttons/Close")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -76,7 +82,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Include Rotation Axes?"
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/RotationAxesContainer"]
+[node name="RotationAxesCheckBox" type="CheckBox" parent="VBoxContainer/RotationAxesContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -93,7 +99,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Include Axes Visualisations?"
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/AxesVisualisations"]
+[node name="AxesCheckBox" type="CheckBox" parent="VBoxContainer/AxesVisualisations"]
 layout_mode = 2
 size_flags_horizontal = 3
 
