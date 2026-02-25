@@ -33,7 +33,7 @@ var SELECTED_EDGES : String = "edge_indices"
 var is_override_active : bool = false
 
 
-var processing_mutex : bool = true
+var processing_mutex : bool = false
 
 
 var axes_size : float = 15

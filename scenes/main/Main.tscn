@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bitma10rnug88"]
+[gd_scene load_steps=18 format=3 uid="uid://bitma10rnug88"]
 
 [ext_resource type="Script" uid="uid://bvjc31tdw31c5" path="res://scripts/ui/Overlays/LessonOverlay.gd" id="1_tck0d"]
 [ext_resource type="Script" uid="uid://bhymp4nk1tghx" path="res://scripts/ui/Overlays/MatixDisplay.gd" id="2_u8lgh"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://betu00bx6uwvk" path="res://scripts/ui/Tree/RotationSliders.gd" id="9_3km4f"]
 [ext_resource type="Script" uid="uid://ptrh252fm5vb" path="res://scripts/ui/Toggle/ContinuousRotation.gd" id="10_qkm1d"]
 [ext_resource type="Script" uid="uid://bmkl6uto8gciy" path="res://scripts/ui/Button/DownloadButton.gd" id="12_tck0d"]
+[ext_resource type="PackedScene" uid="uid://bdvyay85ygw5a" path="res://scenes/main/WarningPopup.tscn" id="15_u8lgh"]
 
 [sub_resource type="Environment" id="Environment_gyg6b"]
 
@@ -29,10 +30,10 @@ shadow_enabled = true
 [node name="EducationalUI" type="CanvasLayer" parent="."]
 
 [node name="StartConfirmationPanel" type="PanelContainer" parent="EducationalUI"]
-offset_left = 486.0
-offset_top = 218.0
-offset_right = 1466.0
-offset_bottom = 843.0
+offset_left = 500.0
+offset_top = 200.0
+offset_right = 1500.0
+offset_bottom = 860.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="EducationalUI/StartConfirmationPanel"]
 layout_mode = 2
@@ -554,6 +555,12 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
 script = ExtResource("10_qkm1d")
 rotation_sliders = NodePath("../../RotationSliders")
+
+[node name="WarningPopup" type="CanvasLayer" parent="."]
+
+[node name="PanelContainer" parent="WarningPopup" node_paths=PackedStringArray("main_menu_layer", "edu_layer") instance=ExtResource("15_u8lgh")]
+main_menu_layer = NodePath("../../MainUI")
+edu_layer = NodePath("../../EducationalUI")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gyg6b")
