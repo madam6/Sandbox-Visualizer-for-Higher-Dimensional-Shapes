@@ -13,13 +13,14 @@ extends PanelContainer
 @export var matrix_display : Control
 @export var rotation_sliders : Control
 @export var main_edu_button : Button
-
+@export var instructions_button : Button
 
 func _ready() -> void:
 	download_button.pressed.connect(_on_download_pressed)
 	close_button.pressed.connect(
 		func():
 			main_edu_button.disabled = false
+			instructions_button.disabled = false
 			queue_free())
 
 	ui_checkbox.button_pressed = false
@@ -69,5 +70,6 @@ func _on_download_pressed() -> void:
 
 	Controller.toggle_axes(axes_3d_was_visible)
 	main_edu_button.disabled = false
-
+	instructions_button.disabled = false
+	
 	queue_free()

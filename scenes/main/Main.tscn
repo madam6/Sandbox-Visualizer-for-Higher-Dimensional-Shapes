@@ -167,7 +167,7 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.43
 
-[node name="LessonOverlay" type="Control" parent="EducationalUI" node_paths=PackedStringArray("start_panel", "confirm_button", "cancel_button", "lesson_panel", "title_label", "body_label", "next_button", "back_button", "skip_button", "main_menu_edu_button", "mainUI", "download_button")]
+[node name="LessonOverlay" type="Control" parent="EducationalUI" node_paths=PackedStringArray("start_panel", "confirm_button", "cancel_button", "lesson_panel", "title_label", "body_label", "next_button", "back_button", "skip_button", "main_menu_edu_button", "mainUI", "download_button", "instruction_button")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -185,6 +185,7 @@ skip_button = NodePath("../LessonPanel/VBoxContainer/HBoxContainer/CloseButton")
 main_menu_edu_button = NodePath("../../MainUI/EducationalMode/EducationalMode")
 mainUI = NodePath("../../MainUI")
 download_button = NodePath("../../MainUI/Download/DownloadButton")
+instruction_button = NodePath("../../MainUI/Instructions/InstructionButton")
 START_LAB = "Enter Laboratory"
 START_VISUALISER = "Enter Visualiser"
 
@@ -393,7 +394,7 @@ mouse_filter = 2
 [node name="TopSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.6
+size_flags_stretch_ratio = 0.1
 mouse_filter = 2
 
 [node name="SizeContainer" type="VBoxContainer" parent="MainUI/BottomLevel/BottomElements"]
@@ -428,10 +429,11 @@ mouse_filter = 2
 [node name="PlaceholderSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.33
+size_flags_stretch_ratio = 1.57
 mouse_filter = 2
 
 [node name="SizeSlider" type="HSlider" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace" node_paths=PackedStringArray("size_label", "camera_controller")]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
@@ -445,13 +447,13 @@ camera_controller = NodePath("../../../../../../CameraPivot")
 [node name="RightSizeSliderSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.07
+size_flags_stretch_ratio = 0.08
 mouse_filter = 2
 
 [node name="MidlleSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.11
+size_flags_stretch_ratio = 0.09
 mouse_filter = 2
 
 [node name="ResetContainer" type="VBoxContainer" parent="MainUI/BottomLevel/BottomElements"]
@@ -469,6 +471,7 @@ size_flags_horizontal = 3
 mouse_filter = 2
 
 [node name="Reset" type="Button" parent="MainUI/BottomLevel/BottomElements/ResetContainer/HBoxContainer" node_paths=PackedStringArray("camera_node", "rotation_sliders")]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme = ExtResource("3_gyg6b")
 text = "Reset"
@@ -492,29 +495,43 @@ size_flags_stretch_ratio = 0.16
 theme = ExtResource("3_gyg6b")
 script = ExtResource("8_ostsq")
 
+[node name="Instructions" type="HBoxContainer" parent="MainUI"]
+offset_left = 1582.92
+offset_top = 856.535
+offset_right = 1832.92
+offset_bottom = 901.535
+
+[node name="InstructionButton" type="Button" parent="MainUI/Instructions"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme = ExtResource("3_gyg6b")
+text = "Instructions"
+
 [node name="Download" type="HBoxContainer" parent="MainUI"]
-offset_left = 1590.0
+offset_left = 1582.675
 offset_top = 929.335
-offset_right = 1832.0
+offset_right = 1832.675
 offset_bottom = 974.335
 theme = ExtResource("3_gyg6b")
 
 [node name="DownloadButton" type="Button" parent="MainUI/Download"]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 text = "Save Visualisation"
 script = ExtResource("12_tck0d")
 
 [node name="EducationalMode" type="HBoxContainer" parent="MainUI"]
 clip_contents = true
-offset_left = 1599.0
+offset_left = 1582.505
 offset_top = 1002.0
-offset_right = 1831.0
+offset_right = 1832.505
 offset_bottom = 1053.0
 mouse_filter = 2
 theme = ExtResource("3_gyg6b")
 alignment = 2
 
 [node name="EducationalMode" type="Button" parent="MainUI/EducationalMode"]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 text = "Enter Laboratory"
 
