@@ -192,41 +192,66 @@ func turn_on_lab_overlays() -> void:
 
 func _build_schedule() -> void:
 	var step0 = LessonStep.new()
-	step0.title = "PLACEHOLDER Point"
-	step0.text = "PLACEHOLDER Desciption."
+	step0.title = "Everything Starts with the Point"
+	step0.text = "
+[fill]Imagine a space where there are no coordinates. Such a space is completely empty. Our Universe was once around this same size. 
+You can visualize such a space as a single dot. The only geometrical shape that can exist here is the space itself. To obtain any other form of geometry, you need to have at least 1 coordinate - a single axis. 
+[b][color=yellow]Take a look at what happens when you extrude this space into 1 dimension.[/color][/b][/fill]
+"
 	step0.btn_text = "Extrude to 1D."
 	step0.start_shape_data = _create_compressed_line()
 	step0.end_shape_data = _create_compressed_line()
 	_steps.append(step0)
 
 	var step1 = LessonStep.new()
-	step1.title = "PLACEHOLDER Line"
-	step1.text = "PLACEHOLDER Desciption."
+	step1.title = "The Line"
+	step1.text = "
+[fill]Yes, it is a line! If you remember from high school, we use a number line to mark sets of Natural or Real numbers. This is because a single axis perfectly represents 1-dimensional space. Each point needs only one coordinate - just its number, like [b][5][/b]. 
+A shape in 1-dimensional space that has a length greater than zero is a line segment, which is defined by its two endpoints, like [b][5][/b] and [b][6][/b]. To move to a higher dimension, we must extrude this shape at a 'right' angle, meaning we drag it exactly 90 degrees away from its current axis. 
+[b][color=yellow]But what happens when you extrude this line at a right angle into the second dimension?[/color][/b][/fill]
+	"
 	step1.btn_text = "Extrude to 2D."
 	step1.start_shape_data = _create_compressed_line()
 	step1.end_shape_data = _create_line()
 	_steps.append(step1)
 	
 	var step2 = LessonStep.new()
-	step2.title = "PLACEHOLDER Square"
-	step2.text = "PLACEHOLDER Desciption."
+	step2.title = "The Square"
+	step2.text = "
+[fill]We get a square! Now each point is defined by two coordinates (x, y), and the shape itself has 4 vertices. 
+Notice that we can easily represent such a shape on our computer screens. Screens are flat, and so is a square, so to draw it on the screen we do not need to do any fancy mathematics - we simply display it. 
+However, this is not the case for the next shape. [b][color=yellow]Let's follow the rule of building higher-dimensional shapes and extrude the square at a right angle.[/color][/b][/fill]
+	"
 	step2.btn_text = "Extrude to 3D."
 	step2.start_shape_data = _create_compressed_square()
 	step2.end_shape_data = _create_square()
 	_steps.append(step2)
 	
 	var step3 = LessonStep.new()
-	step3.title = "PLACEHOLDER Cube"
-	step3.text = "PLACEHOLDER Desciption."
+	step3.title = "The Cube"
+	step3.text = "
+[fill]We arrive at the cube. This is a very simple and understandable shape for us humans, but notice how the number of vertices is now exactly 8? Every time we increase the dimension, the number of vertices is doubled because of the new axis we introduced. Each point now has 3 coordinates. Technically speaking, a cube is a collection of squares, whereas a square is a collection of lines, and a line is a collection of dots. [b][color=lightblue]Can you guess what a higher-dimensional cube represents?[/color][/b]
+Notice how we encounter a certain issue with the cube. The shape itself is partially transparent, and the far end of it appears smaller. The problem is that we cannot directly visualize 3-dimensional shapes on our screens, which only have 2 dimensions. We need to find a mathematical way to get rid of the 3rd coordinate and transform (x, y, z) into (x, y). The same algorithm applies for higher dimensions. This mechanism is called [b][color=cyan]\"projection\"[/color][/b]. To learn more about methods of projection, interact with the projection mode toggle at the end of the lesson.
+[b][color=yellow]Now, the moment of truth! Let's apply our algorithm to get our final 4D shape. Remember, we must extrude the whole shape at a right angle.[/color][/b][/fill]"
 	step3.btn_text = "Extrude to 4D."
 	step3.start_shape_data = _create_compressed_cube()
 	step3.end_shape_data = _create_cube()
 	_steps.append(step3)
 	
 	var step4 = LessonStep.new()
-	step4.title = "PLACEHOLDER Tesseract"
-	step4.text = "PLACEHOLDER Desciption."
-	step4.btn_text = "N/A"
+	step4.title = "The Tesseract"
+	step4.text = "
+	[fill]Finally, it is here. The almighty Tesseract! This is what a standard 4-dimensional cube looks like. But our rule said to \"extrude at a right angle\", and on the screen, it seems like the magnitude of the angle is 45 degrees. You would be right - well, almost.
+Remember that we cannot really represent shapes that have more than 2 dimensions on our flat screens? The same applies to the tesseract. To see it, you need to find a way to flatten its 16 vertices from (x, y, z, w) into (x, y, z), and then into (x, y). 
+The inner cube of the tesseract appears smaller for the exact same reason the back side of a 3D cube appears smaller. It lies further along the new 'w' axis than the other points, so the projection of such a shape into our world appears to have a smaller cube inside. In actual reality, a 4-dimensional cube has all of its sides perfectly equal!
+Note that because we now have one more axis to work with, when rotating the shape, we have more planes to choose from; some are combined with this new 'w' axis.[/fill]
+[b][color=lightblue]A Tesseract has:[/color][/b]
+• 16 vertices
+• 32 edges
+• 24 faces
+[b][color=yellow]To play with it, press \"Enter Laboratory\".[/color][/b]
+	"
+	step4.btn_text = "Enter Laboratory"
 	step4.start_shape_data = _сreate_compressed_tesseract()
 	step4.end_shape_data = _create_fake_tesseract()
 	_steps.append(step4)

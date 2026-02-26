@@ -28,6 +28,8 @@ var active_popup : Node = null
 @export var START_VISUALISER : String
 
 func _ready():
+	body_label.bbcode_enabled = true
+
 	start_panel.visible = false
 	lesson_panel.visible = false
 	
@@ -111,6 +113,7 @@ func _on_explanation_requested(title : String, text : String) -> void:
 
 func _on_skip_button_pressed() -> void:
 	lesson_panel.visible = false
+	instruction_button.disabled = false
 	EduController.complete_lesson_go_to_lab()
 
 func _on_back_pressed() -> void:
@@ -203,6 +206,7 @@ func _on_lesson_ended() -> void:
 	start_panel.visible = false
 	main_menu_edu_button.visible = true
 	main_menu_edu_button.disabled = false
+	instruction_button.disabled = false
 	
 func _fade_in(target_node: CanvasItem, duration: float = popup_tween_time) -> void:
 	target_node.modulate.a = 0.0

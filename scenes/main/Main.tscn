@@ -1,8 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://bitma10rnug88"]
+[gd_scene load_steps=21 format=3 uid="uid://bitma10rnug88"]
 
+[ext_resource type="Theme" uid="uid://c866n2q0xvf4h" path="res://themes/Title.tres" id="1_hjnkw"]
+[ext_resource type="Script" uid="uid://b1vf60h5tod48" path="res://scripts/ui/Popups/DisableScroll.gd" id="1_rikml"]
 [ext_resource type="Script" uid="uid://bvjc31tdw31c5" path="res://scripts/ui/Overlays/LessonOverlay.gd" id="1_tck0d"]
 [ext_resource type="Script" uid="uid://bhymp4nk1tghx" path="res://scripts/ui/Overlays/MatixDisplay.gd" id="2_u8lgh"]
-[ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="3_gyg6b"]
+[ext_resource type="Theme" uid="uid://dmwt3ytpjum83" path="res://themes/MainTheme.tres" id="3_gyg6b"]
 [ext_resource type="Script" uid="uid://mhvqwcv2kmwl" path="res://scripts/ui/Button/InfoButton.gd" id="3_jsdfw"]
 [ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/OptionButton/ShapeSelector.gd" id="3_q24mn"]
 [ext_resource type="Script" uid="uid://ci4ttksh4cdgu" path="res://scripts/ui/OptionButton/DimensionSelector.gd" id="5_dc040"]
@@ -16,6 +18,9 @@
 [ext_resource type="Script" uid="uid://ptrh252fm5vb" path="res://scripts/ui/Toggle/ContinuousRotation.gd" id="10_qkm1d"]
 [ext_resource type="Script" uid="uid://bmkl6uto8gciy" path="res://scripts/ui/Button/DownloadButton.gd" id="12_tck0d"]
 [ext_resource type="PackedScene" uid="uid://bdvyay85ygw5a" path="res://scenes/main/WarningPopup.tscn" id="15_u8lgh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rikml"]
+content_margin_right = 10.0
 
 [sub_resource type="Environment" id="Environment_gyg6b"]
 
@@ -34,6 +39,7 @@ offset_left = 500.0
 offset_top = 200.0
 offset_right = 1500.0
 offset_bottom = 860.0
+script = ExtResource("1_rikml")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="EducationalUI/StartConfirmationPanel"]
 layout_mode = 2
@@ -41,18 +47,49 @@ layout_mode = 2
 [node name="EnterLabel" type="Label" parent="EducationalUI/StartConfirmationPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
+theme = ExtResource("1_hjnkw")
 text = "Enter educational mode?"
 horizontal_alignment = 1
 
 [node name="MiddleSpacer" type="Control" parent="EducationalUI/StartConfirmationPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
 
-[node name="EnterBody" type="Label" parent="EducationalUI/StartConfirmationPanel/VBoxContainer"]
+[node name="Body" type="HBoxContainer" parent="EducationalUI/StartConfirmationPanel/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 6
-text = "This will reset your current shape and change controls slitly"
-horizontal_alignment = 1
+size_flags_vertical = 3
+
+[node name="LeftSpacer" type="Control" parent="EducationalUI/StartConfirmationPanel/VBoxContainer/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="EnterBody" type="RichTextLabel" parent="EducationalUI/StartConfirmationPanel/VBoxContainer/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "When entering [b]Educational Mode[/b] for the first time, you will be guided through an interactive lesson about higher-dimensional geometry. This lesson will only be shown once.
+
+Educational Mode unlocks the following tools:
+• [b][color=cyan]Interactive Tips[/color][/b]
+• [b][color=yellow]Live Rotation Matrix[/color][/b]
+• [b][color=lightblue]Coordinate Axes Visualizations[/color][/b]
+
+[i]Please consult the [b]Instructions[/b] menu if you are unsure how to use these features.[/i]"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="RightSpacer" type="Control" parent="EducationalUI/StartConfirmationPanel/VBoxContainer/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="MiddleSpacer2" type="Control" parent="EducationalUI/StartConfirmationPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="EducationalUI/StartConfirmationPanel/VBoxContainer"]
 layout_mode = 2
@@ -95,9 +132,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -414.0
-offset_top = -250.0
+offset_top = -328.87
 offset_right = 400.0
-offset_bottom = -31.0
+offset_bottom = -28.870117
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -107,26 +144,42 @@ layout_mode = 2
 [node name="StartSpacer" type="Control" parent="EducationalUI/LessonPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.27
+size_flags_stretch_ratio = 0.1
 
 [node name="Title" type="Label" parent="EducationalUI/LessonPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.41
+size_flags_stretch_ratio = 0.2
 text = "Dimension 0"
 horizontal_alignment = 1
 
-[node name="Body" type="RichTextLabel" parent="EducationalUI/LessonPanel/VBoxContainer"]
+[node name="BodyContainer" type="HBoxContainer" parent="EducationalUI/LessonPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 175)
+layout_mode = 2
+
+[node name="LeftSpacer" type="Control" parent="EducationalUI/LessonPanel/VBoxContainer/BodyContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.02
+
+[node name="Body" type="RichTextLabel" parent="EducationalUI/LessonPanel/VBoxContainer/BodyContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
+theme_override_styles/normal = SubResource("StyleBoxEmpty_rikml")
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce blandit eget arcu at blandit. Etiam non egestas est, tempus vulputate est. Ut in purus eget urna sodales gravida. Sed ac pellentesque magna. Etiam condimentum, felis vitae pellentesque viverra, neque tellus dictum arcu, ut rhoncus eros dui tincidunt urna. "
+
+[node name="RightSpacer" type="Control" parent="EducationalUI/LessonPanel/VBoxContainer/BodyContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.02
 
 [node name="DescButtonsSpacer" type="Control" parent="EducationalUI/LessonPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.51
+size_flags_stretch_ratio = 0.1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="EducationalUI/LessonPanel/VBoxContainer"]
 layout_mode = 2
@@ -165,7 +218,7 @@ size_flags_horizontal = 3
 [node name="BottomSpacer" type="Control" parent="EducationalUI/LessonPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.43
+size_flags_stretch_ratio = 0.1
 
 [node name="LessonOverlay" type="Control" parent="EducationalUI" node_paths=PackedStringArray("start_panel", "confirm_button", "cancel_button", "lesson_panel", "title_label", "body_label", "next_button", "back_button", "skip_button", "main_menu_edu_button", "mainUI", "download_button", "instruction_button")]
 layout_mode = 3
@@ -178,7 +231,7 @@ confirm_button = NodePath("../StartConfirmationPanel/VBoxContainer/HBoxContainer
 cancel_button = NodePath("../StartConfirmationPanel/VBoxContainer/HBoxContainer/Cancel")
 lesson_panel = NodePath("../LessonPanel")
 title_label = NodePath("../LessonPanel/VBoxContainer/Title")
-body_label = NodePath("../LessonPanel/VBoxContainer/Body")
+body_label = NodePath("../LessonPanel/VBoxContainer/BodyContainer/Body")
 next_button = NodePath("../LessonPanel/VBoxContainer/HBoxContainer/NextButton")
 back_button = NodePath("../LessonPanel/VBoxContainer/HBoxContainer/BackButton")
 skip_button = NodePath("../LessonPanel/VBoxContainer/HBoxContainer/CloseButton")
