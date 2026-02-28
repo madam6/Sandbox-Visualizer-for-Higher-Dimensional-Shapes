@@ -5,7 +5,7 @@ class_name ShapeRenderer
 @export var line_width: float = 0.05
 @export var _vertex_color: Color = Color.WHITE
 @export var _edge_color: Color = Color.CYAN
-@export var _face_color: Color = Color(0.0, 0.5, 1.0, 0.3)
+@export var _face_color: Color = Color("004e9b4d")
 @export var _select_vertex_color: Color = Color.RED
 @export var _select_edge_color: Color = Color.DEEP_PINK
 
@@ -112,6 +112,7 @@ func _setup_lines() -> void:
 func _setup_faces() -> void:
 	faces_mesh_instance = MeshInstance3D.new()
 	var mat = StandardMaterial3D.new()
+	mat.shading_mode = StandardMaterial3D.SHADING_MODE_UNSHADED
 	mat.albedo_color = _face_color
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	mat.cull_mode = BaseMaterial3D.CULL_DISABLED

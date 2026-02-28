@@ -13,7 +13,10 @@ config_version=5
 config/name="SandboxVisualizerForHigherDimensionalShapes"
 run/main_scene="uid://bitma10rnug88"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0.13725491, 0.15294118, 0.17254902, 1)
+boot_splash/fullsize=false
+boot_splash/image="uid://t66d352w4yix"
+config/icon="uid://t66d352w4yix"
 
 [autoload]
 

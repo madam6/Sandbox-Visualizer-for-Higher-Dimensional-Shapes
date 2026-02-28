@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bitma10rnug88"]
+[gd_scene load_steps=23 format=3 uid="uid://bitma10rnug88"]
 
 [ext_resource type="Theme" uid="uid://c866n2q0xvf4h" path="res://themes/Title.tres" id="1_hjnkw"]
 [ext_resource type="Script" uid="uid://b1vf60h5tod48" path="res://scripts/ui/Popups/DisableScroll.gd" id="1_rikml"]
@@ -22,7 +22,19 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rikml"]
 content_margin_right = 10.0
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rikml"]
+sky_top_color = Color(0.14511698, 0.15535206, 0.17582363, 1)
+sky_horizon_color = Color(0.23517892, 0.2457988, 0.27412695, 1)
+ground_bottom_color = Color(0.14509805, 0.15686275, 0.1764706, 1)
+ground_horizon_color = Color(0.23529412, 0.24705882, 0.27450982, 1)
+sun_angle_max = 0.0
+
+[sub_resource type="Sky" id="Sky_vc03v"]
+sky_material = SubResource("ProceduralSkyMaterial_rikml")
+
 [sub_resource type="Environment" id="Environment_gyg6b"]
+background_mode = 2
+sky = SubResource("Sky_vc03v")
 
 [node name="Main" type="Node3D"]
 metadata/_edit_vertical_guides_ = [1833.0, 86.0]
@@ -293,8 +305,10 @@ metadata/_edit_use_anchors_ = true
 
 [node name="BottomLevel" type="VBoxContainer" parent="MainUI"]
 custom_minimum_size = Vector2(1920, 1080)
-offset_right = 1920.0
+anchors_preset = 10
+anchor_right = 1.0
 offset_bottom = 1080.0
+grow_horizontal = 2
 mouse_filter = 2
 
 [node name="TopElements" type="VBoxContainer" parent="MainUI/BottomLevel"]
@@ -539,20 +553,27 @@ size_flags_stretch_ratio = 0.05
 mouse_filter = 2
 
 [node name="ColorPickerTree" type="Tree" parent="MainUI"]
+anchors_preset = 10
+anchor_right = 1.0
 offset_left = 1651.0
 offset_top = 212.0
-offset_right = 1830.0
+offset_right = -90.0
 offset_bottom = 239.0
+grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.16
 theme = ExtResource("3_gyg6b")
 script = ExtResource("8_ostsq")
 
 [node name="Instructions" type="HBoxContainer" parent="MainUI"]
-offset_left = 1582.92
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -337.07996
 offset_top = 856.535
-offset_right = 1832.92
+offset_right = -87.079956
 offset_bottom = 901.535
+grow_horizontal = 0
 
 [node name="InstructionButton" type="Button" parent="MainUI/Instructions"]
 custom_minimum_size = Vector2(250, 0)
@@ -561,10 +582,14 @@ theme = ExtResource("3_gyg6b")
 text = "Instructions"
 
 [node name="Download" type="HBoxContainer" parent="MainUI"]
-offset_left = 1582.675
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -337.32495
 offset_top = 929.335
-offset_right = 1832.675
+offset_right = -87.32495
 offset_bottom = 974.335
+grow_horizontal = 0
 theme = ExtResource("3_gyg6b")
 
 [node name="DownloadButton" type="Button" parent="MainUI/Download"]
@@ -575,10 +600,13 @@ script = ExtResource("12_tck0d")
 
 [node name="EducationalMode" type="HBoxContainer" parent="MainUI"]
 clip_contents = true
+anchors_preset = 10
+anchor_right = 1.0
 offset_left = 1582.505
 offset_top = 1002.0
-offset_right = 1832.505
+offset_right = -87.494995
 offset_bottom = 1053.0
+grow_horizontal = 2
 mouse_filter = 2
 theme = ExtResource("3_gyg6b")
 alignment = 2
