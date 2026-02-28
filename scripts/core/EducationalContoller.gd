@@ -22,42 +22,171 @@ var _has_completed_lesson : bool = false
 var encyclopedia = {
 	"matrix" : {
 		"title" : "The Rotation Matrix",
-		"text" : "Explanation1"
+		"text" : "
+[fill]To perform a rotation in a certain plane, one must multiply the shape's vertices by the relevant rotation matrices.
+A matrix is a mathematical structure consisting of rows and columns. Each vertex of our shape is a vector - for example, in the form (x, y, z) for a 3D shape. To multiply a vector by a matrix, you multiply each matrix row by the vector, point by point, and sum it up. Consider this example:
+
+[center][code]
+[2, 2]   * [2]   =   [2*2 + 2*1]   =   [6]
+[1, 1]       [1]       [1*2 + 1*1]       [3]
+[/code][/center]
+
+An important concept is the [b][color=cyan]Identity Matrix[/color][/b]. This is a special matrix with 1s on the diagonal and 0s everywhere else:
+[center][code]
+[1, 0, 0]
+[0, 1, 0]
+[0, 0, 1]
+[/code][/center]
+When you multiply a vector by an identity matrix, the output does not change.
+
+Rotation matrices are defined by the planes they rotate. The columns and rows corresponding to the actively rotating plane use the sine and cosine of the angle, while the rest of the matrix acts exactly like an identity matrix. Consider a rotation matrix for the XY plane of a 2D square:
+[center][code]
+[ cosθ, -sinθ]
+[ sinθ,  cosθ]
+[/code][/center]
+
+Let's apply a 90-degree rotation to a point that lies on the Y-axis: (0, 1). Since cos(90°) = 0 and sin(90°) = 1, our matrix looks like this:
+[center][code]
+[0, -1]  * [0]  =  [0*0 + (-1)*1]  =  [-1]
+[1,  0]     [1]     [1*0 +   0*1 ]     [ 0]
+[/code][/center]
+Our point is now (-1, 0) on the negative X-axis. We successfully turned it 90 degrees counter-clockwise!
+The exact same logic applies to higher-dimensional shapes. When rotating in a certain plane, the rotation matrix is applied to each point of the shape (like a 4D cube) to calculate its new position in our world.
+[b][color=yellow]In Laboratory Mode, you can see exactly what the live rotation matrix looks like for your active planes.[/color][/b][/fill]
+"
 	},
 
 	"projection" : {
 		"title" : "Projection perspective",
-		"text" : "Explanation2"
+		"text" : "
+[fill]To see a complex 3D shape on our 2-dimensional computer screen, we must transform it. We need a mathematical way to convert its 3-coordinate vertices (x, y, z) into 2-coordinate points (x, y) that can be drawn flat.[/fill]
+This process is called [b][color=cyan]Projection[/color][/b].
+[fill]The simplest method is [b]Orthogonal Projection[/b]. Here, you literally just drop the last coordinate. For example, the point (5, 5, 2) simply becomes (5, 5). The disadvantage of this method is that it creates \"tunnel vision\" without depth - no matter how far away an object is along the Z-axis, it appears the exact same size. 
+The alternative is [b]Perspective Projection[/b], which mimics how human eyes work. Instead of straight parallel lines, the view is shaped like a pyramid (called a viewing frustum). Objects that are further away appear smaller. 
+To achieve this mathematically, we need to know two things: the distance of the object along the Z-axis, and our Field of View (FOV). Using these, we calculate a \"scaling factor\". We then multiply our X and Y coordinates by this factor to visually shrink points that are further away into the distance. [/fill]
+[center][b][color=yellow]The exact same logic applies to 4 Dimensions![/color][/b][/center]
+[fill]You have a distance along the new 4th axis (W). To project a 4D coordinate (x, y, z, w) down into 3D space, you \"squish\" the first three coordinates using a perspective factor calculated from the 4th coordinate's depth. 
+In 5 dimensions, this operation is simply performed twice: first flattening 5D into 4D, and then flattening 4D down into 3D!
+[i]This visualizer allows you to toggle projection modes at any time to see how multidimensional shapes behave under both Perspective and Orthogonal rules.[/i][/fill]
+		"
 	},
 
 	"rotation_planes" : {
 		"title" : "Rotation planes",
-		"text" : "Explanation4"
+		"text" : 
+			"
+[fill]Rotating an object always happens within a certain 2D plane. If you define a 3D coordinate system with X, Y, and Z axes, and you want to spin an object around the Z-axis, you are actually rotating it flatly along the XY plane. 
+More complex rotations that we encounter in the real world are simply combinations of multiple rotations across different planes. In aviation, pilots refer to these standard rotations as [b]pitch[/b] (YZ plane), [b]yaw[/b] (XZ plane), and [b]roll[/b] (XY plane).
+This visualizer allows you to apply a specific degree of rotation to every plane present in your current shape. [/fill]
+[center][b][color=lightblue]Rotating in Higher Dimensions[/color][/b][/center]
+[fill]Here is a mind-bending mathematical fact: even in 4D and 5D, rotations [i]still[/i] happen in 2D planes! Instead of rotating around a 1D axis line like we do in 3D, a 4D shape rotates in a 2D plane (like the new XW or YW planes) while an entirely different 2D plane stays perfectly stationary.
+This visualizer allows you to see exactly where the 4th and 5th axes project into our 3D world during these rotations. It also highlights the 2D planes that are currently actively rotating.[/fill]
+[fill][b][color=yellow]The Invisible Rotation[/color][/b]
+You might notice that in 5 dimensions, rotating strictly in the [b]WV plane[/b] (the plane combining the 4th and 5th axes) sometimes doesn't seem to change the shape's position on screen. This is because a WV rotation only alters the W and V coordinates. If you are using Orthogonal projection, those coordinates are dropped, leaving the 3D coordinates (X, Y, Z) completely untouched![/fill]"
 	},
 
 	"Cube4D" : {
 		"title" : "Cube4D",
-		"text" : "Cube4D"
+		"text" : "
+[fill]The [b][color=lightblue]4D Cube[/color][/b], most famously known as the [b]Tesseract[/b] or [b]Hypercube[/b], is the 4-dimensional equivalent of a standard square box. [/fill]
+• [b]Vertices:[/b] 16
+• [b]Edges:[/b] 32
+• [b]Faces:[/b] 24
+• [b]Cells (3D Cubes):[/b] 8
+[b][color=yellow]Inside out[/color][/b]
+[fill]If you turn on Continuous Rotation for a 4D plane (like the XW, YW, or ZW planes), you will see something impossible in our universe. As the Tesseract rotates, the \"inner\" cube will stretch out and become the \"outer\" cube, while the outer cube shrinks and folds inward! Because our 3D brains cannot process a 4D object spinning, it looks to us like the shape is constantly turning itself inside-out.
+Remember, that the \"inner\" in reality is the same size as the \"outer\" one. Shrinking is cause by perspective projection.[/fill]
+
+[b][color=yellow]Unfolding Tesseract[/color][/b]
+[fill]If you take a hollow cardboard 3D cube and cut its edges, you can unfold it flat onto a 2D table to make a shape that looks like a cross (made of 6 flat squares). 
+If a 4-dimensional being were to take a hollow Tesseract and unfold it, it would drop down into our 3D world as a 3D cross made of 8 solid cubes stacked together!.[/fill]
+
+[b][color=yellow]Euler's Rule in 4D[/color][/b]
+[fill]Remember the 3D formula for vertices, edges, and faces? In 4D, the math expands to include the 3D Cells (Cubes). The formula becomes: V - E + F - C = 0. [/fill]
+Let's test our Tesseract's numbers: 16 - 32 + 24 - 8 = 0.
+		"
 	},
 	
 	"Cube3D" : {
 		"title" : "Cube3D",
-		"text" : "Cube3D"
+		"text" : "
+[fill]The [b][color=lightblue]3D Cube[/color][/b] (also known as a regular hexahedron) is one of the most familiar shapes in human geometry, but it has some facinsating secrets![/fill]
+Core stats of a standard cube: 
+• [b]Vertices:[/b] 8
+• [b]Edges:[/b] 12
+• [b]Faces:[/b] 6
+[b][color=yellow]The Platonic Solid[/color][/b]
+[fill]The cube is one of only five \"Platonic Solids\" in existence. This means it is a perfectly regular 3D shape where every single face is the exact same regular polygon (a square), and the exact same number of faces meet at every single vertex (three squares meet at every corner).[/fill]
+
+[b][color=yellow]Hidden Hexagon[/color][/b]
+[fill]You might think that if you slice a cube, you will only ever get squares or rectangles. However, if you take a solid 3D cube and slice it pefectly at a diagonal anlge, cutting through center, the flat exposed section inside is a perfect, regular hexagon.[/fill]
+
+[b][color=yellow]Euler's Rule[/color][/b]
+[fill]Cubes easily demonstarate a fundamental rule of 3D geomtery described by the mathematician Leonhard Euler. The rule states: For any convex 3D shape: [b]Vertices - Edges + Faces = 2[/b].[/fill]
+Lets apply this formula to cube's stats:
+[b](8 - 12 + 6) = 2[/b]
+
+[b][color=yellow]The Bridge to Higher Dimensions[/color][/b]
+[fill]In this visualizer, the 3D cube is the stepping stone between the flat 2D square and the 4D tesseract. Just as a 3D cube is bounded by 6 flat 2D squares, a 4D tesseract is bounded by 8 solid 3D cubes!
+[/fill]
+		"
 	},
 
 	"Cube5D" : {
 		"title" : "Cube5D",
-		"text" : "Cube5D"
+		"text" : "
+[fill]The [b][color=lightblue]5D Cube[/color][/b] mathematically known as [b]Penteract[/b], is the 5 dimensional equivalent of a standard box. Rotation of such a shape is quite impossible to imagine in our heads, but maths allos us to do that.[/fill]
+• [b]Vertices:[/b] 32
+• [b]Edges:[/b] 80
+• [b]Faces (squares):[/b] 80
+• [b]Cells (3D Cubes):[/b] 40
+• [b]4-Dimensional faces (Tesseracts):[/b] 10
+[b][color=yellow]A shadow of a shadow[/color][/b]
+[fill]You are looking at this 5D shape on a flat, 2D screen. To make this happen visualiser needed to perform complex change of projections. Firstly taking the \"shadow\" of the shape into 4 dimensions, and then taking the shadow of the resulting shapes into 3. Finally your computer flattens this 3D shadow into a 2 dimensional shape.[/fill]
+
+[b][color=yellow]Bounded by tesseracts[/color][/b]
+[fill]A 2D square is surrounded by 4 lines. A 3D cube is surrounded by 6 flat squares. A 4D tesseract is surrounded by 8 solid 3D cubes. 
+Following this exact mathematical pattern, a 5D Penteract is completely enclosed by 10 solid 4D Tesseracts!.[/fill]
+
+[b][color=yellow]Natural appearences[/color][/b]
+[fill]Pyramids extremely often formed and appears under natural conditions, specifically in crystal formations, molecular geometry, and obviously nature. The reason for this is combination of structural stability due to wide base and energy efficiency (Some molecules (like ammonia, NH3) adopt a trigonal pyramidal shape because it reduces electron repulsion)[/fill]
+	"
 	},
 
 	"Pyramid3D" : {
 		"title" : "Pyramid3D",
-		"text" : "Pyramid3D"
+		"text" : "
+[fill]The [b][color=lightblue]3D Pyramid[/color][/b] (also known as a tetrahedron) is an extremely recognisible shape that consists of:[/fill]
+• [b]Vertices:[/b] 4
+• [b]Edges:[/b] 8
+• [b]Faces (triangular):[/b] 4
+[b][color=yellow]Types of pyramids[/color][/b]
+[fill]There are multiple types of pyramids: Triangular pyramid (the one you see on the screen), square pyramid, pentagonal pyramid, hexagonal pyramid. Type of pyramid is define by its base shape, figure at the \"bottom.\" [/fill]
+
+[b][color=yellow]The Platonic Solid[/color][/b]
+[fill]The triangular pyramid is one of the 5 platonic solids, alongside regular 3 dimensional cube. Platonic solds are perfectly regular 3D shapes where every single face is the exact same regular polygon (a triangle in pyramid's case), and the exact same number of faces meet at every single vertex (three triangles meet at every corner).[/fill]
+
+[b][color=yellow]Natural appearences[/color][/b]
+[fill]Pyramids extremely often formed and appears under natural conditions, specifically in crystal formations, molecular geometry, and obviously nature. The reason for this is combination of structural stability due to wide base and energy efficiency (Some molecules (like ammonia, NH3) adopt a trigonal pyramidal shape because it reduces electron repulsion)[/fill]
+"
 	},
 	
 	"Pyramid4D" : {
 		"title" : "Pyramid4D",
-		"text" : "Pyramid4D"
+		"text" : "
+[fill]The [b][color=lightblue]4D Pyramid[/color][/b] known formally as (Pentachoron or 5-Cell) and consists of:[/fill]
+• [b]Vertices:[/b] 5
+• [b]Edges:[/b] 10
+• [b]Faces (triangular):[/b] 10
+• [b]Cells (3D Pyramids):[/b] 5
+[b][color=yellow]Simplest shape[/color][/b]
+[fill]Triangle is simplest enclosed shape you can draw in 2D. Triangle based pyramid is a simplest shape one can build in 3D. Similarly Pentachoron is the simplest shape existing in 4 dimensions. Mathematicians call this family of shapes [b]simplexes[/b].[/fill]
+
+[b][color=yellow]Everyone is connected[/color][/b]
+[fill]Because it is a simplex, the 4D pyramid has an incredible structural secret: every single vertex is directly connected to every other vertex by an edge! If you look closely at the shape in the visualizer, there are no \"opposite\" corners - every point is a direct neighbor to all four of the other points.[/fill]
+
+[b][color=yellow]Square root of 5[/color][/b]
+[fill]To make a perfectly \"regular\" 4D pyramid where every single edge is the exact same length, you have to extrude the 4th-dimensional apex to a very specific, mathematically precise distance. In this visualizer, the height proportion of the 4D apex is mathematically locked to the square root of 5 to guarantee that the 4D edges perfectly match the length of the 3D base.[/fill]"
 	},
 }
 

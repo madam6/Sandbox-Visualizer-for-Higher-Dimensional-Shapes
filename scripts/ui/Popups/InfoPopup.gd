@@ -16,3 +16,8 @@ func setup_data(title : String, text : String) -> void:
 
 func _on_close_pressed() -> void:
 	queue_free()
+
+func _gui_input(event : InputEvent):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			accept_event()

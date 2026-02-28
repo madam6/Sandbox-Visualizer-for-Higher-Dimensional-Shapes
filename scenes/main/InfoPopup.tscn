@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://b03l36vh0jr2a"]
+[gd_scene load_steps=4 format=3 uid="uid://b03l36vh0jr2a"]
 
 [ext_resource type="Theme" uid="uid://c866n2q0xvf4h" path="res://themes/Title.tres" id="1_c3viy"]
 [ext_resource type="Script" uid="uid://bm6ibk1e86ink" path="res://scripts/ui/Popups/InfoPopup.gd" id="1_fug0f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fug0f"]
+content_margin_right = 15.0
 
 [node name="PanelContainer" type="PanelContainer" node_paths=PackedStringArray("title_label", "body_label", "close_button")]
 offset_left = 500.0
@@ -44,14 +47,27 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="Explanation" type="RichTextLabel" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 400)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_fug0f")
+bbcode_enabled = true
 text = " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor dui eget tristique porta. Pellentesque non dapibus leo. Vestibulum commodo magna sed eros ultricies semper. Duis blandit purus eu semper consequat. Pellentesque nibh turpis, pharetra sit amet malesuada at, porttitor nec arcu. Pellentesque gravida, nulla nec finibus vehicula, libero urna pulvinar diam, ac laoreet dolor erat in ligula. Aliquam nec dapibus erat. Pellentesque sit amet condimentum felis. Integer id ante sed tortor tempor sodales. Nam ullamcorper ipsum velit, quis efficitur enim feugiat ac. Proin scelerisque augue quis metus dapibus cursus. Vivamus nisi est, interdum sed elementum ac, mollis et metus. Integer libero neque, interdum vel nunc nec, auctor tristique enim. Praesent varius turpis a pretium lobortis. Integer quam ligula, blandit eget tortor non, pulvinar aliquam nunc. Etiam id erat vehicula, tincidunt risus in, condimentum leo.
 
+Praesent eu scelerisque lorem, in blandit ipsum. Phasellus ac enim id ligula ultricies vestibulum. Vivamus eu posuere est, ut mattis erat. Aliquam auctor at libero congue commodo. Donec venenatis ultricies rhoncus. Maecenas at sollicitudin diam. Vestibulum porttitor congue purus, sed molestie ex ornare in. Integer blandit, sem vel maximus ornare, nibh lacus sagittis dui, vel porta nisi elit ac est. 
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor dui eget tristique porta. Pellentesque non dapibus leo. Vestibulum commodo magna sed eros ultricies semper. Duis blandit purus eu semper consequat. Pellentesque nibh turpis, pharetra sit amet malesuada at, porttitor nec arcu. Pellentesque gravida, nulla nec finibus vehicula, libero urna pulvinar diam, ac laoreet dolor erat in ligula. Aliquam nec dapibus erat. Pellentesque sit amet condimentum felis. Integer id ante sed tortor tempor sodales. Nam ullamcorper ipsum velit, quis efficitur enim feugiat ac. Proin scelerisque augue quis metus dapibus cursus. Vivamus nisi est, interdum sed elementum ac, mollis et metus. Integer libero neque, interdum vel nunc nec, auctor tristique enim. Praesent varius turpis a pretium lobortis. Integer quam ligula, blandit eget tortor non, pulvinar aliquam nunc. Etiam id erat vehicula, tincidunt risus in, condimentum leo.
+
+Praesent eu scelerisque lorem, in blandit ipsum. Phasellus ac enim id ligula ultricies vestibulum. Vivamus eu posuere est, ut mattis erat. Aliquam auctor at libero congue commodo. Donec venenatis ultricies rhoncus. Maecenas at sollicitudin diam. Vestibulum porttitor congue purus, sed molestie ex ornare in. Integer blandit, sem vel maximus ornare, nibh lacus sagittis dui, vel porta nisi elit ac est. 
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor dui eget tristique porta. Pellentesque non dapibus leo. Vestibulum commodo magna sed eros ultricies semper. Duis blandit purus eu semper consequat. Pellentesque nibh turpis, pharetra sit amet malesuada at, porttitor nec arcu. Pellentesque gravida, nulla nec finibus vehicula, libero urna pulvinar diam, ac laoreet dolor erat in ligula. Aliquam nec dapibus erat. Pellentesque sit amet condimentum felis. Integer id ante sed tortor tempor sodales. Nam ullamcorper ipsum velit, quis efficitur enim feugiat ac. Proin scelerisque augue quis metus dapibus cursus. Vivamus nisi est, interdum sed elementum ac, mollis et metus. Integer libero neque, interdum vel nunc nec, auctor tristique enim. Praesent varius turpis a pretium lobortis. Integer quam ligula, blandit eget tortor non, pulvinar aliquam nunc. Etiam id erat vehicula, tincidunt risus in, condimentum leo.
+
+Praesent eu scelerisque lorem, in blandit ipsum. Phasellus ac enim id ligula ultricies vestibulum. Vivamus eu posuere est, ut mattis erat. Aliquam auctor at libero congue commodo. Donec venenatis ultricies rhoncus. Maecenas at sollicitudin diam. Vestibulum porttitor congue purus, sed molestie ex ornare in. Integer blandit, sem vel maximus ornare, nibh lacus sagittis dui, vel porta nisi elit ac est. 
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor dui eget tristique porta. Pellentesque non dapibus leo. Vestibulum commodo magna sed eros ultricies semper. Duis blandit purus eu semper consequat. Pellentesque nibh turpis, pharetra sit amet malesuada at, porttitor nec arcu. Pellentesque gravida, nulla nec finibus vehicula, libero urna pulvinar diam, ac laoreet dolor erat in ligula. Aliquam nec dapibus erat. Pellentesque sit amet condimentum felis. Integer id ante sed tortor tempor sodales. Nam ullamcorper ipsum velit, quis efficitur enim feugiat ac. Proin scelerisque augue quis metus dapibus cursus. Vivamus nisi est, interdum sed elementum ac, mollis et metus. Integer libero neque, interdum vel nunc nec, auctor tristique enim. Praesent varius turpis a pretium lobortis. Integer quam ligula, blandit eget tortor non, pulvinar aliquam nunc. Etiam id erat vehicula, tincidunt risus in, condimentum leo.
+
 Praesent eu scelerisque lorem, in blandit ipsum. Phasellus ac enim id ligula ultricies vestibulum. Vivamus eu posuere est, ut mattis erat. Aliquam auctor at libero congue commodo. Donec venenatis ultricies rhoncus. Maecenas at sollicitudin diam. Vestibulum porttitor congue purus, sed molestie ex ornare in. Integer blandit, sem vel maximus ornare, nibh lacus sagittis dui, vel porta nisi elit ac est. "
-fit_content = true
-scroll_active = false
+scroll_following = true
+scroll_following_visible_characters = true
+autowrap_trim_flags = 0
 
 [node name="RightSpacer" type="Control" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2

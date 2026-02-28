@@ -209,7 +209,7 @@ size_flags_horizontal = 3
 [node name="CloseButton" type="Button" parent="EducationalUI/LessonPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Close"
+text = "Skip lesson"
 
 [node name="Spacer4" type="Control" parent="EducationalUI/LessonPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
