@@ -15,8 +15,6 @@ var bg_default := StyleBoxFlat.new()
 var bg_highlight := StyleBoxFlat.new()
 
 func _ready() -> void:
-	grow_vertical = Control.GROW_DIRECTION_BEGIN
-	set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
 
 	bg_default.bg_color = Color(0,0,0,0.2)
 	bg_highlight.bg_color = Color(1, 1, 0, 0.1)

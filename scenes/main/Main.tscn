@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bitma10rnug88"]
+[gd_scene load_steps=24 format=3 uid="uid://bitma10rnug88"]
 
 [ext_resource type="Theme" uid="uid://c866n2q0xvf4h" path="res://themes/Title.tres" id="1_hjnkw"]
 [ext_resource type="Script" uid="uid://b1vf60h5tod48" path="res://scripts/ui/Popups/DisableScroll.gd" id="1_rikml"]
@@ -7,6 +7,7 @@
 [ext_resource type="Theme" uid="uid://dmwt3ytpjum83" path="res://themes/MainTheme.tres" id="3_gyg6b"]
 [ext_resource type="Script" uid="uid://mhvqwcv2kmwl" path="res://scripts/ui/Button/InfoButton.gd" id="3_jsdfw"]
 [ext_resource type="Script" uid="uid://b04prjwkywipt" path="res://scripts/ui/OptionButton/ShapeSelector.gd" id="3_q24mn"]
+[ext_resource type="Script" uid="uid://dkg7ok8kyipi2" path="res://scripts/ui/Overlays/MatrixContainer.gd" id="4_vc03v"]
 [ext_resource type="Script" uid="uid://ci4ttksh4cdgu" path="res://scripts/ui/OptionButton/DimensionSelector.gd" id="5_dc040"]
 [ext_resource type="Script" uid="uid://b35mcaml2ehpe" path="res://scripts/ui/OptionButton/DisplayModeSelector.gd" id="5_ko0rf"]
 [ext_resource type="Script" uid="uid://u4ag2qwcs6l0" path="res://scripts/controls/CameraOrbit.gd" id="6_1rhdn"]
@@ -254,11 +255,22 @@ instruction_button = NodePath("../../MainUI/Instructions/InstructionButton")
 START_LAB = "Enter Laboratory"
 START_VISUALISER = "Enter Visualiser"
 
-[node name="MatrixDisplay" type="PanelContainer" parent="EducationalUI"]
-offset_left = 397.0
-offset_top = 963.0
-offset_right = 503.0
-offset_bottom = 1051.0
+[node name="VBoxContainer" type="VBoxContainer" parent="EducationalUI"]
+offset_left = 360.445
+offset_top = 892.0
+offset_right = 513.4458
+offset_bottom = 1049.9998
+script = ExtResource("4_vc03v")
+
+[node name="RotationMatrixButton" type="Button" parent="EducationalUI/VBoxContainer"]
+layout_mode = 2
+text = "[?]"
+script = ExtResource("3_jsdfw")
+topic_key = "matrix"
+metadata/_edit_use_anchors_ = true
+
+[node name="MatrixDisplay" type="PanelContainer" parent="EducationalUI/VBoxContainer"]
+layout_mode = 2
 script = ExtResource("2_u8lgh")
 
 [node name="ProjectionInfoButton" type="Button" parent="EducationalUI"]
@@ -269,26 +281,6 @@ offset_bottom = 171.0
 text = "[?]"
 script = ExtResource("3_jsdfw")
 topic_key = "projection"
-metadata/_edit_use_anchors_ = true
-
-[node name="RotationMatrixButton" type="Button" parent="EducationalUI"]
-offset_left = 365.0
-offset_top = 1021.0
-offset_right = 391.0
-offset_bottom = 1052.0
-text = "[?]"
-script = ExtResource("3_jsdfw")
-topic_key = "matrix"
-metadata/_edit_use_anchors_ = true
-
-[node name="RotationPlaneButton" type="Button" parent="EducationalUI"]
-offset_left = 59.0
-offset_top = 1023.0
-offset_right = 85.0
-offset_bottom = 1054.0
-text = "[?]"
-script = ExtResource("3_jsdfw")
-topic_key = "rotation_planes"
 metadata/_edit_use_anchors_ = true
 
 [node name="ActiveShapeButton" type="Button" parent="EducationalUI"]
@@ -636,7 +628,14 @@ offset_bottom = -29.0
 mouse_filter = 2
 script = ExtResource("9_3km4f")
 camera_controller = NodePath("../../CameraPivot")
-matrix_display = NodePath("../../EducationalUI/MatrixDisplay")
+matrix_display = NodePath("../../EducationalUI/VBoxContainer/MatrixDisplay")
+
+[node name="RotationPlaneButton" type="Button" parent="MainUI/RotationSliders"]
+layout_mode = 2
+text = "[?]"
+script = ExtResource("3_jsdfw")
+topic_key = "rotation_planes"
+metadata/_edit_use_anchors_ = true
 
 [node name="ContiniousRotation" type="HBoxContainer" parent="MainUI"]
 offset_left = 86.38
