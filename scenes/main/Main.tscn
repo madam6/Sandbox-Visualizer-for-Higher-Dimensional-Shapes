@@ -305,11 +305,14 @@ metadata/_edit_use_anchors_ = true
 
 [node name="BottomLevel" type="VBoxContainer" parent="MainUI"]
 custom_minimum_size = Vector2(1920, 1080)
-anchors_preset = 10
+anchors_preset = -1
 anchor_right = 1.0
-offset_bottom = 1080.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 mouse_filter = 2
+
+[node name="RightSide" type="VBoxContainer" parent="MainUI/BottomLevel"]
+layout_mode = 2
 
 [node name="TopElements" type="VBoxContainer" parent="MainUI/BottomLevel"]
 layout_mode = 2
@@ -334,12 +337,11 @@ alignment = 1
 [node name="LeftSelectorEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements/Selectors"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
+size_flags_stretch_ratio = 0.45
 mouse_filter = 2
 
 [node name="ShapeSelector" type="OptionButton" parent="MainUI/BottomLevel/TopElements/Selectors" node_paths=PackedStringArray("dimension_selector", "CameraController")]
 layout_mode = 2
-size_flags_horizontal = 3
 theme = ExtResource("3_gyg6b")
 selected = 0
 item_count = 2
@@ -359,7 +361,6 @@ mouse_filter = 2
 
 [node name="DimensionSelector" type="OptionButton" parent="MainUI/BottomLevel/TopElements/Selectors" node_paths=PackedStringArray("shape_selector", "camera_controller", "rotation_sliders")]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.08
 script = ExtResource("5_dc040")
 shape_selector = NodePath("../ShapeSelector")
@@ -369,7 +370,7 @@ rotation_sliders = NodePath("../../../../RotationSliders")
 [node name="RightSelectorEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements/Selectors"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
+size_flags_stretch_ratio = 0.45
 mouse_filter = 2
 
 [node name="AfterSelectorEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements"]
@@ -407,7 +408,6 @@ mouse_filter = 2
 
 [node name="DisplayModeSelector" type="OptionButton" parent="MainUI/BottomLevel/TopElements/SecondLevelItems" node_paths=PackedStringArray("CameraController")]
 layout_mode = 2
-size_flags_horizontal = 3
 theme = ExtResource("3_gyg6b")
 selected = 0
 item_count = 3
@@ -502,7 +502,6 @@ mouse_filter = 2
 [node name="SizeSlider" type="HSlider" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeControllerSpace" node_paths=PackedStringArray("size_label", "camera_controller")]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 min_value = 2.0
 max_value = 25.0
@@ -553,27 +552,30 @@ size_flags_stretch_ratio = 0.05
 mouse_filter = 2
 
 [node name="ColorPickerTree" type="Tree" parent="MainUI"]
-anchors_preset = 10
+anchors_preset = 1
+anchor_left = 1.0
 anchor_right = 1.0
-offset_left = 1651.0
+offset_left = -269.0
 offset_top = 212.0
 offset_right = -90.0
 offset_bottom = 239.0
-grow_horizontal = 2
-size_flags_horizontal = 3
+grow_horizontal = 0
 size_flags_stretch_ratio = 0.16
 theme = ExtResource("3_gyg6b")
 script = ExtResource("8_ostsq")
 
 [node name="Instructions" type="HBoxContainer" parent="MainUI"]
-anchors_preset = 1
+anchors_preset = 3
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
+anchor_bottom = 1.0
 offset_left = -337.07996
-offset_top = 856.535
+offset_top = -223.46503
 offset_right = -87.079956
-offset_bottom = 901.535
+offset_bottom = -178.46503
 grow_horizontal = 0
+grow_vertical = 0
 
 [node name="InstructionButton" type="Button" parent="MainUI/Instructions"]
 custom_minimum_size = Vector2(250, 0)
@@ -582,14 +584,17 @@ theme = ExtResource("3_gyg6b")
 text = "Instructions"
 
 [node name="Download" type="HBoxContainer" parent="MainUI"]
-anchors_preset = 1
+anchors_preset = 3
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
+anchor_bottom = 1.0
 offset_left = -337.32495
-offset_top = 929.335
+offset_top = -150.66498
 offset_right = -87.32495
-offset_bottom = 974.335
+offset_bottom = -105.66498
 grow_horizontal = 0
+grow_vertical = 0
 theme = ExtResource("3_gyg6b")
 
 [node name="DownloadButton" type="Button" parent="MainUI/Download"]
@@ -600,13 +605,17 @@ script = ExtResource("12_tck0d")
 
 [node name="EducationalMode" type="HBoxContainer" parent="MainUI"]
 clip_contents = true
-anchors_preset = 10
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
-offset_left = 1582.505
-offset_top = 1002.0
+anchor_bottom = 1.0
+offset_left = -337.495
+offset_top = -78.0
 offset_right = -87.494995
-offset_bottom = 1053.0
-grow_horizontal = 2
+offset_bottom = -27.0
+grow_horizontal = 0
+grow_vertical = 0
 mouse_filter = 2
 theme = ExtResource("3_gyg6b")
 alignment = 2
@@ -617,10 +626,13 @@ layout_mode = 2
 text = "Enter Laboratory"
 
 [node name="RotationSliders" type="VBoxContainer" parent="MainUI" node_paths=PackedStringArray("camera_controller", "matrix_display")]
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
 offset_left = 93.0
-offset_top = 958.0
+offset_top = -122.0
 offset_right = 337.0
-offset_bottom = 1051.0
+offset_bottom = -29.0
 mouse_filter = 2
 script = ExtResource("9_3km4f")
 camera_controller = NodePath("../../CameraPivot")
@@ -628,7 +640,7 @@ matrix_display = NodePath("../../EducationalUI/MatrixDisplay")
 
 [node name="ContiniousRotation" type="HBoxContainer" parent="MainUI"]
 offset_left = 86.38
-offset_top = 117.38
+offset_top = 117.380005
 offset_right = 304.0
 offset_bottom = 141.38
 size_flags_horizontal = 3

@@ -35,7 +35,6 @@ func _ready() -> void:
 	
 	add_theme_constant_override("separation", 10)
 	
-	set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
 	grow_vertical = Control.GROW_DIRECTION_BEGIN
 	EduController.labarotry_mode_toggled.connect(_on_lab_toggled)
 	for plane_enum in PLANE_NAMES:

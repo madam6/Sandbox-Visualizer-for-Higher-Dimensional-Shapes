@@ -1,14 +1,18 @@
 [gd_scene load_steps=4 format=3 uid="uid://bdvyay85ygw5a"]
 
-[ext_resource type="Theme" uid="uid://b8may4n0tmm6u" path="res://themes/MainTheme.tres" id="1_aj8bu"]
+[ext_resource type="Theme" uid="uid://dmwt3ytpjum83" path="res://themes/MainTheme.tres" id="1_aj8bu"]
 [ext_resource type="Theme" uid="uid://c866n2q0xvf4h" path="res://themes/Title.tres" id="1_b8mak"]
 [ext_resource type="Script" uid="uid://bcjnaxpvxytxt" path="res://scripts/ui/Popups/WarningPopup.gd" id="1_iodtk"]
 
 [node name="PanelContainer" type="PanelContainer" node_paths=PackedStringArray("okay_button")]
-offset_left = 500.0
+anchors_preset = -1
+anchor_left = 0.521
+anchor_right = 0.521
+offset_left = -500.32007
 offset_top = 200.0
-offset_right = 1500.0
+offset_right = 499.67993
 offset_bottom = 860.0
+grow_horizontal = 2
 script = ExtResource("1_iodtk")
 okay_button = NodePath("VBoxContainer/ButtonContainer/Button")
 
