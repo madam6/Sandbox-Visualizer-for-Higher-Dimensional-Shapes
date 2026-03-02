@@ -1,7 +1,8 @@
 extends CheckButton
 
-@export var dimension_options: Selector
-@export var shape_options: Selector
+@export var dimension_options : Selector
+@export var shape_options : Selector
+@export var label : Label
 
 func _ready() -> void:
 	if not dimension_options:
@@ -9,6 +10,8 @@ func _ready() -> void:
 		return
 	
 	toggled.connect(_on_projection_toggled)
+
+	label.visible = false
 
 	dimension_options.item_selected.connect(_on_dimension_changed)
 	shape_options.item_selected.connect(_on_shape_changed)
@@ -62,8 +65,10 @@ func _update_projection_logic() -> void:
 			
 func _set_layout_visibility(new_is_visible: bool) -> void:
 	if new_is_visible:
-		modulate.a = 1.0 
+		modulate.a = 1.0
+		label.visible = true
 		mouse_filter = Control.MOUSE_FILTER_STOP 
 	else:
-		modulate.a = 0.0 
+		modulate.a = 0.0
+		label.visible = false
 		mouse_filter = Control.MOUSE_FILTER_IGNORE

@@ -36,7 +36,7 @@ var is_override_active : bool = false
 var processing_mutex : bool = false
 
 
-var axes_size : float = 15
+var axes_size : float = 20
 const axes_size_factor : float = 3
 # The ones actively rotating
 var active_planes : Dictionary = {
@@ -69,7 +69,15 @@ func _process(delta):
 
 	if show_axes and not axes_copy.is_empty():
 		update_axes_size()
-		var projected_axes = projector.project(axes_copy)
+
+		var dim = get_current_dimension()
+		var axes_projector : ProjectionStrategy
+		match dim:
+			3: axes_projector = ShapeMap.default_projector3d
+			4: axes_projector = ShapeMap.default_projector4d
+			5: axes_projector = ShapeMap.default_projector5d
+
+		var projected_axes = axes_projector.project(axes_copy)
 
 		var rotating_planes = []
 

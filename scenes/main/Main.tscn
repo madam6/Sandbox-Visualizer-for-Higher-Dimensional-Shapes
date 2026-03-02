@@ -275,9 +275,9 @@ script = ExtResource("2_u8lgh")
 
 [node name="ProjectionInfoButton" type="Button" parent="EducationalUI"]
 offset_left = 304.0
-offset_top = 140.0
+offset_top = 160.23
 offset_right = 330.0
-offset_bottom = 171.0
+offset_bottom = 191.23
 text = "[?]"
 script = ExtResource("3_jsdfw")
 topic_key = "projection"
@@ -285,9 +285,9 @@ metadata/_edit_use_anchors_ = true
 
 [node name="ActiveShapeButton" type="Button" parent="EducationalUI"]
 offset_left = 303.0
-offset_top = 75.0
+offset_top = 57.025
 offset_right = 329.0
-offset_bottom = 106.0
+offset_bottom = 88.02502
 text = "[?]"
 script = ExtResource("3_jsdfw")
 topic_key = "current_shape"
@@ -297,7 +297,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="BottomLevel" type="VBoxContainer" parent="MainUI"]
 custom_minimum_size = Vector2(1920, 1080)
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -360,45 +360,45 @@ camera_controller = NodePath("../../../../../CameraPivot")
 rotation_sliders = NodePath("../../../../RotationSliders")
 
 [node name="RightSelectorEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements/Selectors"]
+custom_minimum_size = Vector2(82, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.45
 mouse_filter = 2
 
 [node name="AfterSelectorEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.75
-mouse_filter = 2
-
-[node name="SecondLevelItems" type="HBoxContainer" parent="MainUI/BottomLevel/TopElements"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-mouse_filter = 2
-
-[node name="LeftSpacer" type="Control" parent="MainUI/BottomLevel/TopElements/SecondLevelItems"]
-layout_mode = 2
-size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
 mouse_filter = 2
 
-[node name="ProjectionModeToggle" type="CheckButton" parent="MainUI/BottomLevel/TopElements/SecondLevelItems" node_paths=PackedStringArray("dimension_options", "shape_options")]
+[node name="ContiniousRotation" type="HBoxContainer" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.0
-text = "Perspective projection"
-script = ExtResource("6_ko0rf")
-dimension_options = NodePath("../../Selectors/DimensionSelector")
-shape_options = NodePath("../../Selectors/ShapeSelector")
+mouse_filter = 2
 
-[node name="MidlleSpacer" type="Control" parent="MainUI/BottomLevel/TopElements/SecondLevelItems"]
+[node name="LeftSpacer" type="Control" parent="MainUI/BottomLevel/TopElements/ContiniousRotation"]
+custom_minimum_size = Vector2(82, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="Label" type="Label" parent="MainUI/BottomLevel/TopElements/ContiniousRotation"]
+custom_minimum_size = Vector2(-3.81, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 14.95
+text = "Continiousss rotation"
+
+[node name="CheckButton" type="CheckButton" parent="MainUI/BottomLevel/TopElements/ContiniousRotation" node_paths=PackedStringArray("rotation_sliders")]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+script = ExtResource("10_qkm1d")
+rotation_sliders = NodePath("../../../../RotationSliders")
+
+[node name="MidlleSpacer" type="Control" parent="MainUI/BottomLevel/TopElements/ContiniousRotation"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.77
 mouse_filter = 2
 
-[node name="DisplayModeSelector" type="OptionButton" parent="MainUI/BottomLevel/TopElements/SecondLevelItems" node_paths=PackedStringArray("CameraController")]
+[node name="DisplayModeSelector" type="OptionButton" parent="MainUI/BottomLevel/TopElements/ContiniousRotation" node_paths=PackedStringArray("CameraController")]
 layout_mode = 2
 theme = ExtResource("3_gyg6b")
 selected = 0
@@ -412,11 +412,40 @@ popup/item_2/id = 2
 script = ExtResource("5_ko0rf")
 CameraController = NodePath("../../../../../CameraPivot")
 
-[node name="RightSpacer2" type="Control" parent="MainUI/BottomLevel/TopElements/SecondLevelItems"]
+[node name="RightSpacer2" type="Control" parent="MainUI/BottomLevel/TopElements/ContiniousRotation"]
+custom_minimum_size = Vector2(82, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.37
 mouse_filter = 2
+
+[node name="AfterContRotSpacer" type="Control" parent="MainUI/BottomLevel/TopElements"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+
+[node name="SecondLevelItems" type="HBoxContainer" parent="MainUI/BottomLevel/TopElements"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="LeftSpacer" type="Control" parent="MainUI/BottomLevel/TopElements/SecondLevelItems"]
+custom_minimum_size = Vector2(82, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.38
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="MainUI/BottomLevel/TopElements/SecondLevelItems"]
+layout_mode = 2
+text = "Perspective projection"
+
+[node name="ProjectionModeToggle" type="CheckButton" parent="MainUI/BottomLevel/TopElements/SecondLevelItems" node_paths=PackedStringArray("dimension_options", "shape_options", "label")]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+script = ExtResource("6_ko0rf")
+dimension_options = NodePath("../../Selectors/DimensionSelector")
+shape_options = NodePath("../../Selectors/ShapeSelector")
+label = NodePath("../Label")
 
 [node name="ThirdEmptySpacer" type="Control" parent="MainUI/BottomLevel/TopElements"]
 layout_mode = 2
@@ -476,8 +505,8 @@ layout_mode = 2
 text = "Size:5"
 
 [node name="RightSizeSpacer" type="Control" parent="MainUI/BottomLevel/BottomElements/SizeContainer/SizeLabelSpacing"]
+custom_minimum_size = Vector2(82, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.05
 mouse_filter = 2
 
@@ -547,10 +576,10 @@ mouse_filter = 2
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -269.0
-offset_top = 212.0
-offset_right = -90.0
-offset_bottom = 239.0
+offset_left = -267.0
+offset_top = 169.0
+offset_right = -88.0
+offset_bottom = 196.0
 grow_horizontal = 0
 size_flags_stretch_ratio = 0.16
 theme = ExtResource("3_gyg6b")
@@ -618,7 +647,7 @@ layout_mode = 2
 text = "Enter Laboratory"
 
 [node name="RotationSliders" type="VBoxContainer" parent="MainUI" node_paths=PackedStringArray("camera_controller", "matrix_display")]
-anchors_preset = -1
+anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 93.0
@@ -636,34 +665,6 @@ text = "[?]"
 script = ExtResource("3_jsdfw")
 topic_key = "rotation_planes"
 metadata/_edit_use_anchors_ = true
-
-[node name="ContiniousRotation" type="HBoxContainer" parent="MainUI"]
-offset_left = 86.38
-offset_top = 117.380005
-offset_right = 304.0
-offset_bottom = 141.38
-size_flags_horizontal = 3
-mouse_filter = 2
-
-[node name="Label" type="Label" parent="MainUI/ContiniousRotation"]
-custom_minimum_size = Vector2(-3.81, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 14.95
-text = "Continious rotation"
-
-[node name="Control" type="Control" parent="MainUI/ContiniousRotation"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.27
-mouse_filter = 2
-
-[node name="CheckButton" type="CheckButton" parent="MainUI/ContiniousRotation" node_paths=PackedStringArray("rotation_sliders")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.0
-script = ExtResource("10_qkm1d")
-rotation_sliders = NodePath("../../RotationSliders")
 
 [node name="WarningPopup" type="CanvasLayer" parent="."]
 

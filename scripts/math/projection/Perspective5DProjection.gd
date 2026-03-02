@@ -3,7 +3,7 @@ extends ProjectionStrategy
 class_name Perspective5DProjection
 
 var w_multiplier: float = 4.0 
-var v_multiplier: float = 1.5
+var v_multiplier: float = 3
 
 @export var w_distance := 20.0
 @export var v_distance := 7.5
