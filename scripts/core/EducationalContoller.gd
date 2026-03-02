@@ -78,11 +78,11 @@ In 5 dimensions, this operation is simply performed twice: first flattening 5D i
 [fill]Rotating an object always happens within a certain 2D plane. If you define a 3D coordinate system with X, Y, and Z axes, and you want to spin an object around the Z-axis, you are actually rotating it flatly along the XY plane. 
 More complex rotations that we encounter in the real world are simply combinations of multiple rotations across different planes. In aviation, pilots refer to these standard rotations as [b]pitch[/b] (YZ plane), [b]yaw[/b] (XZ plane), and [b]roll[/b] (XY plane).
 This visualizer allows you to apply a specific degree of rotation to every plane present in your current shape. [/fill]
-[center][b][color=lightblue]Rotating in Higher Dimensions[/color][/b][/center]
+[center][b][color=yellow]Rotating in Higher Dimensions[/color][/b][/center]
 [fill]Here is a mind-bending mathematical fact: even in 4D and 5D, rotations [i]still[/i] happen in 2D planes! Instead of rotating around a 1D axis line like we do in 3D, a 4D shape rotates in a 2D plane (like the new XW or YW planes) while an entirely different 2D plane stays perfectly stationary.
 This visualizer allows you to see exactly where the 4th and 5th axes project into our 3D world during these rotations. It also highlights the 2D planes that are currently actively rotating.[/fill]
-[fill][b][color=yellow]The Invisible Rotation[/color][/b]
-You might notice that in 5 dimensions, rotating strictly in the [b]WV plane[/b] (the plane combining the 4th and 5th axes) sometimes doesn't seem to change the shape's position on screen. This is because a WV rotation only alters the W and V coordinates. If you are using Orthogonal projection, those coordinates are dropped, leaving the 3D coordinates (X, Y, Z) completely untouched![/fill]"
+[center][b][color=yellow]The Invisible Rotation[/color][/b][/center]
+[fill]You might notice that in 5 dimensions, rotating strictly in the [b]WV plane[/b] (the plane combining the 4th and 5th axes) sometimes doesn't seem to change the shape's position on screen. This is because a WV rotation only alters the W and V coordinates. If you are using Orthogonal projection, those coordinates are dropped, leaving the 3D coordinates (X, Y, Z) completely untouched![/fill]"
 	},
 
 	"Cube4D" : {
