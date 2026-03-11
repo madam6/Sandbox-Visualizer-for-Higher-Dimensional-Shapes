@@ -384,7 +384,7 @@ size_flags_stretch_ratio = 0.0
 custom_minimum_size = Vector2(-3.81, 0)
 layout_mode = 2
 size_flags_stretch_ratio = 14.95
-text = "Continiousss rotation"
+text = "Continious rotation"
 
 [node name="CheckButton" type="CheckButton" parent="MainUI/BottomLevel/TopElements/ContiniousRotation" node_paths=PackedStringArray("rotation_sliders")]
 layout_mode = 2

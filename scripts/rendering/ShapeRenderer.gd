@@ -231,6 +231,9 @@ func _draw_edges(points: Array, edges: Array[Vector2i], selection_info: Dictiona
 		
 	immediate_mesh.surface_end()
 
+# Dynamically constructs and renders the solid/transparent faces of the shape
+# points : An array of projected 3D Vector3 coordinates.
+# faces_indices : An array of vertex indicies defining the shape's boundaries (Usually, ShapeData.faces)
 func _draw_faces(points: Array, faces_indices: Array[Array]) -> void:
 	var surface_tool = SurfaceTool.new()
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -238,12 +241,15 @@ func _draw_faces(points: Array, faces_indices: Array[Array]) -> void:
 	for face in faces_indices:
 		if face.size() < 3: continue
 		var p0 = points[face[0]]
+		# Triangle fan algorithm
+		# Most of the faces we are defining are squares, Godot's renderer only accepts pure trianges
+		# By anchoring the first point p0 and fanning out to connect the remaining vertices we triangulate
+		# For sqaures it ends up creating 2 of them
 		for i in range(1, face.size() - 1):
 			surface_tool.add_vertex(p0)
 			surface_tool.add_vertex(points[face[i]])
 			surface_tool.add_vertex(points[face[i+1]])
 			
-	surface_tool.generate_normals()
 	faces_mesh_instance.mesh = surface_tool.commit()
 
 

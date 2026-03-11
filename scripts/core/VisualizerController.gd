@@ -49,6 +49,9 @@ func _ready():
 	if not shape_strategy:
 		set_initial_state()
 
+# Main engine loop
+# Executes rotation, projection and rendering dispatch
+# This bypasses Godot'standard physics and tranform systems
 func _process(delta):
 	if not processing_mutex: return
 	if current_vertices_copy.is_empty(): return
@@ -56,6 +59,9 @@ func _process(delta):
 	if shape_strategy.has_method("set_height_proportion"):
 		shape_strategy.set_height_proportion(height_proportion)
 
+	# Part 1: Rotation
+
+	# Apply continuous automatic rotation (speed based)
 	if is_rotating:
 		var step = delta * rotation_speed
 		rotator._rotate_shape(current_vertices_copy, step, active_plane)
@@ -63,10 +69,15 @@ func _process(delta):
 		if show_axes and not axes_copy.is_empty():
 			rotator._rotate_shape(axes_copy, step, active_plane)
 	
+	# Apply manual slider rotations (angle based)
 	for plane in active_planes:
 		var speed = active_planes[plane]
 		rotate_shape(speed, plane)
 
+
+	# Part 2: Projection
+
+	# Projection/render call of coordinate axes shape
 	if show_axes and not axes_copy.is_empty():
 		update_axes_size()
 
@@ -98,11 +109,14 @@ func _process(delta):
 
 		Renderer.draw_axes(projected_axes, rotating_planes)
 
+	# Flatten the N-dimensional shape coordinates into renderable 3D space
 	var projected_3d_points = projector.project(current_vertices_copy)
 	
 	_selection_info[SELECTED_VERTICES] = _selected_vertex_indices
 	_selection_info[SELECTED_EDGES] = _highlited_edge_indices
 	
+	# Part 3: Render dispath
+	# Passing the flattened 3D coordinates over to ShapeRenderer
 	Renderer.update_visuals(
 		projected_3d_points, 
 		current_shape_data.edges, 
@@ -273,16 +287,21 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			var viewport_mouse_pos = get_viewport().get_mouse_position()
 			_handle_select(viewport_mouse_pos)
-		
+
+# Detects which projected vertex the user clicked on in the 2D viewport.
+# Bypasses standard PhysicsServer raycasting because the our vertices 
+# do not possess physical collision shapes.	
 func _handle_select(mouse_pos : Vector2) -> void:
 	var current_points = projector.project(current_vertices_copy)
 	
 	for i in range(current_points.size()):
 		var point_3d = current_points[i]
 
+		# Ignore points currently folded behind the camera lens
 		if camera.is_position_behind(point_3d): 
 			continue
-			
+		
+		# Godot's "unproject_position" magically allows us to get 2D position on our viewport out of in world transofrm!
 		var point_2d = camera.unproject_position(point_3d)
 		var distance_to_mouse = mouse_pos.distance_to(point_2d)
 
@@ -293,7 +312,10 @@ func _handle_select(mouse_pos : Vector2) -> void:
 				_selected_vertex_indices[i] = true
 	_update_edges()
 
-
+# Maps and highlights all edges physically connected to currently selected vertices.
+# The 'edges' array contains Vector2i objects where X and Y represent the indices
+# of the two connected vertices. If either index exists in our selected vertex list,
+# the entire edge is marked for highlighting.
 func _update_edges():
 	_highlited_edge_indices.clear()
 	
@@ -347,6 +369,12 @@ func save_visualization():
 		img.save_png(path)
 		print("Screenshot saved to: ", ProjectSettings.globalize_path(path))
 
+# Procedurally generates an n dimensional rotation matrix for a specific 2D plane.
+# Instead of hardcoding matrices, this constructs a perfect identity
+# and injects the sine/cosine trigonometric values specifically into the rows/columns representing the active rotating axes.
+# dim: The mathematical dimension (e.g., 4 for a Tesseract).
+# i: The first axis index of the plane (e.g., 0 for X).
+# j: The second axis index of the plane (e.g., 3 for W).
 func get_rotation_matrix_for_plane(plane_enum : int, angle_degrees : float) -> Array:
 	if not rotator: return []
 

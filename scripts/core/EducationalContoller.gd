@@ -194,6 +194,11 @@ var current_shape : String
 
 @export var _matrix_display : MatrixDisplay
 
+# A data container representing a single, isolated phase within the guided tutorial.
+# Each step holds the educational text, UI labels, and most importantly,
+# the mathematical bounding states ("start_shape_data" and "end_shape_data").
+# During the lesson, the Tween engine uses these two ShapeData objects to
+# interpolate the vertices, visually "extruding" the shape into the next dimension.
 class LessonStep:
 	var title: String
 	var text: String
@@ -285,6 +290,13 @@ func _load_step(step_index : int) -> void:
 
 	lesson_step_changed.emit(step.title, step.text, step.btn_text)
 
+# Calculates and applies an animated frame during a dimensional extrusion lesson.
+# Called dynamically by a Tween, this function interpolates the position of every 
+# vertex from its starting "compressed" state (e.g., a 3D Cube) to its final 
+# extruded state (e.g., a 4D Tesseract) using linear interpolation.
+# t: The current normalized time of the tween (0.0 to 1.0).
+# start_vertices: The array of origin vectors.
+# end_vertices: The array of target destination vectors.
 func _process_extrusion_frame(t : float, start_vertices : Array, end_vertices : Array) -> void:
 	var current_vertices = []
 	current_vertices.resize(start_vertices.size())
@@ -319,6 +331,12 @@ func turn_on_lab_overlays() -> void:
 	Controller.toggle_axes(true)
 	switch_overlay_visibility.emit(true)
 
+# Constructs the sequential timeline for the interactive 0d to 4d tutorial.
+# This function initializes the array of LessonStep objects. To create the visual
+# illusion of a shape being pulled into a higher dimension, the
+# "start_shape_data" for each step is generated as a compressed version of the
+# target shape. For example, a compressed square contains 4 vertices, but they
+# are flattened onto a 1D line. The tween then expands them into 2D.
 func _build_schedule() -> void:
 	var step0 = LessonStep.new()
 	step0.title = "Everything Starts with the Point"

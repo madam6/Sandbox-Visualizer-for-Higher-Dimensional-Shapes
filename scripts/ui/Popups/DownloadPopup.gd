@@ -28,6 +28,9 @@ func _ready() -> void:
 	axes_ui_checkbox.button_pressed = true
 	axes_3d_checkbox.button_pressed = true
 
+# Executes the visualization capture workflow.
+# This function temporarily modifies the visibility state of the main and educational
+# UI layers, captures the 3D viewport buffer, and then restores the original UI state
 
 func _on_download_pressed() -> void:
 	var main_ui_states = {}
@@ -55,6 +58,10 @@ func _on_download_pressed() -> void:
 
 	Controller.toggle_axes(axes_3d_checkbox.button_pressed)
 
+	# Engine quirk
+	# Must wait for 2 frames. First one allows the SceneTree to process the visibility of toggles above
+	# Second frame ensures that the viewport has been redrawn without the UI layers.
+	# Removing these will result in the UI appearing on saved visualizations
 	await get_tree().process_frame
 	await get_tree().process_frame
 

@@ -151,6 +151,10 @@ func _on_confirm_start() -> void:
 func _on_next_pressed() -> void:
 	EduController.next_step()
 
+# Animates the transition between guided lesson steps.
+# Uses parallel tweening to fade out the title, text, and buttons simultaneously.
+# Once the fade-out completes, a callback is chained to swap the text content
+# invisibly before firing a second animation to fade the new content back in.
 func _on_lesson_step_changed(title: String, text: String, btn_text: String) -> void:
 	var next_step_index = EduController.get_current_step_index()
 	var will_show_back = next_step_index > 0

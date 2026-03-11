@@ -40,6 +40,10 @@ func _ready() -> void:
 func _on_switch_overlay_visibility(visibility : bool) -> void:
 	visible = visibility
 
+# Reconstructs the Matrix Display UI grid to match the active geometric dimension.
+# Any Label children added to the GridContainer via the Godot Editor will
+# be destroyed at runtime. The grid is populated programmatically to ensure a
+# perfect N x N layout (e.g., 16 cells for 4D, 25 cells for 5D)
 func setup_grid(dimension : int) -> void:
 	if active_dim == dimension : return
 	active_dim = dimension

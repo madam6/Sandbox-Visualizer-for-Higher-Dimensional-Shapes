@@ -2,12 +2,6 @@ extends Node
 
 const CONFIG_PATH = "res://configs/shapes_config.json"
 
-# This is a configuration map that UI system will query by looking up current active config
-# shape_properties_map["Cube"]["4D"]["Perspective"] will return a map like this
-# "size": [3, 25, 1],
-# "w_dist": [1, 100, 1]
-# where each key is the slider and values we want to show
-# minvalue - maxvalue - step
 var shape_properties_map : Dictionary = {}
 
 
@@ -67,6 +61,14 @@ func load_config():
 	else:
 		push_error("JSON error: line " + str(json.get_error_line()))
 
+# Validates the external JSON configuration against the internal hardcoded logic map.
+# 
+# ==========!LEGACY!==========: Early in the development users were supposed to manually
+# trigger and adjust V and W projection distances via sliders (and also were supposed to have different sizes/steps).
+# The JSON schema was built to enforce strict [min, max, step] array rules for these sliders.
+# This was eventually cut for simplicity. While the array validation is still
+# present, the primary practical value of this function today is simply to ensure
+# strict rules for adding new shape.
 
 func validate_schema(logic_map: Dictionary, ui_map: Dictionary) -> bool:
 	var is_valid = true
