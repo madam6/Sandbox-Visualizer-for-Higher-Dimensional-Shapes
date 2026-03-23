@@ -83,7 +83,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
-text = "When entering [b]Educational Mode[/b] for the first time, you will be guided through an interactive lesson about higher-dimensional geometry. This lesson will only be shown once.
+text = "[fill]When entering [b]Educational Mode[/b] for the first time, you will be guided through
+an interactive lesson about higher-dimensional geometry. This lesson will only be [/fill]
+shown once.
 
 Educational Mode unlocks the following tools:
 • [b][color=cyan]Interactive Tips[/color][/b]

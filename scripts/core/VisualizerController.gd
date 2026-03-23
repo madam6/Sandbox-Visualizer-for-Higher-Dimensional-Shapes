@@ -222,6 +222,7 @@ func update_shape_settings(new_strategy: ShapeStrategy, new_rotator: BaseRotator
 	sync_active_planes()
 	_generate_new_shape()
 	
+
 func set_shape_size(new_shape_size : float) -> void:
 	shape_size = new_shape_size
 	shape_strategy.set_size(new_shape_size)

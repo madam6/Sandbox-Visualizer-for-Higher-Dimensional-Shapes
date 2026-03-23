@@ -111,7 +111,7 @@ func test_vector_normalization():
 	
 func test_rotate_xy_3d():
 	var shape = [Vector3(0, 1, 0)]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator3D.rotate(shape, angle, Enums.PLANES.XY)
 	assert(shape[0].is_equal_approx(Vector3(-1, 0, 0)))
 	print("rotator3D XY rotation OK:", shape[0])
@@ -119,7 +119,7 @@ func test_rotate_xy_3d():
 
 func test_rotate_xz_3d():
 	var shape = [Vector3(0, 0, 1)]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator3D.rotate(shape, angle, Enums.PLANES.XZ)
 	assert(shape[0].is_equal_approx(Vector3(1, 0, 0)))
 	print("rotator3D XZ rotation OK:", shape[0])
@@ -127,7 +127,7 @@ func test_rotate_xz_3d():
 
 func test_rotate_yz_3d():
 	var shape = [Vector3(0, 0, 1)]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator3D.rotate(shape, angle, Enums.PLANES.YZ)
 	assert(shape[0].is_equal_approx(Vector3(0, -1, 0)))
 	print("rotator3D YZ rotation OK:", shape[0])
@@ -135,7 +135,7 @@ func test_rotate_yz_3d():
 
 func test_rotate_xy_4d():
 	var shape = [Vector4(0, 1, 0, 0)]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator4D.rotate(shape, angle, Enums.PLANES.XY)
 	assert(shape[0].is_equal_approx(Vector4(-1, 0, 0, 0)))
 	print("rotator4D XY rotation OK:", shape[0])
@@ -143,7 +143,7 @@ func test_rotate_xy_4d():
 
 func test_rotate_xz_4d():
 	var shape = [Vector4(0, 0, 1, 0)]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator4D.rotate(shape, angle, Enums.PLANES.XZ)
 	assert(shape[0].is_equal_approx(Vector4(1, 0, 0, 0)))
 	print("rotator4D XZ rotation OK:", shape[0])
@@ -151,7 +151,7 @@ func test_rotate_xz_4d():
 
 func test_rotate_yz_4d():
 	var shape = [Vector4(0, 0, 1, 0)]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator4D.rotate(shape, angle, Enums.PLANES.YZ)
 	assert(shape[0].is_equal_approx(Vector4(0, -1, 0, 0)))
 	print("rotator4D YZ rotation OK:", shape[0])
@@ -159,7 +159,7 @@ func test_rotate_yz_4d():
 
 func test_rotate_xw_4d():
 	var shape = [Vector4(0, 0, 0, 1)]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator4D.rotate(shape, angle, Enums.PLANES.XW)
 	assert(shape[0].is_equal_approx(Vector4(-1, 0, 0, 0)))
 	print("rotator4D XW rotation OK:", shape[0])
@@ -167,7 +167,7 @@ func test_rotate_xw_4d():
 
 func test_rotate_yw_4d():
 	var shape = [Vector4(0, 0, 0, 1)]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator4D.rotate(shape, angle, Enums.PLANES.YW)
 	assert(shape[0].is_equal_approx(Vector4(0, -1, 0, 0)))
 	print("rotator4D YW rotation OK:", shape[0])
@@ -175,7 +175,7 @@ func test_rotate_yw_4d():
 
 func test_rotate_zw_4d():
 	var shape = [Vector4(0, 0, 0, 1)]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator4D.rotate(shape, angle, Enums.PLANES.ZW)
 	assert(shape[0].is_equal_approx(Vector4(0, 0, -1, 0)))
 	print("rotator4D ZW rotation OK:", shape[0])
@@ -183,7 +183,7 @@ func test_rotate_zw_4d():
 
 func test_rotate_xy_5d():
 	var shape = [[0, 1, 0, 0, 0]]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator5D.rotate(shape, angle, Enums.PLANES.XY)
 	assert(arrays_equal_approx(shape[0], [-1.0, 0.0, 0.0, 0.0, 0.0]))
 	print("rotator5D XY rotation OK:", shape[0])
@@ -191,7 +191,7 @@ func test_rotate_xy_5d():
 
 func test_rotate_xz_5d():
 	var shape = [[0, 0, 1, 0, 0]]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator5D.rotate(shape, angle, Enums.PLANES.XZ)
 	assert(arrays_equal_approx(shape[0], [1, 0, 0, 0, 0]))
 	print("rotator5D XZ rotation OK:", shape[0])
@@ -199,7 +199,7 @@ func test_rotate_xz_5d():
 
 func test_rotate_yz_5d():
 	var shape = [[0, 0, 1, 0, 0]]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator5D.rotate(shape, angle, Enums.PLANES.YZ)
 	assert(arrays_equal_approx(shape[0], [0, -1, 0, 0, 0]))
 	print("rotator5D YZ rotation OK:", shape[0])
@@ -207,7 +207,7 @@ func test_rotate_yz_5d():
 
 func test_rotate_xw_5d():
 	var shape = [[0, 0, 0, 1, 0]]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator5D.rotate(shape, angle, Enums.PLANES.XW)
 	assert(arrays_equal_approx(shape[0], [-1, 0, 0, 0, 0]))
 	print("rotator5D XW rotation OK:", shape[0])
@@ -215,7 +215,7 @@ func test_rotate_xw_5d():
 
 func test_rotate_yw_5d():
 	var shape = [[0, 0, 0, 1, 0]]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator5D.rotate(shape, angle, Enums.PLANES.YW)
 	assert(arrays_equal_approx(shape[0], [0, -1, 0, 0, 0]))
 	print("rotator5D YW rotation OK:", shape[0])
@@ -223,7 +223,7 @@ func test_rotate_yw_5d():
 
 func test_rotate_zw_5d():
 	var shape = [[0, 0, 0, 1, 0]]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator5D.rotate(shape, angle, Enums.PLANES.ZW)
 	assert(arrays_equal_approx(shape[0], [0, 0, -1, 0, 0]))
 	print("rotator5D ZW rotation OK:", shape[0])
@@ -231,7 +231,7 @@ func test_rotate_zw_5d():
 
 func test_rotate_xv_5d():
 	var shape = [[0, 0, 0, 0, 1]]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator5D.rotate(shape, angle, Enums.PLANES.XV)
 	assert(arrays_equal_approx(shape[0], [-1, 0, 0, 0, 0]))
 	print("rotator5D XV rotation OK:", shape[0])
@@ -239,7 +239,7 @@ func test_rotate_xv_5d():
 
 func test_rotate_yv_5d():
 	var shape = [[0, 0, 0, 0, 1]]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator5D.rotate(shape, angle, Enums.PLANES.YV)
 	assert(arrays_equal_approx(shape[0], [0, -1, 0, 0, 0]))
 	print("rotator5D YV rotation OK:", shape[0])
@@ -247,7 +247,7 @@ func test_rotate_yv_5d():
 
 func test_rotate_zv_5d():
 	var shape = [[0, 0, 0, 0, 1]]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator5D.rotate(shape, angle, Enums.PLANES.ZV)
 	assert(arrays_equal_approx(shape[0], [0, 0, -1, 0, 0]))
 	print("rotator5D ZV rotation OK:", shape[0])
@@ -255,7 +255,7 @@ func test_rotate_zv_5d():
 
 func test_rotate_wv_5d():
 	var shape = [[0, 0, 0, 0, 1]]
-	var angle = deg_to_rad(90)
+	var angle = 90
 	rotator5D.rotate(shape, angle, Enums.PLANES.WV)
 	assert(arrays_equal_approx(shape[0], [0, 0, 0, -1, 0]))
 	print("rotator5D WV rotation OK:", shape[0])
