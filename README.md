@@ -1,14 +1,14 @@
 # Sandbox Visualizer of Higher Dimensional Shapes
 ## Folder structure
-    1. assets - includes all the images present in the application
-    2. configs - includes .json file that defines added shapes
-    3. docs - includes web build of the project. Refer to the **Web build guide** section to learn more
-    4. scenes - includes all Godot scenes that are present in the project
-    5. scripts - includes all GDScript code that is present in the project
-    6. themes - includes Godot themes to configure the visual appearance of UI elements
-    7. godot/git files - .editorconfig, .gitattributes, .gitignore, export_presets.cfg
-    8. Readme.md - File you are currently reading
-    9. project.godot - main Godot project file, open it in Godot to see the whole application
+  1. assets - includes all the images present in the application
+  2. configs - includes .json file that defines added shapes
+  3. docs - includes web build of the project. Refer to the **Web build guide** section to learn more
+  4. scenes - includes all Godot scenes that are present in the project
+  5. scripts - includes all GDScript code that is present in the project
+  6. themes - includes Godot themes to configure the visual appearance of UI elements
+  7. godot/git files - .editorconfig, .gitattributes, .gitignore, export_presets.cfg
+  8. Readme.md - File you are currently reading
+  9. project.godot - main Godot project file, open it in Godot to see the whole application
 
 ## Installation guide
   1. Download this archive, unpack it somewhere on your machine
