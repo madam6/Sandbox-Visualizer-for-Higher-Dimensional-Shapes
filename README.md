@@ -1,20 +1,28 @@
-<p align="center">
-  <img src="assets/Logo/VisualiserLogo.png" alt="Logo" width="100">
-</p>
+<div align="center">
+
+<img src="assets/Logo/VisualiserLogo.png" alt="Visualizer logo" width="110">
 
 # Sandbox Visualizer for Higher-Dimensional Shapes
 
-A Godot 4.5 app for rotating cubes and pyramids in 3D, 4D and 5D and watching what their projections do. It's my third-year individual project.
+**Rotate, project and explore 3D, 4D and 5D shapes, right in your browser.**
+
+[![Launch the app](https://img.shields.io/badge/Launch%20the%20app-runs%20in%20your%20browser-2ea44f?style=for-the-badge&logo=googlechrome&logoColor=white)](https://madam6.github.io/Sandbox-Visualizer-for-Higher-Dimensional-Shapes/)
+
+[![Godot 4.5](https://img.shields.io/badge/Godot-4.5-478CBF?logo=godotengine&logoColor=white)](https://godotengine.org/download/archive/4.5-stable/)
+![GDScript](https://img.shields.io/badge/Language-GDScript-355570)
+![C++ GDExtension](https://img.shields.io/badge/C%2B%2B-GDExtension-00599C?logo=cplusplus&logoColor=white)
+![Web](https://img.shields.io/badge/Platform-Web%20(WebAssembly)-orange)
+[![GitHub Pages](https://img.shields.io/badge/Hosted%20on-GitHub%20Pages-222222?logo=github)](https://madam6.github.io/Sandbox-Visualizer-for-Higher-Dimensional-Shapes/)
+
+<img src=".github/readme/tesseract.gif" alt="A tesseract rotating in the XW plane" width="440">
+
+<sub>A tesseract turning in the XW plane under perspective projection. The inner and outer cubes trade places every 90°.</sub>
+
+</div>
+
+A Godot 4.5 app for rotating cubes and pyramids in 3D, 4D and 5D and watching what their projections do. It's written in GDScript, and the maths also has a [C++ version built as a GDExtension](#c-version-gdextension), with a switch to change between the two while the app runs.
 
 You pick a shape and a dimension, then turn it in any of its rotation planes, including the ones that involve the fourth (W) and fifth (V) axes. A short guided lesson and a "laboratory" mode explain the maths behind what's on screen.
-
-The web build runs on GitHub Pages at <https://madam6.github.io/Sandbox-Visualizer-for-Higher-Dimensional-Shapes/>.
-
-<p align="center">
-  <img src=".github/readme/tesseract.gif" alt="A tesseract rotating in the XW plane" width="440">
-  <br>
-  <sub>A tesseract turning in the XW plane under perspective projection. The inner and outer cubes trade places every 90°.</sub>
-</p>
 
 ## Contents
 
@@ -218,6 +226,14 @@ flowchart LR
 Each wrapper in `scripts/native/NativeBackend.gd` extends the matching GDScript class and overrides only the maths method. Properties like `size` and `w_distance` are inherited, so the rest of the code can't tell the two apart. When the switch flips, `ShapeMap` swaps its whole strategy set, and the controller swaps the three objects it's holding for their counterparts. The vertices keep their current rotation, because both versions store points the same way.
 
 The wrappers create the C++ objects through `ClassDB` by name and never reference the C++ classes directly. When the library isn't loaded the GDScript still parses, the switch hides itself, and the app runs as it did before the extension existed. The web build depends on this: the Web export preset excludes `bin/`, so the hosted version is GDScript only.
+
+| C++ class (`extension/src`) | Stands in for | Methods |
+|---|---|---|
+| `NativeRotator` | `BaseRotator`, `Rotator3D/4D/5D` | `rotate_shape`, `get_rotation_matrix` |
+| `NativeProjector` | `Dummy3DProjection`, `Orthographic4D/5DProjection`, `Perspective4D/5DProjection` | `project_orthographic`, `project_perspective_4d`, `project_perspective_5d` |
+| `NativeShapes` | `Cube3D/4D/5D`, `Pyramid3D/4D` | `cube(dim, size)`, `pyramid(dim, size, height_proportion)` |
+
+`point_utils.h` converts between the three point types the GDScript side uses (`Vector3`, `Vector4`, 5-element `Array`), and `register_types.cpp` registers the classes with Godot. The shapes come out in the same vertex, edge and face order as the GDScript versions, so the benchmark can compare them index by index.
 
 ### Building it
 
