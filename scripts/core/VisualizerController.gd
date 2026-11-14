@@ -50,6 +50,12 @@ var active_planes : Dictionary = {
 var math_time_usec : float = -1.0
 const MATH_TIME_SMOOTHING : float = 0.05
 
+# Continuous rotation speeds were tuned on a 60 Hz screen, one step per frame.
+const SPEED_REFERENCE_FPS : float = 60.0
+# Longest frame the rotation catches up on. Stops the shape jumping after a
+# stall, e.g. when the browser tab was in the background.
+const MAX_ROTATION_DELTA : float = 0.1
+
 func _ready():
 	ShapeMap.backend_changed.connect(_on_backend_changed)
 	if not shape_strategy:
@@ -84,10 +90,13 @@ func _process(delta):
 		if show_axes and not axes_copy.is_empty():
 			rotator._rotate_shape(axes_copy, step, active_plane)
 	
-	# Apply manual slider rotations (angle based)
+	# Apply continuous rotation from the per-plane speed sliders.
+	# A speed is degrees per 1/60 s, scaled by delta so the shape turns at the
+	# same rate on 30, 60 or 144 Hz screens.
+	var frame_scale := minf(delta, MAX_ROTATION_DELTA) * SPEED_REFERENCE_FPS
 	for plane in active_planes:
 		var speed = active_planes[plane]
-		rotate_shape(speed, plane)
+		rotate_shape(speed * frame_scale, plane)
 
 	var rotation_usec := Time.get_ticks_usec() - rotation_start
 
@@ -250,13 +259,17 @@ func set_shape_size(new_shape_size : float) -> void:
 	shape_strategy.set_size(new_shape_size)
 	update_axes_size()
 
-	if projector.has_method("adjust_w_distance_to_new_size"):
-		projector.adjust_w_distance_to_new_size(new_shape_size)
-		
-	if projector.has_method("adjust_v_distance_to_new_size"):
-		projector.adjust_v_distance_to_new_size(new_shape_size)
-		
+	_fit_projector_to_size()
 	_generate_new_shape()
+
+# Perspective projectors place their W/V cameras relative to the shape size.
+# This has to run whenever the size or the projector changes.
+func _fit_projector_to_size() -> void:
+	if projector.has_method("adjust_w_distance_to_new_size"):
+		projector.adjust_w_distance_to_new_size(shape_size)
+
+	if projector.has_method("adjust_v_distance_to_new_size"):
+		projector.adjust_v_distance_to_new_size(shape_size)
 
 func set_rotation_speed(new_rotation_speed: float) -> void:
 	rotation_speed = new_rotation_speed
@@ -269,6 +282,10 @@ func get_current_rotator() -> BaseRotator:
 	
 func set_new_projector(new_projector : ProjectionStrategy) -> void:
 	projector = new_projector
+	# Without this, switching to 5D with perspective on kept the projector's default
+	# V distance of 7.5. A rotated size-5 penteract reaches past that, so points hit
+	# the divisor clamp and flew off screen until the size slider was moved.
+	_fit_projector_to_size()
 
 func set_new_rotator(new_rotator : BaseRotator) -> void:
 	rotator = new_rotator
