@@ -1,0 +1,5 @@
+[submodule "extension/godot-cpp"]
+	path = extension/godot-cpp
+	url = https://github.com/godotengine/godot-cpp
+	branch = 4.5
+	ignore = dirty

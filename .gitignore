@@ -2,3 +2,9 @@
 .godot/
 /android/
 .vscode
+# C++ extension build leftovers (the .dll files in bin/ are kept)
+bin/*.exp
+bin/*.lib
+bin/*.pdb
+extension/**/*.obj
+extension/.sconsign*.dblite

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bitma10rnug88"]
+[gd_scene load_steps=25 format=3 uid="uid://bitma10rnug88"]
 
 [ext_resource type="Theme" uid="uid://c866n2q0xvf4h" path="res://themes/Title.tres" id="1_hjnkw"]
 [ext_resource type="Script" uid="uid://b1vf60h5tod48" path="res://scripts/ui/Popups/DisableScroll.gd" id="1_rikml"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://ptrh252fm5vb" path="res://scripts/ui/Toggle/ContinuousRotation.gd" id="10_qkm1d"]
 [ext_resource type="Script" uid="uid://bmkl6uto8gciy" path="res://scripts/ui/Button/DownloadButton.gd" id="12_tck0d"]
 [ext_resource type="PackedScene" uid="uid://bdvyay85ygw5a" path="res://scenes/main/WarningPopup.tscn" id="15_u8lgh"]
+[ext_resource type="Script" uid="uid://drw0tvwnfeg4c" path="res://scripts/ui/Toggle/BackendToggle.gd" id="16_backend"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rikml"]
 content_margin_right = 10.0
@@ -667,6 +668,28 @@ text = "[?]"
 script = ExtResource("3_jsdfw")
 topic_key = "rotation_planes"
 metadata/_edit_use_anchors_ = true
+
+[node name="BackendRow" type="HBoxContainer" parent="MainUI"]
+offset_left = 85.0
+offset_top = 198.0
+offset_right = 420.0
+offset_bottom = 229.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="MainUI/BackendRow"]
+layout_mode = 2
+text = "C++ maths"
+
+[node name="BackendToggle" type="CheckButton" parent="MainUI/BackendRow" node_paths=PackedStringArray("row", "timing_label")]
+layout_mode = 2
+tooltip_text = "Run rotation, projection and shape building through the C++ GDExtension instead of GDScript."
+script = ExtResource("16_backend")
+row = NodePath("..")
+timing_label = NodePath("../Timing")
+
+[node name="Timing" type="Label" parent="MainUI/BackendRow"]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
 
 [node name="WarningPopup" type="CanvasLayer" parent="."]
 

@@ -1,40 +1,20 @@
-<div align="center">
-
-<img src="assets/Logo/VisualiserLogo.png" alt="Visualizer logo" width="110">
+<p align="center">
+  <img src="assets/Logo/VisualiserLogo.png" alt="Logo" width="100">
+</p>
 
 # Sandbox Visualizer for Higher-Dimensional Shapes
 
-**Rotate, project and explore 3D, 4D and 5D shapes, right in your browser.**
+A Godot 4.5 app for rotating cubes and pyramids in 3D, 4D and 5D and watching what their projections do. It's my third-year individual project.
 
-[![Launch the app](https://img.shields.io/badge/Launch%20the%20app-runs%20in%20your%20browser-2ea44f?style=for-the-badge&logo=googlechrome&logoColor=white)](https://madam6.github.io/Sandbox-Visualizer-for-Higher-Dimensional-Shapes/)
+You pick a shape and a dimension, then turn it in any of its rotation planes, including the ones that involve the fourth (W) and fifth (V) axes. A short guided lesson and a "laboratory" mode explain the maths behind what's on screen.
 
-[![Godot 4.5](https://img.shields.io/badge/Godot-4.5-478CBF?logo=godotengine&logoColor=white)](https://godotengine.org/download/archive/4.5-stable/)
-![GDScript](https://img.shields.io/badge/Language-GDScript-355570)
-![Web](https://img.shields.io/badge/Platform-Web%20(WebAssembly)-orange)
-[![GitHub Pages](https://img.shields.io/badge/Hosted%20on-GitHub%20Pages-222222?logo=github)](https://madam6.github.io/Sandbox-Visualizer-for-Higher-Dimensional-Shapes/)
+The web build runs on GitHub Pages at <https://madam6.github.io/Sandbox-Visualizer-for-Higher-Dimensional-Shapes/>.
 
-<img src=".github/readme/tesseract.gif" alt="A tesseract rotating in the XW plane" width="440">
-
-<sub>A tesseract (4D cube) rotating in the <b>XW</b> plane under perspective projection. The inner cube turns into the outer one.</sub>
-
-</div>
-
----
-
-## ▶ Try it now (no install needed)
-
-The app is **hosted on GitHub Pages** and runs directly in the browser:
-
-### 👉 **https://madam6.github.io/Sandbox-Visualizer-for-Higher-Dimensional-Shapes/**
-
-- Nothing to download or install. Open the link and press **Okay**.
-- Use an up-to-date desktop browser with **WebGL 2** (e.g. Chrome, Edge, Firefox).
-- Best with a **mouse and a desktop/laptop screen**. The UI targets 1920×1080 and scales to fit.
-- The first load takes a few seconds while the engine downloads (up to ~50 MB). After that the browser caches it.
-
-You only need the sections further down if you want to open the source in Godot or rebuild the web version.
-
----
+<p align="center">
+  <img src=".github/readme/tesseract.gif" alt="A tesseract rotating in the XW plane" width="440">
+  <br>
+  <sub>A tesseract turning in the XW plane under perspective projection. The inner and outer cubes trade places every 90°.</sub>
+</p>
 
 ## Contents
 
@@ -43,87 +23,79 @@ You only need the sections further down if you want to open the source in Godot 
 - [Controls](#controls)
 - [How it works](#how-it-works)
 - [Architecture](#architecture)
-- [How the live version is hosted](#how-the-live-version-is-hosted)
-- [Running the project locally](#running-the-project-locally)
+- [C++ version (GDExtension)](#c-version-gdextension)
+- [How the web version is hosted](#how-the-web-version-is-hosted)
+- [Running it locally](#running-it-locally)
 - [Rebuilding the web version](#rebuilding-the-web-version)
 - [Adding a new shape](#adding-a-new-shape)
 - [Project structure](#project-structure)
-
----
+- [Limitations](#limitations)
 
 ## What it does
 
-It's an interactive sandbox for building intuition about geometry beyond three dimensions. You pick a shape and a dimension, rotate it in any plane, and watch how its projection into our 3D world (and then onto your 2D screen) changes.
-
 | Shape | 3D | 4D | 5D |
 |---|---|---|---|
-| **Cube** | Cube: 8 vertices · 12 edges | Tesseract: 16 vertices · 32 edges | Penteract: 32 vertices · 80 edges |
-| **Pyramid** | Square pyramid: 5 vertices · 8 edges | 4D pyramid (5-cell): 5 vertices · 10 edges | n/a |
+| Cube | cube, 8 vertices, 12 edges | tesseract, 16 vertices, 32 edges | penteract, 32 vertices, 80 edges |
+| Pyramid | square pyramid, 5 vertices, 8 edges | 5-cell, 5 vertices, 10 edges | not available |
 
-**Sandbox**
-- 🔄 **Rotate in every plane**: 3 planes in 3D (XY, XZ, YZ), 6 in 4D (adds XW, YW, ZW), 10 in 5D (adds XV, YV, ZV, WV). Set a fixed angle, or switch on **continuous rotation** and set a speed per plane.
-- 🔭 **Perspective ↔ orthographic projection** for 4D and 5D shapes.
-- 🎨 **Display modes** (semi-transparent, wireframe, opaque) and a **colour picker** for vertices, edges and faces.
-- 🖱️ **Vertex selection**: click a vertex to highlight it together with every edge connected to it.
-- 📏 **Size slider**, **reset**, and an orbit camera with zoom.
-- 💾 **Save visualisation** as a PNG. You choose whether the UI, rotation matrix and axes appear in the image.
+Each extra dimension adds rotation planes. A 3D shape has three (XY, XZ, YZ), a 4D shape has six, and a 5D shape has ten. Every plane gets its own slider. With continuous rotation switched on, the sliders set a speed instead of an angle.
 
-**Learning**
-- 🎓 **Guided lesson**: an animated walk from a *point → line → square → cube → tesseract*. Each step "extrudes" the previous shape into the next dimension.
-- 🧪 **Laboratory mode**: shows the projected **X Y Z W V axes**, highlights the **active rotation plane**, and displays the **live rotation matrix**.
-- 📖 **Encyclopedia pop-ups** (`[?]` buttons) explaining rotation matrices, projection, rotation planes and facts about each shape.
+4D and 5D shapes can be drawn with perspective or orthographic projection. The difference is easiest to see on an unrotated tesseract: in perspective the far cube looks smaller and sits inside the near one, while orthographic projection lays both cubes on top of each other.
 
----
+Clicking a vertex highlights it along with every edge attached to it. The display can be semi-transparent, wireframe or opaque, and vertex, edge and face colours are adjustable. "Save Visualisation" writes a PNG, with checkboxes for what to include in it.
+
+The first time you press "Enter Laboratory", a five-step lesson runs. It extrudes a point into a line, the line into a square, then a cube, then a tesseract, and animates each extrusion. After that the button takes you straight to the laboratory, which adds:
+
+- the X, Y, Z, W and V axes, projected along with the shape
+- a grey triangle marking each plane that is currently rotating
+- the live rotation matrix for the last plane you moved
+- `[?]` buttons that open short explanations of rotation matrices, projection and rotation planes, and facts about the current shape
 
 ## Screenshots
 
 <table>
   <tr>
-    <td width="50%"><img src=".github/readme/sandbox-4d.jpg" alt="Sandbox mode with a 4D tesseract"></td>
-    <td width="50%"><img src=".github/readme/laboratory.jpg" alt="Laboratory mode with axes, active plane and rotation matrix"></td>
+    <td width="50%"><img src=".github/readme/sandbox-4d.jpg" alt="Sandbox mode with a tesseract"></td>
+    <td width="50%"><img src=".github/readme/laboratory.jpg" alt="Laboratory mode"></td>
   </tr>
   <tr>
-    <td align="center"><b>Sandbox</b>: a tesseract rotated in the XY, XW and YW planes with perspective projection</td>
-    <td align="center"><b>Laboratory</b>: projected X/Y/Z/W axes, the active plane in grey, and the live XW rotation matrix</td>
+    <td align="center">Tesseract rotated in XY, XW and YW, perspective projection</td>
+    <td align="center">Laboratory: projected axes, the XW plane shaded, its rotation matrix bottom left</td>
   </tr>
   <tr>
-    <td width="50%"><img src=".github/readme/lesson.jpg" alt="Guided lesson: the tesseract step"></td>
+    <td width="50%"><img src=".github/readme/lesson.jpg" alt="Last step of the guided lesson"></td>
     <td width="50%"><img src=".github/readme/penteract-5d.jpg" alt="A 5D penteract"></td>
   </tr>
   <tr>
-    <td align="center"><b>Guided lesson</b>: the final step, where a cube is extruded into a tesseract</td>
-    <td align="center"><b>5D</b>: a penteract rotated in the XV, YV and ZV planes, projected 5D → 4D → 3D</td>
+    <td align="center">Last lesson step, where the cube becomes a tesseract</td>
+    <td align="center">Penteract (5D cube), projected 5D → 4D → 3D</td>
   </tr>
   <tr>
-    <td colspan="2"><img src=".github/readme/encyclopedia.jpg" alt="Encyclopedia pop-up for the 5D cube"></td>
+    <td colspan="2"><img src=".github/readme/encyclopedia.jpg" alt="Explanation pop-up for the 5D cube"></td>
   </tr>
   <tr>
-    <td colspan="2" align="center"><b>Encyclopedia</b>: every <code>[?]</code> button opens an explanation of the maths behind what you see</td>
+    <td colspan="2" align="center">The <code>[?]</code> pop-up for the penteract</td>
   </tr>
 </table>
-
----
 
 ## Controls
 
 | Action | How |
 |---|---|
-| Orbit the camera | Left-click and drag on empty space |
+| Orbit the camera | Left-drag on empty space |
 | Zoom | Mouse wheel |
-| Choose shape / dimension | Drop-downs in the top-left / top-right |
-| Rotate in a plane | Rotation sliders in the bottom-left (degrees, or speed when *Continuous rotation* is on) |
-| Toggle perspective / orthographic | *Perspective projection* switch (4D and 5D only) |
-| Highlight a vertex and its edges | Left-click next to the vertex |
-| Change colours / display mode | *Colors* tree and the display-mode drop-down (top-right) |
-| Save an image | **Save Visualisation** |
-| Lesson & Laboratory | **Enter Laboratory**. The first time, a short guided lesson runs; after that the button goes straight to the lab |
-| In-app help | **Instructions** button and the `[?]` buttons |
-
----
+| Shape and dimension | Drop-downs, top left and top right |
+| Rotate | Sliders, bottom left |
+| Perspective or orthographic | "Perspective projection" switch (4D and 5D only) |
+| Highlight a vertex | Left-click next to it |
+| Colours and display mode | "Colors" tree and the drop-down under the dimension selector |
+| Save an image | "Save Visualisation" |
+| Lesson and laboratory | "Enter Laboratory" |
+| Help | "Instructions" and the `[?]` buttons |
 
 ## How it works
 
-All maths in the visualiser is written by hand. Godot's 3D transforms only handle three dimensions, so every frame the app runs its own N-dimensional pipeline:
+Godot's transforms stop at three dimensions, so the app keeps its own vertex arrays and runs this every frame:
 
 ```mermaid
 flowchart LR
@@ -135,7 +107,7 @@ flowchart LR
     A -->|N-D points| B -->|rotated N-D points| C -->|3D points| D --> E
 ```
 
-**1. Rotation happens in a plane, not around an axis.** To rotate by θ in the plane formed by axes *i* and *j*, the visualiser builds an N×N identity matrix and writes cos θ and sin θ into rows/columns *i* and *j*:
+A rotation happens in the plane spanned by two axes, i and j. The rotator starts from an N×N identity matrix and writes cos θ and sin θ into rows and columns i and j:
 
 $$
 R_{ij}(\theta) =
@@ -150,26 +122,21 @@ R_{ij}(\theta) =
 \mathbf{p}' = R_{ij}(\theta)\,\mathbf{p}
 $$
 
-The same function produces 3×3, 4×4 and 5×5 matrices. All other axes stay fixed, which is why a WV rotation can look "invisible" under orthographic projection.
+Every other coordinate stays where it was. That's why a WV rotation of a 5D shape changes nothing on screen under orthographic projection: W and V are the two coordinates that projection throws away.
 
-**2. Projection drops one dimension at a time.**
-
-- *Orthographic*: simply discard the extra coordinates, so (x, y, z, w) becomes (x, y, z).
-- *Perspective 4D → 3D*: scale by how far the point is along W from a 4D "camera" at distance $d_w$. Here $s$ is a field-of-view scale, and both values are tuned to the shape size:
+Orthographic projection drops the extra coordinates, so (x, y, z, w) becomes (x, y, z). Perspective projection divides by the distance to a camera placed out along the extra axis:
 
 $$
 (x, y, z, w) \mapsto \frac{s}{d_w - w}\,(x, y, z)
 $$
 
-- *Perspective 5D → 3D*: apply the same idea twice. First divide by $(d_v - v)$ to reach 4D, then use the 4D rule above.
+Here $s$ is a field-of-view scale and $d_w$ the camera distance, both derived from the shape size. In 5D the step runs twice, first along V (dividing by $d_v - v$) and then along W.
 
-**3. Rendering.** The resulting 3D points go to `ShapeRenderer`, which draws vertices as instanced spheres, edges as lines, and faces as triangle fans (good for squares and triangles). Vertex picking also works without physics: each projected vertex is converted to screen space with `Camera3D.unproject_position()` and compared with the mouse position.
-
----
+`ShapeRenderer` draws the result: vertices as instanced spheres, edges as lines, and faces as triangle fans. Picking a vertex doesn't go through physics. Each projected vertex is converted to screen space with `Camera3D.unproject_position()`, and any vertex within 30 px of the click is toggled.
 
 ## Architecture
 
-The app is built around four **autoload singletons** and the **Strategy pattern**, so each shape, rotator and projection can be swapped independently.
+Four autoload singletons hold the state. Shapes, rotators and projections are interchangeable strategy objects, so the controller doesn't care which ones it has.
 
 ```mermaid
 flowchart TB
@@ -229,100 +196,160 @@ classDiagram
     BaseRotator <|-- Rotator5D
 ```
 
----
+## C++ version (GDExtension)
 
-## How the live version is hosted
+The rotation, projection and shape-building code also exists in C++, as a GDExtension in [`extension/`](extension). Both versions sit in the same project. The "C++ maths" switch under the projection toggle swaps between them while the app is running and shows how long rotation plus projection took per frame:
 
-The web build is committed to the [`/docs`](docs) folder, and **GitHub Pages serves `/docs` from the `main` branch**. Pushing a new export to `main` updates the live site.
+<p align="center">
+  <img src=".github/readme/cpp-toggle.png" alt="Frame time with GDScript (945 µs) and with C++ (41 µs)" width="760">
+  <br>
+  <sub>Same tesseract, GDScript on the left and C++ on the right. Debug build, i7-12700H.</sub>
+</p>
+
+```mermaid
+flowchart LR
+    T["C++ maths switch"] -->|set_native_backend| SM["ShapeMap"]
+    SM -->|GDScript set| GD["Rotator4D<br/>Perspective4DProjection<br/>Cube4D …"]
+    SM -->|C++ set| W["NativeBackend wrappers<br/><i>CppRotator4D, CppCube4D …</i><br/>extend the GDScript classes"]
+    W -->|ClassDB| CPP["NativeRotator<br/>NativeProjector<br/>NativeShapes<br/><i>extension/src</i>"]
+    SM -->|backend_changed| VC["Controller swaps its<br/>rotator, projector, shape"]
+```
+
+Each wrapper in `scripts/native/NativeBackend.gd` extends the matching GDScript class and overrides only the maths method. Properties like `size` and `w_distance` are inherited, so the rest of the code can't tell the two apart. When the switch flips, `ShapeMap` swaps its whole strategy set, and the controller swaps the three objects it's holding for their counterparts. The vertices keep their current rotation, because both versions store points the same way.
+
+The wrappers create the C++ objects through `ClassDB` by name and never reference the C++ classes directly. When the library isn't loaded the GDScript still parses, the switch hides itself, and the app runs as it did before the extension existed. The web build depends on this: the Web export preset excludes `bin/`, so the hosted version is GDScript only.
+
+### Building it
+
+You need Python with SCons and a C++ compiler. It has been tested with Visual Studio 2026 (MSVC) and Godot 4.5 on Windows.
+
+```bash
+git submodule update --init          # fetches godot-cpp (branch 4.5) into extension/godot-cpp
+cd extension
+scons platform=windows target=template_debug     # used by the editor
+scons platform=windows target=template_release   # used by release exports
+```
+
+The DLLs land in `bin/`, where `bin/native_math.gdextension` points Godot at them. The first build takes a few minutes because it compiles godot-cpp too. If the library is missing, Godot prints three "GDExtension dynamic library not found" errors at startup and carries on in GDScript.
+
+### Benchmark
+
+`scenes/tests/benchmark.tscn` first checks that both versions give the same vertices, edges, faces, rotations and projections (within 1e-4), then times them. Open the scene and press F6, or run:
+
+```bash
+godot --headless --path . res://scenes/tests/benchmark.tscn
+```
+
+One run on an i7-12700H, Godot 4.5, debug build. Times are microseconds per call. A "frame" means rotating in every plane and then projecting, which is what the controller does each frame.
+
+| Shape | Operation | GDScript | C++ | Speed-up |
+|---|---|--:|--:|--:|
+| Cube 3D | create_shape | 8.6 | 15.2 | 0.6× |
+| Cube 3D | frame, 3 planes | 236 | 4.9 | 48× |
+| Pyramid 3D | create_shape | 7.2 | 13.7 | 0.5× |
+| Pyramid 3D | frame, 3 planes | 162 | 7.8 | 21× |
+| Cube 4D | create_shape | 46.9 | 28.1 | 1.7× |
+| Cube 4D | frame, 6 planes | 1185 | 11.1 | 107× |
+| Pyramid 4D | create_shape | 15.1 | 13.6 | 1.1× |
+| Pyramid 4D | frame, 6 planes | 406 | 9.9 | 41× |
+| Cube 5D | create_shape | 1557 | 90.5 | 17× |
+| Cube 5D | frame, 10 planes | 4954 | 231 | 21× |
+| 5000 random 4D points | rotate + project | 65,995 | 369 | 179× |
+
+Absolute times vary between runs, by up to 40% on this laptop. The ratios stay close.
+
+Some of these numbers need context:
+
+- Part of the rotation gap comes from the algorithm. `BaseRotator` builds a fresh rotation matrix for every vertex and multiplies the full N×N matrix. The C++ version only updates the two coordinates in the rotation plane, since the rest of the matrix is the identity. The results match to float precision.
+- Small shapes are slower to build in C++. Packing the result into a Dictionary and converting it to typed arrays on the GDScript side costs more than GDScript spends writing out eight vertices.
+- The penteract gains less per frame (21×) than the tesseract (107×). Its points are Arrays rather than Vector4s, so the C++ code allocates a new Array for every point in every plane.
+- In 3D and 4D the switch makes no visible difference: about 1 ms of a 16.7 ms frame at 60 fps. In 5D the GDScript path takes about 5 ms per frame, which starts to matter on a slower machine or in the browser.
+
+## How the web version is hosted
+
+The exported web build is committed to [`/docs`](docs), and GitHub Pages serves that folder from `main`. Pushing a new export updates the site.
 
 ```mermaid
 flowchart LR
     G["Godot 4.5 editor<br/><i>Web export preset</i>"] -->|Export Project| D["/docs<br/>index.html · index.wasm<br/>index.pck · index.js<br/>coi-serviceworker.js"]
     D -->|git push main| GH["GitHub repository"]
     GH -->|Pages: main /docs| P["madam6.github.io/…"]
-    P -->|WebAssembly + WebGL 2| B["Your browser"]
+    P -->|WebAssembly + WebGL 2| B["Browser"]
 ```
 
-GitHub Pages can't set custom HTTP headers, so `coi-serviceworker.js` (injected through the export preset's *Head Include*) adds the cross-origin isolation headers the Godot web runtime expects.
+GitHub Pages can't set custom HTTP headers, so `coi-serviceworker.js`, added through the export preset's head include, supplies the cross-origin isolation headers the Godot web runtime asks for.
 
----
+## Running it locally
 
-## Running the project locally
-
-> You don't need this to *use* the app. The [live version](https://madam6.github.io/Sandbox-Visualizer-for-Higher-Dimensional-Shapes/) is enough. These steps are for reading or modifying the source.
-
-1. Clone or download this repository.
+1. Clone the repository:
    ```bash
    git clone https://github.com/madam6/Sandbox-Visualizer-for-Higher-Dimensional-Shapes.git
    ```
-2. Install **[Godot 4.5](https://godotengine.org/download/archive/4.5-stable/)** (standard version, not .NET).
-3. Open Godot's Project Manager → **Import** → select `project.godot` in the cloned folder.
-4. Press **F5** (or the ▶ button, top-right) to run.
+2. Install [Godot 4.5](https://godotengine.org/download/archive/4.5-stable/), the standard build (not .NET).
+3. In the Project Manager, choose Import and select `project.godot`.
+4. Press F5.
 
-**Math tests:** open `scenes/tests/testbed.tscn` and press **F6**. The results of the matrix, vector and 3D/4D/5D rotation tests print to the Output panel.
-
----
+The C++ part is optional; see [Building it](#building-it). For the maths unit tests, open `scenes/tests/testbed.tscn` and press F6. Results print to the Output panel.
 
 ## Rebuilding the web version
 
-A working build already lives in `/docs`. To regenerate it after changing the project:
+1. Project → Export…, then pick the Web preset.
+2. Export Project…, choose the `docs` folder, and name the file `index.html`.
+3. Untick "Export With Debug", save, and confirm the overwrite.
+4. Commit `docs` and push to `main`.
 
-1. In the editor: **Project → Export…**
-2. Select the **Web (Runnable)** preset.
-3. Click **Export Project…**, choose the `/docs` folder, and name the file **`index.html`**.
-4. Untick **Export With Debug**, press **Save**, and confirm overwriting.
-5. Commit and push `/docs` to `main`. GitHub Pages redeploys automatically.
+The preset's exclude filter is `bin/*`. Keep it unless you've built the extension for the web as well. Without it the export fails looking for a `.wasm` version of the library.
 
-**Testing the build locally** (needs [Python](https://www.python.org/downloads/)):
+To try the build locally you need an HTTP server, because browsers won't load WebAssembly from `file://`:
 
 ```bash
 cd docs
 python -m http.server 8000
 ```
 
-Then open <http://localhost:8000/>. Opening `index.html` directly from disk won't work, because browsers only load WebAssembly over HTTP.
-
----
+Then open <http://localhost:8000/>.
 
 ## Adding a new shape
 
-The architecture is designed so a new shape needs no changes to the rendering or rotation code:
+1. Write `scripts/math/shapes/MyShapeND.gd` extending `ShapeStrategy`. Its `create_shape()` returns a `ShapeData`: vertices as `Vector3`, `Vector4` or 5-element arrays, edges as `Vector2i`, and faces as lists of vertex indices.
+2. Add an instance to `ShapeMap.build_gdscript_set()` and an entry in the `shape_map` built by `ShapeMap._apply_set()`, next to the rotator and projector for its dimension.
+3. Add the same shape and dimension keys to `configs/shapes_config.json`. On startup `ShapeMap.validate_schema()` compares the two and reports any mismatch.
+4. Add the name to the `ShapeSelector` drop-down in `scenes/main/Main.tscn`.
+5. Optionally, add an encyclopedia entry keyed `"MyShapeND"` in `EducationalContoller.gd` for its `[?]` button.
 
-1. **Geometry**: create `scripts/math/shapes/MyShapeND.gd` that `extends ShapeStrategy` and returns a `ShapeData` (vertices as `Vector3` / `Vector4` / 5-element arrays, edges as `Vector2i`, faces as index arrays) from `create_shape()`.
-2. **Register it** in `ShapeMap.shape_map` (`scripts/core/ShapeMap.gd`) with the matching rotator and projector for that dimension.
-3. **Config**: add the same shape/dimension keys to `configs/shapes_config.json`. At startup `ShapeMap.validate_schema()` checks that the config and the registry match, and reports any mismatch.
-4. **UI**: add the shape name to the `ShapeSelector` drop-down in `scenes/main/Main.tscn`.
-5. *(Optional)* Add an encyclopedia entry keyed `"MyShapeND"` in `EducationalContoller.gd` so its `[?]` button has content.
-
----
+A C++ version is optional. Without one the shape keeps using GDScript when the switch is on. To add one, write a method on `NativeShapes` in `extension/src/native_shapes.cpp`, a wrapper class in `NativeBackend.gd`, and an entry in `NativeBackend.build_strategy_set()` under the same key.
 
 ## Project structure
 
 ```
-├── assets/            Images used in the app (instruction screenshots, logo)
-├── configs/           shapes_config.json, which defines the available shapes per dimension
+├── assets/            Images used inside the app (instruction screenshots, logo)
+├── bin/               native_math.gdextension and the compiled C++ library
+├── configs/           shapes_config.json, the list of shapes per dimension
 ├── docs/              Exported web build, served by GitHub Pages
+├── extension/         C++ source (src/), SConstruct, godot-cpp submodule
 ├── scenes/
-│   ├── main/          Main scene and pop-ups (welcome, instructions, info, download)
-│   └── tests/         testbed.tscn, which runs the math tests
+│   ├── main/          Main scene and pop-ups
+│   └── tests/         testbed.tscn (maths tests), benchmark.tscn (GDScript vs C++)
 ├── scripts/
 │   ├── controls/      Orbit camera
 │   ├── core/          Autoloads: ShapeMap, VisualizerController, EducationalController, Enums
-│   ├── math/          Matrix/vector helpers, shapes, rotators, projections, tests
+│   ├── math/          Matrix and vector helpers, shapes, rotators, projections, tests
+│   ├── native/        NativeBackend.gd, the GDScript wrappers around the C++ classes
 │   ├── rendering/     ShapeRenderer
 │   └── ui/            Buttons, selectors, sliders, toggles, overlays, pop-ups
 ├── themes/            Godot UI themes
-├── .github/readme/    Images used by this README
-├── export_presets.cfg Web export preset (outputs to docs/index.html)
-└── project.godot      Godot project file. Open this in Godot
+├── .github/readme/    Images used in this README
+├── export_presets.cfg Web export preset (writes docs/index.html)
+└── project.godot      Open this in Godot
 ```
+
+## Limitations
+
+- There are two shape families: cubes from 3D to 5D and pyramids in 3D and 4D.
+- The controls assume a mouse, since orbiting is a drag and zoom is the scroll wheel.
+- The lesson runs once per session. Nothing is saved between visits.
+- The C++ library has only been built and tested on Windows. `native_math.gdextension` lists Linux and web paths, but those libraries haven't been built yet, and the hosted web version doesn't include the extension.
 
 ---
 
-<div align="center">
-
-Built with [Godot Engine](https://godotengine.org) by **Artem Korniienko** as a third-year individual project.
-
-**[▶ Open the live visualiser](https://madam6.github.io/Sandbox-Visualizer-for-Higher-Dimensional-Shapes/)**
-
-</div>
+Artem Korniienko, 2025–2026. Built with [Godot](https://godotengine.org).

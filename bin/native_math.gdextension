@@ -1,0 +1,14 @@
+[configuration]
+
+entry_symbol = "native_math_library_init"
+compatibility_minimum = "4.5"
+reloadable = true
+
+[libraries]
+
+windows.debug.x86_64 = "res://bin/libnativemath.windows.template_debug.x86_64.dll"
+windows.release.x86_64 = "res://bin/libnativemath.windows.template_release.x86_64.dll"
+linux.debug.x86_64 = "res://bin/libnativemath.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "res://bin/libnativemath.linux.template_release.x86_64.so"
+web.debug.wasm32 = "res://bin/libnativemath.web.template_debug.wasm32.nothreads.wasm"
+web.release.wasm32 = "res://bin/libnativemath.web.template_release.wasm32.nothreads.wasm"

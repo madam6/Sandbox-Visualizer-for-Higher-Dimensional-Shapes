@@ -4,30 +4,32 @@ const CONFIG_PATH = "res://configs/shapes_config.json"
 
 var shape_properties_map : Dictionary = {}
 
+# Emitted after set_native_backend() swaps the GDScript and C++ strategy sets.
+signal backend_changed(use_native : bool)
 
-var default_rotator3D : BaseRotator = Rotator3D.new()
-var default_rotator4D : BaseRotator = Rotator4D.new()
-var default_rotator5D : BaseRotator = Rotator5D.new()
+# The strategies in use right now. They come either from the GDScript set or from the
+# C++ set (scripts/native/NativeBackend.gd); see _apply_set().
+var default_rotator3D : BaseRotator
+var default_rotator4D : BaseRotator
+var default_rotator5D : BaseRotator
 
-var default_projector3d : ProjectionStrategy = Dummy3DProjection.new()
-var default_projector4d : ProjectionStrategy = Orthographic4DProjection.new()
-var default_projector5d  : ProjectionStrategy = Orthographic5DProjection.new()
+var default_projector3d : ProjectionStrategy
+var default_projector4d : ProjectionStrategy
+var default_projector5d  : ProjectionStrategy
 
-var perspective_projector4d : ProjectionStrategy = Perspective4DProjection.new()
-var perspective_projector5d : ProjectionStrategy = Perspective5DProjection.new()
+var perspective_projector4d : ProjectionStrategy
+var perspective_projector5d : ProjectionStrategy
 
+var shape_map : Dictionary = {}
 
-var shape_map : Dictionary = {
-	"Cube" : {
-		"3D" : [Cube3D.new(), default_rotator3D, default_projector3d], 
-		"4D" : [Cube4D.new(), default_rotator4D, default_projector4d], 
-		"5D" : [Cube5D.new(), default_rotator5D, default_projector5d]
-		},
-	"Pyramid" : {
-		"3D" : [Pyramid3D.new(), default_rotator3D, default_projector3d],
-		"4D" : [Pyramid4D.new(), default_rotator4D, default_projector4d]
-		}
-}
+var use_native : bool = false
+var _gdscript_set : Dictionary = {}
+var _native_set : Dictionary = {}
+# Strategy -> the object with the same role in the other set (both directions).
+var _counterparts : Dictionary = {}
+
+# State that has to follow a strategy when it is swapped for its counterpart.
+const SWAPPED_STATE : Array[String] = ["size", "height_proportion", "w_distance", "v_distance", "fov_scale", "current_size"]
 
 var planes_array_map = {
 	Enums.PLANES.XY: [0, 1],
@@ -43,7 +45,85 @@ var planes_array_map = {
 }
 
 func _init() -> void:
+	_gdscript_set = build_gdscript_set()
+	_apply_set(_gdscript_set)
 	load_config()
+
+static func build_gdscript_set() -> Dictionary:
+	return {
+		"rotator3D": Rotator3D.new(),
+		"rotator4D": Rotator4D.new(),
+		"rotator5D": Rotator5D.new(),
+		"projector3d": Dummy3DProjection.new(),
+		"projector4d": Orthographic4DProjection.new(),
+		"projector5d": Orthographic5DProjection.new(),
+		"perspective4d": Perspective4DProjection.new(),
+		"perspective5d": Perspective5DProjection.new(),
+		"cube3D": Cube3D.new(),
+		"cube4D": Cube4D.new(),
+		"cube5D": Cube5D.new(),
+		"pyramid3D": Pyramid3D.new(),
+		"pyramid4D": Pyramid4D.new(),
+	}
+
+func _apply_set(strategies : Dictionary) -> void:
+	default_rotator3D = strategies["rotator3D"]
+	default_rotator4D = strategies["rotator4D"]
+	default_rotator5D = strategies["rotator5D"]
+
+	default_projector3d = strategies["projector3d"]
+	default_projector4d = strategies["projector4d"]
+	default_projector5d = strategies["projector5d"]
+
+	perspective_projector4d = strategies["perspective4d"]
+	perspective_projector5d = strategies["perspective5d"]
+
+	shape_map = {
+		"Cube" : {
+			"3D" : [strategies["cube3D"], default_rotator3D, default_projector3d],
+			"4D" : [strategies["cube4D"], default_rotator4D, default_projector4d],
+			"5D" : [strategies["cube5D"], default_rotator5D, default_projector5d]
+			},
+		"Pyramid" : {
+			"3D" : [strategies["pyramid3D"], default_rotator3D, default_projector3d],
+			"4D" : [strategies["pyramid4D"], default_rotator4D, default_projector4d]
+			}
+	}
+
+# Switches every strategy between the GDScript classes and the C++ GDExtension.
+# Does nothing (apart from a warning) when the extension isn't loaded.
+func set_native_backend(enabled : bool) -> void:
+	if enabled == use_native:
+		return
+	if enabled and not NativeBackend.is_available():
+		push_warning("The C++ extension (bin/native_math.gdextension) isn't loaded; staying on GDScript.")
+		return
+
+	if enabled and _native_set.is_empty():
+		_native_set = NativeBackend.build_strategy_set()
+		for key in _gdscript_set:
+			# A strategy with no C++ version (e.g. a newly added shape) keeps using GDScript.
+			if not _native_set.has(key):
+				_native_set[key] = _gdscript_set[key]
+				continue
+			_counterparts[_gdscript_set[key]] = _native_set[key]
+			_counterparts[_native_set[key]] = _gdscript_set[key]
+
+	use_native = enabled
+	_apply_set(_native_set if enabled else _gdscript_set)
+	backend_changed.emit(enabled)
+
+# Returns the strategy with the same role in the other backend, carrying over its size and
+# projection distances. Anything ShapeMap doesn't know about is returned unchanged.
+func counterpart_of(strategy : Object) -> Object:
+	if strategy == null or not _counterparts.has(strategy):
+		return strategy
+
+	var other : Object = _counterparts[strategy]
+	for property in SWAPPED_STATE:
+		if property in strategy and property in other:
+			other.set(property, strategy.get(property))
+	return other
 
 func load_config():
 	if not FileAccess.file_exists(CONFIG_PATH):

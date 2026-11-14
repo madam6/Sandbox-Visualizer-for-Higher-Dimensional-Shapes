@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+# Builds the C++ maths extension into ../bin, where bin/native_math.gdextension loads it from.
+#
+#   cd extension
+#   scons platform=windows target=template_debug
+#   scons platform=windows target=template_release
+#   scons platform=web target=template_release threads=no   (needs Emscripten)
+
+env = SConscript("godot-cpp/SConstruct")
+env.Append(CPPPATH=["src/"])
+
+library = env.SharedLibrary(
+    "../bin/libnativemath{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+    source=Glob("src/*.cpp"),
+)
+Default(library)

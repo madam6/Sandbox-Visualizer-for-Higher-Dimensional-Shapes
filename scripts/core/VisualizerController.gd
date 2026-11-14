@@ -45,9 +45,23 @@ var active_planes : Dictionary = {
 	Enums.PLANES.YZ: 0
 }
 
+# Time spent on rotation + projection each frame, in microseconds, smoothed so the
+# number shown next to the C++ toggle doesn't flicker.
+var math_time_usec : float = -1.0
+const MATH_TIME_SMOOTHING : float = 0.05
+
 func _ready():
+	ShapeMap.backend_changed.connect(_on_backend_changed)
 	if not shape_strategy:
 		set_initial_state()
+
+# Swaps the active strategies for their GDScript/C++ counterparts. The vertex arrays keep
+# their current rotation, since both backends store points the same way.
+func _on_backend_changed(_use_native : bool) -> void:
+	shape_strategy = ShapeMap.counterpart_of(shape_strategy) as ShapeStrategy
+	rotator = ShapeMap.counterpart_of(rotator) as BaseRotator
+	projector = ShapeMap.counterpart_of(projector) as ProjectionStrategy
+	math_time_usec = -1.0 # start the average again from the next frame
 
 # Main engine loop
 # Executes rotation, projection and rendering dispatch
@@ -60,6 +74,7 @@ func _process(delta):
 		shape_strategy.set_height_proportion(height_proportion)
 
 	# Part 1: Rotation
+	var rotation_start := Time.get_ticks_usec()
 
 	# Apply continuous automatic rotation (speed based)
 	if is_rotating:
@@ -74,6 +89,7 @@ func _process(delta):
 		var speed = active_planes[plane]
 		rotate_shape(speed, plane)
 
+	var rotation_usec := Time.get_ticks_usec() - rotation_start
 
 	# Part 2: Projection
 
@@ -110,8 +126,14 @@ func _process(delta):
 		Renderer.draw_axes(projected_axes, rotating_planes)
 
 	# Flatten the N-dimensional shape coordinates into renderable 3D space
+	var projection_start := Time.get_ticks_usec()
 	var projected_3d_points = projector.project(current_vertices_copy)
-	
+	var frame_math_usec := rotation_usec + Time.get_ticks_usec() - projection_start
+	if math_time_usec < 0.0:
+		math_time_usec = frame_math_usec
+	else:
+		math_time_usec = lerpf(math_time_usec, frame_math_usec, MATH_TIME_SMOOTHING)
+
 	_selection_info[SELECTED_VERTICES] = _selected_vertex_indices
 	_selection_info[SELECTED_EDGES] = _highlited_edge_indices
 	
